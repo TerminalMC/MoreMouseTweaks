@@ -1,0 +1,30 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "dev.terminalmc.moremousetweaks.mixin",
+  "refmap": "${mod_id}.refmap.json",
+  "compatibilityLevel": "JAVA_${java_version}",
+  "mixins": [
+  ],
+  "client": [
+    "MixinClientPacketListener",
+    "MixinLocalPlayer",
+    "gui.other.MixinAbstractWidget",
+    "gui.other.MixinRecipeBookComponent",
+    "gui.other.MixinRecipeBookPage",
+    "gui.other.MixinTradeOfferButton",
+    "gui.screen.MixinAbstractFurnaceScreen",
+    "gui.screen.MixinCraftingScreen",
+    "gui.screen.MixinCreativeModeInventoryScreen",
+    "gui.screen.MixinInventoryScreen",
+    "gui.screen.MixinMerchantScreen",
+    "mousetweaks.MixinGuiContainerHandler",
+    "mousetweaks.MixinIMTModGuiContainer3ExHandler",
+    "mousetweaks.MixinMain"
+  ],
+  "server": [
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

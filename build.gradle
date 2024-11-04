@@ -26,8 +26,16 @@ subprojects {
             year = java.time.LocalDate.now().getYear().toString()
         }
         // Dual-licensing
-        matching(includes: ["**/MixinMinecraft.java", "**/MixinTitleScreen.java"]) {
-            header = rootProject.file("NOTICE_MPL-2.0")
+        matching(includes: [
+                "**/mixin/gui/**", 
+                "**/network/**", 
+                "**/util/inject/**", 
+                "**/ScrollAction.java", 
+                "**/MixinLocalPlayer.java", 
+                "**/MixinClientPacketListener.java",
+                "**/MoreMouseTweaks.java"
+        ]) {
+            header = rootProject.file("NOTICE_Combined")
         }
     }
 

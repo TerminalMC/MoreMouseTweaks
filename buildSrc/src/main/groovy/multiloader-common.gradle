@@ -46,10 +46,6 @@ repositories {
         name = "Shedaniel"
         url = "https://maven.shedaniel.me"
     }
-    maven {
-        name = "isXander"
-        url = "https://maven.isxander.dev/releases"
-    }
 }
 
 // Declare capabilities on the outgoing configurations.
@@ -126,10 +122,10 @@ processResources {
             "neoforge_loader_versions": neoforge_loader_versions,
             "neoforge_versions": neoforge_versions,
             // Dependencies
+            "mousetweaks_versions_fabric_list": asJsonList(mousetweaks_versions_fabric),
+            "mousetweaks_versions_neoforge": mousetweaks_versions_neoforge,
             "clothconfig_versions_fabric_list": asJsonList(clothconfig_versions_fabric),
             "clothconfig_versions_neoforge": clothconfig_versions_neoforge,
-            "yacl_versions_fabric_list": asJsonList(yacl_versions_fabric),
-            "yacl_versions_neoforge": yacl_versions_neoforge,
             "modmenu_versions_fabric_list": asJsonList(modmenu_versions_fabric),
     ]
     filesMatching(["pack.mcmeta", "*.mod.json", "META-INF/*mods.toml", "*.mixins.json"]) {
