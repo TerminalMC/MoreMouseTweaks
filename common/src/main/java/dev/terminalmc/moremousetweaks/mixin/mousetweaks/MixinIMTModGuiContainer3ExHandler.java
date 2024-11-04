@@ -33,7 +33,7 @@ import yalter.mousetweaks.handlers.IMTModGuiContainer3ExHandler;
 
 import java.util.List;
 
-@Mixin(value = IMTModGuiContainer3ExHandler.class, remap = false)
+@Mixin(IMTModGuiContainer3ExHandler.class)
 public class MixinIMTModGuiContainer3ExHandler {
     @Shadow
     public List<Slot> getSlots() { return null; }

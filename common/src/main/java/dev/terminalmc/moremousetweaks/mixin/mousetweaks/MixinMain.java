@@ -29,13 +29,11 @@ import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.Inject;
-import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yalter.mousetweaks.IGuiScreenHandler;
 import yalter.mousetweaks.Main;
 import yalter.mousetweaks.MouseButton;
 
-@Mixin(value = Main.class, remap = false)
+@Mixin(Main.class)
 public class MixinMain {
     @Shadow
     private static IGuiScreenHandler handler;
@@ -67,17 +65,19 @@ public class MixinMain {
         return false;
     }
     
-    @WrapOperation(method = "onMouseDrag", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(JI)Z"))
+    @WrapOperation(method = "onMouseDrag", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(JI)Z", ordinal = 0))
     private static boolean wrapIsKeyDown(long window, int key, Operation<Boolean> original) {
         return Screen.hasShiftDown() || Screen.hasControlDown() || Screen.hasAltDown();
     }
     
-    @Inject(method = "onMouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0))
-    private static void injectOnMouseClicked(Screen screen, double x, double y, MouseButton button, CallbackInfoReturnable<Boolean> cir, @Local ItemStack stackOnMouse) {
-        if (stackOnMouse.isEmpty()) {
+    @WrapOperation(method = "onMouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0))
+    private static boolean wrapIsEmpty(ItemStack instance, Operation<Boolean> original, @Local ItemStack stackOnMouse) {
+        if (original.call(instance)) {
             if (Screen.hasControlDown() || Screen.hasAltDown()) {
                 handler.clickSlot(oldSelectedSlot, MouseButton.LEFT, false);
             }
+            return true;
         }
+        return false;
     }
 }
