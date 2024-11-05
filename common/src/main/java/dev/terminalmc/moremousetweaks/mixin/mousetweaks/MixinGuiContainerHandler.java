@@ -37,14 +37,29 @@ import java.util.List;
 public class MixinGuiContainerHandler {
     @Shadow
     public List<Slot> getSlots() { return null; }
-    
-    @WrapOperation(method = "clickSlot", at = @At(value = "INVOKE", target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"))
+
+    /**
+     * Wraps an implementation of {@link yalter.mousetweaks.IGuiScreenHandler}
+     * to allow CTRL+LMB clicking to quick-move all matching slots and ALT+LMB
+     * clicking to drop the slot, in addition to the existing SHIFT+LMB to
+     * quick-move the slot and raw LMB to pick up the slot.
+     * See also {@link MixinIMTModGuiContainer3ExHandler}.
+     */
+    @WrapOperation(
+            method = "clickSlot", 
+            at = @At(
+                    value = "INVOKE", 
+                    target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
+            )
+    )
     private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index, int button, ClickType clickType, Operation<Void> original) {
+        // Only operate if LMB and not SHIFT+LMB
         if (button == MouseButton.LEFT.getValue() && !Screen.hasShiftDown()) {
             if (Screen.hasControlDown()) {
                 // Quick-move all matching items
                 ItemStack stack = slot.getItem().copy();
                 for (Slot slot2 : getSlots()) {
+                    // Replicate check used by vanilla shift-double-click
                     if (slot2 != null
                             && slot2.mayPickup(Minecraft.getInstance().player)
                             && slot2.hasItem()

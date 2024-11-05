@@ -19,7 +19,7 @@ subprojects {
         // "matching" method is not used (throws a pile of weird errors).
         // Also, NeoForge's update of the plugin can't handle matching at all.
         include("**/*.java") // Java files only
-        header = rootProject.file("NOTICE")
+        header = rootProject.file("NOTICE_Combined")
         properties {
             project_name = mod_name
             owner_name = mod_owner
@@ -27,15 +27,16 @@ subprojects {
         }
         // Dual-licensing
         matching(includes: [
-                "**/mixin/gui/**", 
-                "**/network/**", 
-                "**/util/inject/**", 
-                "**/ScrollAction.java", 
-                "**/MixinLocalPlayer.java", 
-                "**/MixinClientPacketListener.java",
-                "**/MoreMouseTweaks.java"
+                "**/config/**", 
+                "**/moremousetweaks/gui/**",
+                "**/mixin/mousetweaks/**",
+                "**/MixinOverlayRecipeComponent.java", 
+                "**/Localization.java", 
+                "**/ModLogger.java",
+                "**/MoreMouseTweaksFabric.java",
+                "**/MoreMouseTweaksNeoForge.java"
         ]) {
-            header = rootProject.file("NOTICE_Combined")
+            header = rootProject.file("NOTICE")
         }
     }
 
@@ -52,7 +53,7 @@ subprojects {
                 projectId = modrinth_id
                 versionNumber = mod_version
                 versionType = release_type
-                versionName = "v${mod_version}-${capsLoader(name)}-${minecraft_version}"
+                versionName = "v${mod_version}-${capsLoader(name)}"
                 changelog = rootProject.file("changelog.md").text
                 uploadFile = name == "fabric" ? remapJar : jar
                 loaders = project.property("release_mod_loaders_${name}").split(",") as List
@@ -88,7 +89,7 @@ subprojects {
                 String module = project.name
 
                 def file = upload(curseforge_id, module == "fabric" ? remapJar : jar)
-                file.displayName = "v${mod_version}-${capsLoader(module)}-${minecraft_version}"
+                file.displayName = "v${mod_version}-${capsLoader(module)}"
                 file.releaseType = release_type
                 file.changelog = rootProject.file("changelog.md").text
                 file.changelogType = "markdown"
@@ -124,7 +125,7 @@ subprojects {
                 repo = github_repo
                 tagName = "v${mod_version}"
                 prerelease = release_type == "alpha" || release_type == "beta"
-                releaseName = "v${mod_version} for ${minecraft_version}"
+                releaseName = "v${mod_version}"
                 body = rootProject.file("changelog.md").text
                 targetCommitish = grgitService.service.get().grgit.branch.current().name
                 overwrite = false

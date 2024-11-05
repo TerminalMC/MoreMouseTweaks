@@ -46,29 +46,14 @@ public class Config {
 
         public static final int defaultInteractionRateClient = 1;
         public int interactionRateClient = defaultInteractionRateClient;
-        
+
+        public boolean scrollCreativeTabs = true;
         public boolean quickCrafting = true;
-        
+
         public Modifier wholeStackModifier = Modifier.SHIFT;
         public Modifier allOfKindModifier = Modifier.CTRL;
-        public boolean scrollCreativeTabs = true;
-
-        public static final HotbarMode defaultHotbarMode = HotbarMode.HARD;
-        public HotbarMode hotbarMode = defaultHotbarMode;
-
-        public enum HotbarMode {
-            NONE,
-            HARD,
-            SOFT;
-
-            public String lowerName() {
-                return switch(this) {
-                    case NONE -> "merge";
-                    case HARD -> "split";
-                    case SOFT -> "off";
-                };
-            }
-        }
+        
+        // TODO allow configuring modifiers?
     }
 
     public enum Modifier {
@@ -108,6 +93,10 @@ public class Config {
         instance = new Config();
         save();
         return instance;
+    }
+    
+    public static Options options() {
+        return Config.get().options;
     }
 
     // Cleanup

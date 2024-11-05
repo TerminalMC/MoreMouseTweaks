@@ -17,7 +17,7 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
-import dev.terminalmc.moremousetweaks.config.Config;
+import com.llamalad7.mixinextras.sugar.Local;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
@@ -29,9 +29,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
+import yalter.mousetweaks.MouseButton;
 
 import java.util.Iterator;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
+
+/**
+ * Quick-crafting helper for single recipes.
+ */
 @Mixin(RecipeBookPage.class)
 public abstract class MixinRecipeBookPage implements IRecipeBookResults {
 	@Shadow
@@ -46,30 +52,41 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
 	private RecipeCollection lastClickedRecipeCollection;
     
 	@Override
-	public void mouseWheelie_setCurrentPage(int page) {
+	public void mmt$setCurrentPage(int page) {
 		currentPage = page;
 	}
     
 	@Override
-	public int mouseWheelie_getCurrentPage() {
+	public int mmt$getCurrentPage() {
 		return currentPage;
 	}
 
 	@Override
-	public int mouseWheelie_getPageCount() {
+	public int mmt$getPageCount() {
 		return totalPages;
 	}
 
 	@Override
-	public void mouseWheelie_refreshResultButtons() {
+	public void mmt$refreshResultButtons() {
 		updateButtonsForPage();
 	}
-
-	@Inject(method = "mouseClicked", at = @At(value = "JUMP", opcode = 154), locals = LocalCapture.CAPTURE_FAILSOFT)
-	public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir, Iterator<?> iterator, RecipeButton animatedResultButton) {
-		if (Config.get().options.quickCrafting && button == 1 && animatedResultButton.isOnlyOption()) {
-			lastClickedRecipe = animatedResultButton.getRecipe();
-			lastClickedRecipeCollection = animatedResultButton.getCollection();
+    
+	@Inject(
+            method = "mouseClicked", 
+            at = @At(
+                    value = "JUMP", 
+                    opcode = 154
+            ), 
+            locals = LocalCapture.CAPTURE_FAILSOFT
+    )
+	public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, 
+                             int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir, 
+                             Iterator<?> iterator, @Local RecipeButton recipeButton) {
+		if (options().quickCrafting 
+                && button == MouseButton.RIGHT.getValue() 
+                && recipeButton.isOnlyOption()) {
+			lastClickedRecipe = recipeButton.getRecipe();
+			lastClickedRecipeCollection = recipeButton.getCollection();
 		}
 	}
 }

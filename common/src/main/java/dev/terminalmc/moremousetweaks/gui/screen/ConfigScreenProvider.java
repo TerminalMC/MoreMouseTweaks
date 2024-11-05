@@ -33,11 +33,12 @@ import static dev.terminalmc.moremousetweaks.util.Localization.localized;
 public class ConfigScreenProvider {
 
     public static Screen getConfigScreen(Screen parent) {
-        try {
-            return ClothScreenProvider.getConfigScreen(parent);
-        } catch (NoClassDefFoundError ignored) {
-            return new BackupScreen(parent, "installCloth", "https://modrinth.com/mod/9s6osm5g");
-        }
+        return new BackupScreen(parent, "notImplemented", null);
+//        try {
+//            return ClothScreenProvider.getConfigScreen(parent);
+//        } catch (NoClassDefFoundError ignored) {
+//            return new BackupScreen(parent, "installCloth", "https://modrinth.com/mod/9s6osm5g");
+//        }
     }
 
     static class BackupScreen extends Screen {
@@ -61,7 +62,7 @@ public class ConfigScreenProvider {
             messageWidget.setMaxWidth(240);
             messageWidget.setCentered(true);
             addRenderableWidget(messageWidget);
-
+            
             Button openLinkButton = Button.builder(localized("message", "viewModrinth"),
                             (button) -> minecraft.setScreen(new ConfirmLinkScreen(
                                     (open) -> {
@@ -72,6 +73,7 @@ public class ConfigScreenProvider {
                     .size(115, 20)
                     .build();
             addRenderableWidget(openLinkButton);
+            if (modUrl == null) openLinkButton.visible = false;
 
             Button exitButton = Button.builder(CommonComponents.GUI_OK,
                             (button) -> onClose())

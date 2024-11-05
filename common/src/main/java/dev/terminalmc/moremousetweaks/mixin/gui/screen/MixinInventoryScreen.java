@@ -30,8 +30,12 @@ import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * Recipe book scrolling helper for inventory screens.
+ */
 @Mixin(InventoryScreen.class)
-public abstract class MixinInventoryScreen extends EffectRenderingInventoryScreen<InventoryMenu> implements IScrollableRecipeBook {
+public abstract class MixinInventoryScreen 
+        extends EffectRenderingInventoryScreen<InventoryMenu> implements IScrollableRecipeBook {
 	@Shadow
 	@Final private RecipeBookComponent recipeBookComponent;
 
@@ -40,7 +44,7 @@ public abstract class MixinInventoryScreen extends EffectRenderingInventoryScree
 	}
 
 	@Override
-	public ScrollAction mouseWheelie_onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
-		return ((IRecipeBookWidget) recipeBookComponent).mouseWheelie_scrollRecipeBook(mouseX, mouseY, scrollAmount);
+	public ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
+		return ((IRecipeBookWidget) recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
 	}
 }

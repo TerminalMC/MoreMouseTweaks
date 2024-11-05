@@ -19,7 +19,6 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 import com.llamalad7.mixinextras.injector.wrapmethod.WrapMethod;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import com.llamalad7.mixinextras.sugar.Local;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialScrollableScreen;
 import dev.terminalmc.moremousetweaks.util.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IScrollableRecipeBook;
@@ -37,43 +36,72 @@ import yalter.mousetweaks.MouseButton;
 public class MixinMain {
     @Shadow
     private static IGuiScreenHandler handler;
-    
     @Shadow
     private static Slot oldSelectedSlot;
-    
+
+    /**
+     * Wraps {@link Main#onMouseScrolled} to allow scrolling creative inventory
+     * tabs and recipe book tabs and pages.
+     */
     @WrapMethod(method = "onMouseScrolled")
     private static boolean wrapOnMouseScrolled(
             Screen screen, double x, double y, double scrollDelta, Operation<Boolean> original) {
-        
         ScrollAction result;
         
+        // Creative inventory tab scrolling
         if (screen instanceof ISpecialScrollableScreen) {
-            result = ((ISpecialScrollableScreen)screen).mouseWheelie_onMouseScrolledSpecial(x, y, -scrollDelta);
-            if (result.cancelsCustomActions()) {
+            result = ((ISpecialScrollableScreen)screen).mmt$onMouseScrolledSpecial(
+                    x, y, -scrollDelta);
+            if (result.cancelsCustomActions()) 
                 return result.cancelsAllActions();
-            }
         }
         
+        // Recipe book tab and page scrolling
         if (screen instanceof IScrollableRecipeBook) {
-            result = ((IScrollableRecipeBook)screen).mouseWheelie_onMouseScrollRecipeBook(x, y, -scrollDelta);
-            if (result.cancelsCustomActions()) {
+            result = ((IScrollableRecipeBook)screen).mmt$onMouseScrollRecipeBook(
+                    x, y, -scrollDelta);
+            if (result.cancelsCustomActions()) 
                 return result.cancelsAllActions();
-            }
         }
         
         original.call(screen, x, y, scrollDelta);
         return false;
     }
-    
-    @WrapOperation(method = "onMouseDrag", at = @At(value = "INVOKE", target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(JI)Z", ordinal = 0))
+
+    /**
+     * Wraps the first 
+     * {@link com.mojang.blaze3d.platform.InputConstants#isKeyDown}
+     * invocation in {@link Main#onMouseDrag} to allow MouseTweaks' LMB drag
+     * functionality to work when CTRL or ALT is pressed, not only SHIFT.
+     */
+    @WrapOperation(
+            method = "onMouseDrag", 
+            at = @At(
+                    value = "INVOKE", 
+                    target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(JI)Z", 
+                    ordinal = 0
+            )
+    )
     private static boolean wrapIsKeyDown(long window, int key, Operation<Boolean> original) {
         return Screen.hasShiftDown() || Screen.hasControlDown() || Screen.hasAltDown();
     }
-    
-    @WrapOperation(method = "onMouseClicked", at = @At(value = "INVOKE", target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", ordinal = 0))
-    private static boolean wrapIsEmpty(ItemStack instance, Operation<Boolean> original, @Local ItemStack stackOnMouse) {
+
+    /**
+     * Wraps the first {@link ItemStack#isEmpty} invocation in 
+     * {@link Main#onMouseClicked} to allow CTRL+LMB and ALT+LMB clicking
+     * inventory slots in additional to the vanilla SHIFT+LMB.
+     */
+    @WrapOperation(
+            method = "onMouseClicked", 
+            at = @At(
+                    value = "INVOKE", 
+                    target = "Lnet/minecraft/world/item/ItemStack;isEmpty()Z", 
+                    ordinal = 0
+            )
+    )
+    private static boolean wrapIsEmpty(ItemStack instance, Operation<Boolean> original) {
         if (original.call(instance)) {
-            if (Screen.hasControlDown() || Screen.hasAltDown()) {
+            if (oldSelectedSlot != null && (Screen.hasControlDown() || Screen.hasAltDown())) {
                 handler.clickSlot(oldSelectedSlot, MouseButton.LEFT, false);
             }
             return true;

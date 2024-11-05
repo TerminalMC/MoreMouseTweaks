@@ -2,6 +2,7 @@
   "schemaVersion": 1,
   "version": "${mod_version}",
   "id": "${mod_id}",
+  "provides": ["${mod_id_alt}"],
   "name": "${mod_name}",
   "description": "${mod_description}",
   "icon": "${mod_icon}",
@@ -10,8 +11,6 @@
   "license": "${mod_license}",
 
   "environment": "client",
-
-  "provides": [],
 
   "entrypoints": {
     "main": [],

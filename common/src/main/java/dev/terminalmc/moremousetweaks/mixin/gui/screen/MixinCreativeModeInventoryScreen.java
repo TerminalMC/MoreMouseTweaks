@@ -17,7 +17,6 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.screen;
 
-import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.util.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialScrollableScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
@@ -35,6 +34,11 @@ import org.spongepowered.asm.mixin.Shadow;
 
 import java.util.List;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
+
+/**
+ * Creative inventory tab scrolling.
+ */
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class MixinCreativeModeInventoryScreen extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> implements ISpecialScrollableScreen {
 
@@ -52,8 +56,8 @@ public abstract class MixinCreativeModeInventoryScreen extends EffectRenderingIn
 	}
 
 	@Override
-	public ScrollAction mouseWheelie_onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount) {
-		if (Config.get().options.scrollCreativeTabs) {
+	public ScrollAction mmt$onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount) {
+		if (options().scrollCreativeTabs) {
 			double relMouseY = mouseY - this.topPos;
 			double relMouseX = mouseX - this.leftPos;
 			boolean yOverTopTabs = (-32 <= relMouseY && relMouseY <= 0);

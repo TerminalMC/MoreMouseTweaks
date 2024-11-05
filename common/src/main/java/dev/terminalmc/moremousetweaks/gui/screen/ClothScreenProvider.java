@@ -20,6 +20,7 @@ import dev.terminalmc.moremousetweaks.config.Config;
 import me.shedaniel.clothconfig2.api.*;
 import net.minecraft.client.gui.screens.Screen;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
 import static dev.terminalmc.moremousetweaks.util.Localization.localized;
 
 public class ClothScreenProvider {
@@ -31,7 +32,7 @@ public class ClothScreenProvider {
      * available.
      */
     static Screen getConfigScreen(Screen parent) {
-        Config.Options options = Config.get().options;
+        Config.Options options = options();
 
         ConfigBuilder builder = ConfigBuilder.create()
                 .setParentScreen(parent)

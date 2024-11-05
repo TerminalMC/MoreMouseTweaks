@@ -17,7 +17,6 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
-import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.util.inject.IMerchantScreen;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialClickableButtonWidget;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
@@ -28,28 +27,38 @@ import net.minecraft.world.inventory.ClickType;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import yalter.mousetweaks.MouseButton;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
+
+/**
+ * Quick-trading via RMB click.
+ */
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/MerchantScreen$TradeOfferButton")
 public class MixinTradeOfferButton implements ISpecialClickableButtonWidget {
 	@Shadow
 	@Final int index;
-
+    
 	@Override
-	public boolean mouseClicked(int mouseButton) {
-        if (mouseButton != 1 || !Config.get().options.quickCrafting) return false;
+	public boolean mmt$mouseClicked(int mouseButton) {
+        if (!options().quickCrafting || mouseButton != MouseButton.RIGHT.getValue()) return false;
         Screen screen = Minecraft.getInstance().screen;
 		if (screen instanceof IMerchantScreen) {
-            ((IMerchantScreen) screen).mouseWheelie_setRecipeId(this.index + ((IMerchantScreen) screen).getRecipeIdOffset());
-			((IMerchantScreen) screen).mouseWheelie_syncRecipeId();
+            ((IMerchantScreen)screen).mmt$setRecipeId(
+                    this.index + ((IMerchantScreen)screen).getRecipeIdOffset());
+			((IMerchantScreen)screen).mmt$syncRecipeId();
 			if (screen instanceof AbstractContainerScreen) {
-				if (Config.get().options.wholeStackModifier.isDown()) {
-                    InteractionManager.pushClickEvent(((AbstractContainerScreen<?>) screen).getMenu().containerId, 2, 1, ClickType.QUICK_MOVE);
+				if (options().wholeStackModifier.isDown()) {
+                    InteractionManager.pushClickEvent(
+                            ((AbstractContainerScreen<?>)screen).getMenu().containerId, 
+                            2, 1, ClickType.QUICK_MOVE);
                 } else {
-                    InteractionManager.pushClickEvent(((AbstractContainerScreen<?>) screen).getMenu().containerId, 2, 1, ClickType.PICKUP);
+                    InteractionManager.pushClickEvent(
+                            ((AbstractContainerScreen<?>)screen).getMenu().containerId, 
+                            2, 1, ClickType.PICKUP);
                 }
 			}
 		}
-
 		return true;
 	}
 }

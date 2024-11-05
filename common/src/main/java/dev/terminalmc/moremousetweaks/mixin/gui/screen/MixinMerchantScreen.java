@@ -22,6 +22,9 @@ import net.minecraft.client.gui.screens.inventory.MerchantScreen;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
+/**
+ * Quick-trading helper for merchant screens.
+ */
 @Mixin(MerchantScreen.class)
 public abstract class MixinMerchantScreen implements IMerchantScreen {
 
@@ -35,12 +38,12 @@ public abstract class MixinMerchantScreen implements IMerchantScreen {
     int scrollOff;
 
 	@Override
-	public void mouseWheelie_setRecipeId(int id) {
+	public void mmt$setRecipeId(int id) {
 		shopItem = id;
 	}
 
 	@Override
-	public void mouseWheelie_syncRecipeId() {
+	public void mmt$syncRecipeId() {
 		postButtonClick();
 	}
 

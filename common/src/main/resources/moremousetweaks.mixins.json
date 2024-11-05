@@ -10,6 +10,7 @@
     "MixinClientPacketListener",
     "MixinLocalPlayer",
     "gui.other.MixinAbstractWidget",
+    "gui.other.MixinOverlayRecipeComponent",
     "gui.other.MixinRecipeBookComponent",
     "gui.other.MixinRecipeBookPage",
     "gui.other.MixinTradeOfferButton",

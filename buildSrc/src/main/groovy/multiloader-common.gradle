@@ -94,6 +94,7 @@ processResources {
             "mod_version": mod_version,
             "mod_group": mod_group,
             "mod_id": mod_id,
+            "mod_id_alt": mod_id_alt,
             "mod_name": mod_name,
             "mod_description": mod_description,
             "mod_icon": "assets/" + mod_id + "/icon.png",

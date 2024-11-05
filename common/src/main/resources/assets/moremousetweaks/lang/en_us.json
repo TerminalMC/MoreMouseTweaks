@@ -1,93 +1,13 @@
 {
   "moremousetweaks.name": "MoreMouseTweaks",
 
-  "modmenu.descriptionTranslation.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.",
-  "fml.menu.mods.info.description.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.",
+  "modmenu.descriptionTranslation.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
+  "fml.menu.mods.info.description.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
 
   "key.moremousetweaks.group": "MoreMouseTweaks",
   "key.moremousetweaks.group.example": "Example Key",
 
   "message.moremousetweaks.viewModrinth": "View on Modrinth",
   "message.moremousetweaks.installCloth": "Install Cloth Config API to access mod options",
-  "message.moremousetweaks.installYacl": "Install Yet Another Config Lib to access mod options",
-
-  "screen.moremousetweaks.options": "MoreMouseTweaks Options",
-  
-
-  "option.moremousetweaks.cat1": "First category",
-  "option.moremousetweaks.cat1.tooltip": "First category tooltip",
-
-  "option.moremousetweaks.cat1.booleanOption": "Boolean option",
-  "option.moremousetweaks.cat1.booleanOption.tooltip": "Boolean option tooltip",
-  "option.moremousetweaks.cat1.booleanOption.true": "Positive",
-  "option.moremousetweaks.cat1.booleanOption.false": "Negative",
-
-  "option.moremousetweaks.cat1.intOption": "Integer option",
-  "option.moremousetweaks.cat1.intOption.tooltip": "Integer option tooltip",
-  "option.moremousetweaks.cat1.intOption.value": "%d m",
-
-  "option.moremousetweaks.cat1.doubleOption": "Double option",
-  "option.moremousetweaks.cat1.doubleOption.tooltip": "Double option tooltip",
-
-  "option.moremousetweaks.cat1.lenientStringOption": "Lenient string option",
-  "option.moremousetweaks.cat1.lenientStringOption.tooltip": "Lenient string option tooltip",
-
-  "option.moremousetweaks.cat1.strictStringOption": "Strict string option",
-  "option.moremousetweaks.cat1.strictStringOption.tooltip": "Strict string option tooltip",
-  "option.moremousetweaks.cat1.strictStringOption.error": "Not a valid string",
-
-  "option.moremousetweaks.cat1.enumOption": "Enum option",
-  "option.moremousetweaks.cat1.enumOption.tooltip": "Enum option tooltip",
-  "option.moremousetweaks.cat1.enumOption.value": "%s",
-
-  "option.moremousetweaks.cat1.cyclingObjectOption": "Object option",
-  "option.moremousetweaks.cat1.cyclingObjectOption.tooltip": "Object option tooltip",
-  
-  
-  "option.moremousetweaks.cat2": "Second category",
-  "option.moremousetweaks.cat2.tooltip": "Second category tooltip",
-
-  "option.moremousetweaks.cat2.stringListOption": "String list option",
-  "option.moremousetweaks.cat2.stringListOption.tooltip": "String list option tooltip",
-  
-  
-  "option.moremousetweaks.cat3": "Third category",
-  "option.moremousetweaks.cat3.tooltip": "Third category tooltip",
-  "option.moremousetweaks.cat3.message": "Third category message",
-
-  "option.moremousetweaks.cat3.action": "Open Cloth Config screen",
-  "option.moremousetweaks.cat3.action.text": "Execute",
-  "option.moremousetweaks.cat3.action.tooltip": "Action option tooltip",
-
-  "option.moremousetweaks.cat3.group1": "First group",
-  "option.moremousetweaks.cat3.group1.tooltip": "First group tooltip",
-  
-  "option.moremousetweaks.cat3.group1.rgbOption": "RGB option",
-  "option.moremousetweaks.cat3.group1.rgbOption.tooltip": "RGB option tooltip",
-
-  "option.moremousetweaks.cat3.group1.argbOption": "ARGB option",
-  "option.moremousetweaks.cat3.group1.argbOption.tooltip": "ARGB option tooltip",
-
-  "option.moremousetweaks.cat3.group1.itemOption": "Item option",
-  "option.moremousetweaks.cat3.group1.itemOption.error": "Not a valid item",
-  "option.moremousetweaks.cat3.group1.itemOption.tooltip": "Item option tooltip",
-
-  "option.moremousetweaks.cat3.group1.keyOption": "Key option",
-  "option.moremousetweaks.cat3.group1.keyOption.tooltip": "Key option tooltip",
-
-  
-  "option.moremousetweaks.cat4": "Fourth category",
-  "option.moremousetweaks.cat4.tooltip": "Fourth category tooltip",
-  
-  "option.moremousetweaks.cat4.add": "Add",
-  "option.moremousetweaks.cat4.delete": "Delete",
-  
-  "option.moremousetweaks.cat4.customObjectGroup": "Object %d",
-
-  "option.moremousetweaks.cat4.name": "Name",
-  "option.moremousetweaks.cat4.name.tooltip": "Name tooltip",
-  
-  "option.moremousetweaks.cat4.size": "Size",
-  "option.moremousetweaks.cat4.size.tooltip": "Size tooltip",
-  "option.moremousetweaks.cat4.size.value": "%d m"
+  "message.moremousetweaks.notImplemented": "Config editor not yet implemented."
 }

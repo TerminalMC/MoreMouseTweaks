@@ -21,9 +21,9 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface IMerchantScreen {
-	void mouseWheelie_setRecipeId(int id);
+	void mmt$setRecipeId(int id);
 
-	void mouseWheelie_syncRecipeId();
+	void mmt$syncRecipeId();
 
 	int getRecipeIdOffset();
 }

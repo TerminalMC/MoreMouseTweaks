@@ -38,13 +38,29 @@ public class MixinIMTModGuiContainer3ExHandler {
     @Shadow
     public List<Slot> getSlots() { return null; }
 
-    @WrapOperation(method = "clickSlot", at = @At(value = "INVOKE", target = "Lyalter/mousetweaks/api/IMTModGuiContainer3Ex;MT_clickSlot(Lnet/minecraft/world/inventory/Slot;ILnet/minecraft/world/inventory/ClickType;)V"))
-    private void wrapSlotClicked(IMTModGuiContainer3Ex instance, Slot slot, int button, ClickType clickType, Operation<Void> original) {
+    /**
+     * Wraps an implementation of {@link yalter.mousetweaks.IGuiScreenHandler}
+     * to allow CTRL+LMB clicking to quick-move all matching slots and ALT+LMB
+     * clicking to drop the slot, in addition to the existing SHIFT+LMB to
+     * quick-move the slot and raw LMB to pick up the slot.
+     * See also {@link MixinGuiContainerHandler}.
+     */
+    @WrapOperation(
+            method = "clickSlot", 
+            at = @At(
+                    value = "INVOKE", 
+                    target = "Lyalter/mousetweaks/api/IMTModGuiContainer3Ex;MT_clickSlot(Lnet/minecraft/world/inventory/Slot;ILnet/minecraft/world/inventory/ClickType;)V"
+            )
+    )
+    private void wrapSlotClicked(IMTModGuiContainer3Ex instance, Slot slot, int button, 
+                                 ClickType clickType, Operation<Void> original) {
+        // Only operate if LMB and not SHIFT+LMB
         if (button == MouseButton.LEFT.getValue() && clickType.equals(ClickType.PICKUP)) {
             if (Screen.hasControlDown()) {
                 // Quick-move all matching items
                 ItemStack stack = slot.getItem().copy();
                 for (Slot slot2 : getSlots()) {
+                    // Replicate check used by vanilla shift-double-click
                     if (slot2 != null
                             && slot2.mayPickup(Minecraft.getInstance().player)
                             && slot2.hasItem()
@@ -55,6 +71,7 @@ public class MixinIMTModGuiContainer3ExHandler {
                 }
                 return;
             } else if (Screen.hasAltDown()) {
+                // Drop slot
                 button = MouseButton.RIGHT.getValue();
                 clickType = ClickType.THROW;
             }

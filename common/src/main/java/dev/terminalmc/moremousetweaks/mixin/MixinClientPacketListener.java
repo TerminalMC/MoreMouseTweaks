@@ -31,6 +31,9 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+/**
+ * Inventory update listeners for {@link InteractionManager}.
+ */
 @Mixin(ClientPacketListener.class)
 public abstract class MixinClientPacketListener extends ClientCommonPacketListenerImpl {
     protected MixinClientPacketListener(Minecraft client, Connection connection, CommonListenerCookie connectionState) {
