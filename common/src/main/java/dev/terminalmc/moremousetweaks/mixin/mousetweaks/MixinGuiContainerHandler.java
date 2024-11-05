@@ -56,6 +56,7 @@ public class MixinGuiContainerHandler {
         // Only operate if LMB and not SHIFT+LMB
         if (button == MouseButton.LEFT.getValue() && !Screen.hasShiftDown()) {
             if (Screen.hasControlDown()) {
+                boolean alt = Screen.hasAltDown();
                 // Quick-move all matching items
                 ItemStack stack = slot.getItem().copy();
                 for (Slot slot2 : getSlots()) {
@@ -65,7 +66,9 @@ public class MixinGuiContainerHandler {
                             && slot2.hasItem()
                             && slot2.container == slot.container
                             && AbstractContainerMenu.canItemQuickReplace(slot2, stack, true)) {
-                        original.call(instance, slot2, slot2.index, button, ClickType.QUICK_MOVE);
+                        original.call(instance, slot2, slot2.index, 
+                                alt ? MouseButton.RIGHT.getValue() : button, 
+                                alt ? ClickType.THROW : ClickType.QUICK_MOVE);
                     }
                 }
                 return;
