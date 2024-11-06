@@ -41,20 +41,24 @@ public class Config {
     public final Options options = new Options();
 
     public static class Options {
-        public static final int defaultInteractionRateServer = 10;
-        public int interactionRateServer = defaultInteractionRateServer;
+        public static final int interactionRateServerDefault = 10;
+        public int interactionRateServer = interactionRateServerDefault;
 
-        public static final int defaultInteractionRateClient = 1;
-        public int interactionRateClient = defaultInteractionRateClient;
+        public static final int interactionRateClientDefault = 1;
+        public int interactionRateClient = interactionRateClientDefault;
 
-        public boolean scrollCreativeTabs = true;
-        public boolean quickCrafting = true;
-        public boolean quickCraftingPastFull = false;
-
-        public Modifier wholeStackModifier = Modifier.SHIFT;
-        public Modifier allOfKindModifier = Modifier.CTRL;
+        public static final boolean scrollCreativeTabsDefault = true;
+        public boolean scrollCreativeTabs = scrollCreativeTabsDefault;
+        
+        public static final boolean quickCraftingDefault = true;
+        public boolean quickCrafting = quickCraftingDefault;
+        
+        public static final boolean quickCraftingPastFullDefault = false;
+        public boolean quickCraftingPastFull = quickCraftingPastFullDefault;
         
         // TODO allow configuring modifiers?
+        public Modifier allOfKindModifier = Modifier.CTRL;
+        public Modifier wholeStackModifier = Modifier.SHIFT;
     }
 
     public enum Modifier {

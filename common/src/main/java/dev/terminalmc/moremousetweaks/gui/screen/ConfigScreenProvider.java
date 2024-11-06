@@ -33,12 +33,11 @@ import static dev.terminalmc.moremousetweaks.util.Localization.localized;
 public class ConfigScreenProvider {
 
     public static Screen getConfigScreen(Screen parent) {
-        return new BackupScreen(parent, "notImplemented", null);
-//        try {
-//            return ClothScreenProvider.getConfigScreen(parent);
-//        } catch (NoClassDefFoundError ignored) {
-//            return new BackupScreen(parent, "installCloth", "https://modrinth.com/mod/9s6osm5g");
-//        }
+        try {
+            return ClothScreenProvider.getConfigScreen(parent);
+        } catch (NoClassDefFoundError ignored) {
+            return new BackupScreen(parent, "installCloth", "https://modrinth.com/mod/9s6osm5g");
+        }
     }
 
     static class BackupScreen extends Screen {

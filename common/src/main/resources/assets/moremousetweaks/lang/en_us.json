@@ -4,10 +4,17 @@
   "modmenu.descriptionTranslation.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
   "fml.menu.mods.info.description.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
 
-  "key.moremousetweaks.group": "MoreMouseTweaks",
-  "key.moremousetweaks.group.example": "Example Key",
-
   "message.moremousetweaks.viewModrinth": "View on Modrinth",
   "message.moremousetweaks.installCloth": "Install Cloth Config API to access mod options",
-  "message.moremousetweaks.notImplemented": "Config editor not yet implemented."
+
+  "option.moremousetweaks.general": "General",
+  "option.moremousetweaks.interactionRateServer": "Multiplayer Interaction Rate",
+  "option.moremousetweaks.interactionRateClient": "Singleplayer Interaction Rate",
+  "option.moremousetweaks.interactionRate.tooltip": "Reduce for faster operation, increase if you are experiencing packet rate issues",
+  "option.moremousetweaks.scrollCreativeTabs": "Creative Tab Scrolling",
+  "option.moremousetweaks.scrollCreativeTabs.tooltip": "Allow scrolling creative-mode inventory tabs",
+  "option.moremousetweaks.quickCrafting": "Quick Crafting",
+  "option.moremousetweaks.quickCrafting.tooltip": "Allow quick-crafting and quick-trading via right-click",
+  "option.moremousetweaks.quickCraftingPastFull": "Quick Crafting Past Full",
+  "option.moremousetweaks.quickCraftingPastFull.tooltip": "Allow quick-crafting to fallback to crafting grid when carried stack is full"
 }

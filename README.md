@@ -39,9 +39,9 @@ Best used alongside [ClientSort](https://modrinth.com/mod/K0AkAin6).
 
 ### Dependencies
 
-Fabric: [MouseTweaks](https://modrinth.com/mod/aC3cM3Vq), [Fabric API](https://modrinth.com/mod/P7dR8mSH)
+Fabric: [MouseTweaks](https://modrinth.com/mod/aC3cM3Vq), [Fabric API](https://modrinth.com/mod/P7dR8mSH), [ModMenu](https://modrinth.com/mod/mOgUt4GM), [Cloth Config API](https://modrinth.com/mod/9s6osm5g)
 
-NeoForge: [MouseTweaks](https://modrinth.com/mod/aC3cM3Vq)
+NeoForge: [MouseTweaks](https://modrinth.com/mod/aC3cM3Vq), [Cloth Config API](https://modrinth.com/mod/9s6osm5g)
 
 ### Compatibility
 

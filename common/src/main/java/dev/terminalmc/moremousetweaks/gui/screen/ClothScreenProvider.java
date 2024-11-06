@@ -20,6 +20,8 @@ import dev.terminalmc.moremousetweaks.config.Config;
 import me.shedaniel.clothconfig2.api.*;
 import net.minecraft.client.gui.screens.Screen;
 
+import java.util.Optional;
+
 import static dev.terminalmc.moremousetweaks.config.Config.options;
 import static dev.terminalmc.moremousetweaks.util.Localization.localized;
 
@@ -39,6 +41,59 @@ public class ClothScreenProvider {
                 .setTitle(localized("name"))
                 .setSavingRunnable(Config::save);
         ConfigEntryBuilder eb = builder.entryBuilder();
+
+        ConfigCategory general = builder.getOrCreateCategory(localized("option", "general"));
+
+        general.addEntry(eb.startIntField(
+                localized("option", "interactionRateServer"), 
+                        options.interactionRateServer)
+                .setTooltip(localized("option", "interactionRate.tooltip"))
+                .setErrorSupplier(val -> {
+                    if (val < 1) return Optional.of(
+                            localized("option", "error.low"));
+                    else if (val > 100) return Optional.of(
+                            localized("option", "error.high"));
+                    else return Optional.empty();
+                })
+                .setDefaultValue(Config.Options.interactionRateServerDefault)
+                .setSaveConsumer(val -> options.interactionRateServer = val)
+                .build());
+
+        general.addEntry(eb.startIntField(
+                localized("option", "interactionRateClient"), 
+                        options.interactionRateClient)
+                .setTooltip(localized("option", "interactionRate.tooltip"))
+                .setErrorSupplier(val -> {
+                    if (val < 1) return Optional.of(
+                            localized("option", "error.low"));
+                    else if (val > 100) return Optional.of(
+                            localized("option", "error.high"));
+                    else return Optional.empty();
+                })
+                .setDefaultValue(Config.Options.interactionRateClientDefault)
+                .setSaveConsumer(val -> options.interactionRateClient = val)
+                .build());
+
+        general.addEntry(eb.startBooleanToggle(localized("option", "scrollCreativeTabs"),
+                        options.scrollCreativeTabs)
+                .setTooltip(localized("option", "scrollCreativeTabs.tooltip"))
+                .setDefaultValue(Config.Options.scrollCreativeTabsDefault)
+                .setSaveConsumer(val -> options.scrollCreativeTabs = val)
+                .build());
+
+        general.addEntry(eb.startBooleanToggle(localized("option", "quickCrafting"),
+                        options.quickCrafting)
+                .setTooltip(localized("option", "quickCrafting.tooltip"))
+                .setDefaultValue(Config.Options.quickCraftingDefault)
+                .setSaveConsumer(val -> options.quickCrafting = val)
+                .build());
+
+        general.addEntry(eb.startBooleanToggle(localized("option", "quickCraftingPastFull"),
+                        options.quickCraftingPastFull)
+                .setTooltip(localized("option", "quickCraftingPastFull.tooltip"))
+                .setDefaultValue(Config.Options.quickCraftingPastFullDefault)
+                .setSaveConsumer(val -> options.quickCraftingPastFull = val)
+                .build());
 
         return builder.build();
     }
