@@ -7,7 +7,6 @@
   "mixins": [
   ],
   "client": [
-    "accessor.MainAccessor",
     "MixinClientPacketListener",
     "MixinLocalPlayer",
     "gui.other.MixinAbstractWidget",
