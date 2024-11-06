@@ -52,8 +52,8 @@ public class MixinOverlayRecipeComponent {
             do {
                 if (!iter.hasNext()) {
                     cir.setReturnValue(false);
+                    return; // Crash prevention
                 }
-
                 overlayButton = iter.next();
             } while(!overlayButton.mouseClicked(mouseX, mouseY, 0));
 
