@@ -49,6 +49,7 @@ public class Config {
 
         public boolean scrollCreativeTabs = true;
         public boolean quickCrafting = true;
+        public boolean quickCraftingPastFull = false;
 
         public Modifier wholeStackModifier = Modifier.SHIFT;
         public Modifier allOfKindModifier = Modifier.CTRL;

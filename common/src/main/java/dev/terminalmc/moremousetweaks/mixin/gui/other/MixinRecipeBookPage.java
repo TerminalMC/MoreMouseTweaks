@@ -23,6 +23,7 @@ import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -85,11 +86,25 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
 	public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, 
                              int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir, 
                              Iterator<?> iterator, @Local RecipeButton recipeButton) {
-		if (options().quickCrafting 
+		if (
+                options().quickCrafting 
                 && button == MouseButton.RIGHT.getValue() 
-                && recipeButton.isOnlyOption()) {
-			lastClickedRecipe = recipeButton.getRecipe();
-			lastClickedRecipeCollection = recipeButton.getCollection();
+                && recipeButton.isOnlyOption()
+        ) {
+            ItemStack carried = minecraft.player.containerMenu.getCarried();
+            ItemStack result = recipeButton.getRecipe().value().getResultItem(
+                    minecraft.level.registryAccess());
+            if (
+                    options().quickCraftingPastFull 
+                    || carried.isEmpty() 
+                    || (
+                            ItemStack.isSameItemSameComponents(carried, result) 
+                            && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
+                    )
+            ) {
+                lastClickedRecipe = recipeButton.getRecipe();
+                lastClickedRecipeCollection = recipeButton.getCollection();
+            }
 		}
 	}
 }

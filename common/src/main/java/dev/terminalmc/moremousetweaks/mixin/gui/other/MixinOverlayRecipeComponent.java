@@ -16,7 +16,9 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
+import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -29,6 +31,8 @@ import yalter.mousetweaks.MouseButton;
 import java.util.Iterator;
 import java.util.List;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
+
 /**
  * Quick-crafting helper for alternative recipes.
  */
@@ -38,7 +42,9 @@ public class MixinOverlayRecipeComponent {
     @Final private List<OverlayRecipeComponent.OverlayRecipeButton> recipeButtons;
     @Shadow
     private RecipeHolder<?> lastRecipeClicked;
-    
+    @Shadow
+    private Minecraft minecraft;
+
     @Inject(
             method = "mouseClicked", 
             at = @At("HEAD"),
@@ -46,7 +52,10 @@ public class MixinOverlayRecipeComponent {
     )
     private void onMouseClicked(double mouseX, double mouseY, int button, 
                                 CallbackInfoReturnable<Boolean> cir) {
-        if (button == MouseButton.RIGHT.getValue()) {
+        if (
+                options().quickCrafting 
+                && button == MouseButton.RIGHT.getValue()
+        ) {
             Iterator<OverlayRecipeComponent.OverlayRecipeButton> iter = this.recipeButtons.iterator();
             OverlayRecipeComponent.OverlayRecipeButton overlayButton;
             do {
@@ -57,8 +66,20 @@ public class MixinOverlayRecipeComponent {
                 overlayButton = iter.next();
             } while(!overlayButton.mouseClicked(mouseX, mouseY, 0));
 
-            this.lastRecipeClicked = overlayButton.recipe;
-            cir.setReturnValue(true);
+            ItemStack carried = minecraft.player.containerMenu.getCarried();
+            ItemStack result = overlayButton.recipe.value().getResultItem(
+                    minecraft.level.registryAccess());
+            if (
+                    options().quickCraftingPastFull
+                    || carried.isEmpty()
+                    || (
+                            ItemStack.isSameItemSameComponents(carried, result) 
+                            && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
+                    )
+            ) {
+                this.lastRecipeClicked = overlayButton.recipe;
+                cir.setReturnValue(true);
+            }
         }
     }
 }
