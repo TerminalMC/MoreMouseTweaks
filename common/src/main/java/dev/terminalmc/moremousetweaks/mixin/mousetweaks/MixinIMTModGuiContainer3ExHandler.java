@@ -20,7 +20,6 @@ import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
-import net.minecraft.world.inventory.AbstractContainerMenu;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -32,6 +31,8 @@ import yalter.mousetweaks.api.IMTModGuiContainer3Ex;
 import yalter.mousetweaks.handlers.IMTModGuiContainer3ExHandler;
 
 import java.util.List;
+
+import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 @Mixin(IMTModGuiContainer3ExHandler.class)
 public class MixinIMTModGuiContainer3ExHandler {
@@ -62,11 +63,24 @@ public class MixinIMTModGuiContainer3ExHandler {
                 ItemStack stack = slot.getItem().copy();
                 for (Slot slot2 : getSlots()) {
                     // Replicate check used by vanilla shift-double-click
-                    if (slot2 != null
-                            && slot2.mayPickup(Minecraft.getInstance().player)
+                    if (slot2 == null) continue;
+                    ItemStack stack2 = slot2.getItem();
+                    if (
+                            slot2.mayPickup(Minecraft.getInstance().player)
                             && slot2.hasItem()
                             && slot2.container == slot.container
-                            && AbstractContainerMenu.canItemQuickReplace(slot2, stack, true)) {
+//                            && AbstractContainerMenu.canItemQuickReplace(slot2, stack, true)
+                            && (
+                                    ItemStack.isSameItemSameComponents(stack2, stack)
+                                    || (
+                                            ItemStack.isSameItem(stack2, stack)
+                                            && (
+                                                    options().matchByType
+                                                    || options().typeMatchItems.contains(stack2.getItem())
+                                            )
+                                    )
+                            )
+                    ) {
                         original.call(instance, slot2,
                                 alt ? MouseButton.RIGHT.getValue() : button,
                                 alt ? ClickType.THROW : ClickType.QUICK_MOVE);

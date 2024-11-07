@@ -18,6 +18,7 @@ package dev.terminalmc.moremousetweaks.gui.screen;
 
 import dev.terminalmc.moremousetweaks.config.Config;
 import me.shedaniel.clothconfig2.api.*;
+import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.network.chat.Component;
 
@@ -98,6 +99,24 @@ public class ClothScreenProvider {
                 }))
                 .setDefaultValue(Config.Options.qcOverflowModeDefault)
                 .setSaveConsumer(val -> options.qcOverflowMode = val)
+                .build());
+
+        general.addEntry(eb.startBooleanToggle(localized("option", "matchByType"),
+                        options.matchByType)
+                .setTooltip(localized("option", "matchByType.tooltip"))
+                .setDefaultValue(Config.Options.matchByTypeDefault)
+                .setSaveConsumer(val -> options.matchByType = val)
+                .build());
+
+        general.addEntry(eb.startStrList(
+                        localized("option", "typeMatchTags"), options.typeMatchTags)
+                .setTooltip(localized("option", "typeMatchTags.tooltip", 
+                        Component.literal("https://minecraft.wiki/w/Tag#Item_tags")
+                                .withStyle(ChatFormatting.GOLD)))
+                .setDefaultValue(Config.Options.typeMatchTagsDefault)
+                .setSaveConsumer(val -> options.typeMatchTags = val)
+                .setInsertInFront(true)
+                .setExpanded(true)
                 .build());
 
         return builder.build();

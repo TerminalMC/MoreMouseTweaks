@@ -20,6 +20,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -29,6 +30,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
+import java.util.HashSet;
+import java.util.List;
 import java.util.function.Supplier;
 
 public class Config {
@@ -55,6 +58,17 @@ public class Config {
         
         public static final QcOverflowMode qcOverflowModeDefault = QcOverflowMode.INVENTORY;
         public QcOverflowMode qcOverflowMode = qcOverflowModeDefault;
+
+        public static final boolean matchByTypeDefault = false;
+        public boolean matchByType = matchByTypeDefault;
+
+        public static final List<String> typeMatchTagsDefault = List.of(
+                "enchantable/weapon",
+                "enchantable/mining",
+                "enchantable/armor"
+        );
+        public List<String> typeMatchTags = typeMatchTagsDefault;
+        public transient final HashSet<Item> typeMatchItems = new HashSet<>();
         
         // TODO allow configuring modifiers?
         public Modifier allOfKindModifier = Modifier.CTRL;

@@ -21,6 +21,7 @@ import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.ModLogger;
 import net.minecraft.client.Minecraft;
+import net.minecraft.core.registries.BuiltInRegistries;
 
 public class MoreMouseTweaks {
     public static final String MOD_ID = "moremousetweaks";
@@ -43,6 +44,17 @@ public class MoreMouseTweaks {
         } else {
             InteractionManager.setTickRate(config.options.interactionRateClient);
         }
+        updateItemTags(config);
+    }
+    
+    public static void updateItemTags(Config config) {
+        config.options.typeMatchItems.clear();
+        BuiltInRegistries.ITEM.getTags().forEach((pair) -> {
+            if (config.options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
+                pair.getSecond().forEach((itemHolder) ->
+                        config.options.typeMatchItems.add(itemHolder.value()));
+            }
+        });
     }
 
     public static double getMouseX() {
