@@ -4,9 +4,10 @@
 
 ## MoreMouseTweaks
 
-Complements [MouseTweaks](https://modrinth.com/mod/aC3cM3Vq) by adding more mouse functionality.
+Complements [Mouse Tweaks](https://modrinth.com/mod/aC3cM3Vq) by adding more mouse functionality from 
+[Mouse Wheelie](https://modrinth.com/mod/u5Ic2U1u).
 
-Derived from [Mouse Wheelie](https://modrinth.com/mod/u5Ic2U1u) by [Siphalor](https://github.com/Siphalor).
+Not affiliated with or endorsed by the authors of either of the aforementioned mods.
 
 Best used alongside [ClientSort](https://modrinth.com/mod/K0AkAin6).
 

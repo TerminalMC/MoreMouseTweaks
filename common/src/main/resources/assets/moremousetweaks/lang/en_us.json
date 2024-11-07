@@ -1,9 +1,6 @@
 {
   "moremousetweaks.name": "MoreMouseTweaks",
 
-  "modmenu.descriptionTranslation.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
-  "fml.menu.mods.info.description.moremousetweaks": "Complements MouseTweaks by adding more mouse functionality.\nDerived from Mouse Wheelie by Siphalor.",
-
   "message.moremousetweaks.viewModrinth": "View on Modrinth",
   "message.moremousetweaks.installCloth": "Install Cloth Config API to access mod options",
 
