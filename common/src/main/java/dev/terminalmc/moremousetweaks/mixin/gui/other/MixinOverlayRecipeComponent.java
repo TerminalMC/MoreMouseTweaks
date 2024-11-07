@@ -37,6 +37,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 /**
  * Quick-crafting helper for alternative recipes.
  * See {@link MixinRecipeBookPage} for regular-slot quick-crafting.
+ * See {@link MixinRecipeBookComponent} for the rest of the quick-crafting code.
  */
 @Mixin(OverlayRecipeComponent.class)
 public class MixinOverlayRecipeComponent {
@@ -66,7 +67,7 @@ public class MixinOverlayRecipeComponent {
                     return; // Crash prevention
                 }
                 overlayButton = iter.next();
-            } while(!overlayButton.mouseClicked(mouseX, mouseY, 0));
+            } while(!overlayButton.mouseClicked(mouseX, mouseY, MouseButton.LEFT.getValue()));
 
             // Optionally prevent clicking past a full carried stack
             ItemStack carried = minecraft.player.containerMenu.getCarried();

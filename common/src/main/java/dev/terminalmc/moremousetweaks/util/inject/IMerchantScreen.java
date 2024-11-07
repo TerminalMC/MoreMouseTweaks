@@ -25,5 +25,5 @@ public interface IMerchantScreen {
 
 	void mmt$syncRecipeId();
 
-	int getRecipeIdOffset();
+	int mmt$getRecipeIdOffset();
 }

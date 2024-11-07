@@ -53,7 +53,8 @@ public class MixinGuiContainerHandler {
                     target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
             )
     )
-    private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index, int button, ClickType clickType, Operation<Void> original) {
+    private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index, 
+                                 int button, ClickType clickType, Operation<Void> original) {
         // Only operate if LMB and not SHIFT+LMB
         if (button == MouseButton.LEFT.getValue() && !Screen.hasShiftDown()) {
             if (Screen.hasControlDown()) {

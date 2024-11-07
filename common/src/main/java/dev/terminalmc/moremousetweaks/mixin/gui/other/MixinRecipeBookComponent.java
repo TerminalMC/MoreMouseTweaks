@@ -174,7 +174,8 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
         ignoreTextInput = false;
         RecipeHolder<?> oldRecipeEntry = recipeBookPage.getLastClickedRecipe();
         if (this.recipeBookPage.mouseClicked(MoreMouseTweaks.getMouseX(), MoreMouseTweaks.getMouseY(), 
-                0, (this.width - 147) / 2 - this.xOffset, (this.height - 166) / 2, 147, 166)) {
+                MouseButton.LEFT.getValue(), (this.width - 147) / 2 - this.xOffset, 
+                (this.height - 166) / 2, 147, 166)) {
             RecipeHolder<?> recipeEntry = recipeBookPage.getLastClickedRecipe();
             RecipeCollection resultCollection = recipeBookPage.getLastClickedRecipeCollection();
             if (!resultCollection.isCraftable(recipeEntry)) {
@@ -182,20 +183,32 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
             }
             int resSlot = menu.getResultSlotIndex();
             if (options().allOfKindModifier.isDown()) {
-                if (oldRecipeEntry != recipeEntry || menu.slots.get(resSlot).getItem().isEmpty() || mmt$canCraftMore(recipeEntry)) {
-                    InteractionManager.push(new InteractionManager.PacketEvent(new ServerboundPlaceRecipePacket(menu.containerId, recipeEntry, true), (triggerType) -> MoreMouseTweaks.lastUpdatedSlot >= menu.getSize()));
+                if (
+                        oldRecipeEntry != recipeEntry 
+                        || menu.slots.get(resSlot).getItem().isEmpty() 
+                        || mmt$canCraftMore(recipeEntry)
+                ) {
+                    InteractionManager.push(new InteractionManager.PacketEvent(
+                            new ServerboundPlaceRecipePacket(menu.containerId, recipeEntry, true), 
+                            (triggerType) -> MoreMouseTweaks.lastUpdatedSlot >= menu.getSize()));
                 }
-                int cnt = stackedContents.getBiggestCraftableStack(recipeEntry, recipeEntry.value().getResultItem(minecraft.level.registryAccess()).getMaxStackSize(), null);
+                int cnt = stackedContents.getBiggestCraftableStack(recipeEntry, recipeEntry.value()
+                        .getResultItem(minecraft.level.registryAccess()).getMaxStackSize(), null);
                 for (int i = 1; i < cnt; i++) {
-                    InteractionManager.pushClickEvent(menu.containerId, resSlot, 1, ClickType.THROW);
+                    InteractionManager.pushClickEvent(menu.containerId, resSlot, 
+                            MouseButton.RIGHT.getValue(), ClickType.THROW);
                 }
             } else {
                 if (oldRecipeEntry != recipeEntry || menu.slots.get(resSlot).getItem().isEmpty()) {
-                    InteractionManager.push(new InteractionManager.PacketEvent(new ServerboundPlaceRecipePacket(menu.containerId, recipeEntry, false), (triggerType) -> MoreMouseTweaks.lastUpdatedSlot >= menu.getSize()));
+                    InteractionManager.push(new InteractionManager.PacketEvent(
+                            new ServerboundPlaceRecipePacket(menu.containerId, recipeEntry, false),
+                            (triggerType) -> MoreMouseTweaks.lastUpdatedSlot >= menu.getSize()));
                 }
             }
             InteractionManager.push(new InteractionManager.CallbackEvent(() -> {
-                minecraft.gameMode.handleInventoryMouseClick(menu.containerId, menu.getResultSlotIndex(), 0, ClickType.THROW, minecraft.player);
+                minecraft.gameMode.handleInventoryMouseClick(menu.containerId, 
+                        menu.getResultSlotIndex(), MouseButton.LEFT.getValue(), 
+                        ClickType.THROW, minecraft.player);
                 updateCollections(false);
                 return InteractionManager.TICK_WAITER;
             }, true));
@@ -205,7 +218,9 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
 
 	@Unique
 	private boolean mmt$canCraftMore(RecipeHolder<?> recipeEntry) {
-		return mmt$getBiggestCraftingStackSize() < stackedContents.getBiggestCraftableStack(recipeEntry, recipeEntry.value().getResultItem(minecraft.level.registryAccess()).getMaxStackSize(), null);
+		return mmt$getBiggestCraftingStackSize() < stackedContents.getBiggestCraftableStack(
+                recipeEntry, recipeEntry.value().getResultItem(minecraft.level.registryAccess())
+                        .getMaxStackSize(), null);
 	}
 
 	@Unique

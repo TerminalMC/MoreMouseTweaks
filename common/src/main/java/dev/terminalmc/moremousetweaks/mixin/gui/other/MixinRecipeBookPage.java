@@ -41,6 +41,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 /**
  * Quick-crafting helper for single recipes.
  * See {@link MixinOverlayRecipeComponent} for alternative-slot quick-crafting.
+ * See {@link MixinRecipeBookComponent} for the rest of the quick-crafting code.
  */
 @Mixin(RecipeBookPage.class)
 public abstract class MixinRecipeBookPage implements IRecipeBookResults {

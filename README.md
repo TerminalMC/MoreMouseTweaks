@@ -30,12 +30,15 @@ Best used alongside [ClientSort](https://modrinth.com/mod/K0AkAin6).
 - `CTRL+LMB` to quick-move all matching slots
   - Equivalent of `SHIFT+DOUBLE_LMB`
   - Works with mouse dragging
+  - Item component data can be ignored on a per-tag basis
+  - `CTRL+ALT+LMB` to drop all matching slots
 - Page scrolling
   - Recipe book pages
   - Recipe book tabs
   - Creative inventory tabs
 - Quick-crafting and trading via `RMB`
-  - `SHIFT+RMB` to quick-craft a whole slot of ingredients
+  - `SHIFT+RMB` for bulk crafting or trading
+  - Configurable overflow behavior for crafting
 - Quick-crafting via `Q` (drop) key
 
 ### Dependencies

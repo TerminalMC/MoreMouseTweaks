@@ -27,11 +27,10 @@ import org.spongepowered.asm.mixin.Shadow;
  */
 @Mixin(MerchantScreen.class)
 public abstract class MixinMerchantScreen implements IMerchantScreen {
-
 	@Shadow 
     private int shopItem;
 
-	@Shadow 
+    @Shadow
     protected abstract void postButtonClick();
 
 	@Shadow
@@ -48,7 +47,7 @@ public abstract class MixinMerchantScreen implements IMerchantScreen {
 	}
 
 	@Override
-	public int getRecipeIdOffset() {
+	public int mmt$getRecipeIdOffset() {
 		return scrollOff;
 	}
 }

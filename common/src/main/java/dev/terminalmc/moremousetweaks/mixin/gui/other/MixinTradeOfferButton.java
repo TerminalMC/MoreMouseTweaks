@@ -42,21 +42,17 @@ public class MixinTradeOfferButton implements ISpecialClickableButtonWidget {
 	@Override
 	public boolean mmt$mouseClicked(int mouseButton) {
         if (!options().quickCrafting || mouseButton != MouseButton.RIGHT.getValue()) return false;
-        Screen screen = Minecraft.getInstance().screen;
+        Minecraft mc = Minecraft.getInstance();
+        Screen screen = mc.screen;
 		if (screen instanceof IMerchantScreen) {
             ((IMerchantScreen)screen).mmt$setRecipeId(
-                    this.index + ((IMerchantScreen)screen).getRecipeIdOffset());
+                    this.index + ((IMerchantScreen)screen).mmt$getRecipeIdOffset());
 			((IMerchantScreen)screen).mmt$syncRecipeId();
 			if (screen instanceof AbstractContainerScreen) {
-				if (options().wholeStackModifier.isDown()) {
-                    InteractionManager.pushClickEvent(
-                            ((AbstractContainerScreen<?>)screen).getMenu().containerId, 
-                            2, 1, ClickType.QUICK_MOVE);
-                } else {
-                    InteractionManager.pushClickEvent(
-                            ((AbstractContainerScreen<?>)screen).getMenu().containerId, 
-                            2, 1, ClickType.PICKUP);
-                }
+                InteractionManager.pushClickEvent(
+                        ((AbstractContainerScreen<?>)screen).getMenu().containerId, 2, 
+                        MouseButton.LEFT.getValue(), options().wholeStackModifier.isDown() 
+                                ? ClickType.QUICK_MOVE : ClickType.PICKUP);
 			}
 		}
 		return true;
