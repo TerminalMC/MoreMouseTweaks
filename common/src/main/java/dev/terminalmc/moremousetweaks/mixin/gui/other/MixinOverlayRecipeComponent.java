@@ -16,6 +16,7 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
+import dev.terminalmc.moremousetweaks.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
 import net.minecraft.world.item.ItemStack;
@@ -35,6 +36,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 /**
  * Quick-crafting helper for alternative recipes.
+ * See {@link MixinRecipeBookPage} for regular-slot quick-crafting.
  */
 @Mixin(OverlayRecipeComponent.class)
 public class MixinOverlayRecipeComponent {
@@ -66,17 +68,19 @@ public class MixinOverlayRecipeComponent {
                 overlayButton = iter.next();
             } while(!overlayButton.mouseClicked(mouseX, mouseY, 0));
 
+            // Optionally prevent clicking past a full carried stack
             ItemStack carried = minecraft.player.containerMenu.getCarried();
             ItemStack result = overlayButton.recipe.value().getResultItem(
                     minecraft.level.registryAccess());
             if (
-                    options().quickCraftingPastFull
+                    !options().qcOverflowMode.equals(Config.QcOverflowMode.NONE)
                     || carried.isEmpty()
                     || (
                             ItemStack.isSameItemSameComponents(carried, result) 
                             && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
                     )
             ) {
+                // Quick-craft
                 this.lastRecipeClicked = overlayButton.recipe;
                 cir.setReturnValue(true);
             }

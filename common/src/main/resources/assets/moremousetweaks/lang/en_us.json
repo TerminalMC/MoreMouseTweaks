@@ -15,6 +15,12 @@
   "option.moremousetweaks.scrollCreativeTabs.tooltip": "Allow scrolling creative-mode inventory tabs",
   "option.moremousetweaks.quickCrafting": "Quick Crafting",
   "option.moremousetweaks.quickCrafting.tooltip": "Allow quick-crafting and quick-trading via right-click",
-  "option.moremousetweaks.quickCraftingPastFull": "Quick Crafting Past Full",
-  "option.moremousetweaks.quickCraftingPastFull.tooltip": "Allow quick-crafting to fallback to crafting grid when carried stack is full"
+  "option.moremousetweaks.qcOverflowMode": "Quick Crafting Overflow Mode",
+  
+  "option.moremousetweaks.qcOverflowMode.none": "None",
+  "option.moremousetweaks.qcOverflowMode.none.tooltip": "Quick-crafting will not be allowed beyond a full carried stack",
+  "option.moremousetweaks.qcOverflowMode.result": "Result Slot",
+  "option.moremousetweaks.qcOverflowMode.result.tooltip": "Quick-crafting excess will be placed in the crafting output slot",
+  "option.moremousetweaks.qcOverflowMode.inventory": "Inventory",
+  "option.moremousetweaks.qcOverflowMode.inventory.tooltip": "Quick-crafting excess will be placed in the inventory, if possible"
 }

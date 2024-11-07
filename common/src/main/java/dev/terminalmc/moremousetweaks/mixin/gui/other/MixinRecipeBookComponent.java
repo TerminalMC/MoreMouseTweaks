@@ -18,6 +18,7 @@
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
+import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
@@ -32,6 +33,7 @@ import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.StackedContents;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.RecipeBookMenu;
+import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.crafting.RecipeHolder;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -131,11 +133,29 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
 			RecipeHolder<?> recipe = recipeBookPage.getLastClickedRecipe();
 			if (mmt$canCraftMore(recipe)) {
 				InteractionManager.clear();
-				InteractionManager.setWaiter((InteractionManager.TriggerType triggerType) -> 
+				InteractionManager.setWaiter((triggerType) -> 
                         MoreMouseTweaks.lastUpdatedSlot >= menu.getSize());
 			}
-			InteractionManager.pushClickEvent(menu.containerId, resSlot, 0, 
-                    options().wholeStackModifier.isDown() ? ClickType.QUICK_MOVE : ClickType.PICKUP);
+
+            // Quick-move if bulk crafting or overflowing to inventory, otherwise pickup
+            ClickType clickType = ClickType.PICKUP;
+            ItemStack carried = minecraft.player.containerMenu.getCarried();
+            ItemStack result = recipe.value().getResultItem(minecraft.level.registryAccess());
+            if (
+                    options().wholeStackModifier.isDown()
+                    || (
+                            options().qcOverflowMode.equals(Config.QcOverflowMode.INVENTORY)
+                            && !carried.isEmpty()
+                            && (
+                                    !ItemStack.isSameItemSameComponents(carried, result)
+                                    || carried.getCount() + result.getCount() > carried.getMaxStackSize()
+                            )
+                    )
+            ) {
+                clickType = ClickType.QUICK_MOVE;
+            }
+			InteractionManager.pushClickEvent(
+                    menu.containerId, resSlot, MouseButton.LEFT.getValue(), clickType);
 		}
 	}
 

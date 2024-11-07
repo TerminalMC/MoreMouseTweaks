@@ -19,6 +19,7 @@ package dev.terminalmc.moremousetweaks.gui.screen;
 import dev.terminalmc.moremousetweaks.config.Config;
 import me.shedaniel.clothconfig2.api.*;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
 
@@ -88,11 +89,15 @@ public class ClothScreenProvider {
                 .setSaveConsumer(val -> options.quickCrafting = val)
                 .build());
 
-        general.addEntry(eb.startBooleanToggle(localized("option", "quickCraftingPastFull"),
-                        options.quickCraftingPastFull)
-                .setTooltip(localized("option", "quickCraftingPastFull.tooltip"))
-                .setDefaultValue(Config.Options.quickCraftingPastFullDefault)
-                .setSaveConsumer(val -> options.quickCraftingPastFull = val)
+        general.addEntry(eb.startEnumSelector(localized("option", "qcOverflowMode"),
+                        Config.QcOverflowMode.class, options.qcOverflowMode)
+                .setEnumNameProvider(val -> localized("option", "qcOverflowMode." 
+                        + ((Config.QcOverflowMode)val).lowerName()))
+                .setTooltipSupplier(val -> Optional.of(new Component[]{
+                        localized("option", "qcOverflowMode." + val.lowerName() + ".tooltip")
+                }))
+                .setDefaultValue(Config.Options.qcOverflowModeDefault)
+                .setSaveConsumer(val -> options.qcOverflowMode = val)
                 .build());
 
         return builder.build();

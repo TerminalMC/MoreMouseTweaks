@@ -18,6 +18,7 @@
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
@@ -39,6 +40,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 /**
  * Quick-crafting helper for single recipes.
+ * See {@link MixinOverlayRecipeComponent} for alternative-slot quick-crafting.
  */
 @Mixin(RecipeBookPage.class)
 public abstract class MixinRecipeBookPage implements IRecipeBookResults {
@@ -91,17 +93,19 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
                 && button == MouseButton.RIGHT.getValue() 
                 && recipeButton.isOnlyOption()
         ) {
+            // Optionally prevent clicking past a full carried stack
             ItemStack carried = minecraft.player.containerMenu.getCarried();
             ItemStack result = recipeButton.getRecipe().value().getResultItem(
                     minecraft.level.registryAccess());
             if (
-                    options().quickCraftingPastFull 
-                    || carried.isEmpty() 
+                    !options().qcOverflowMode.equals(Config.QcOverflowMode.NONE)
+                    || carried.isEmpty()
                     || (
-                            ItemStack.isSameItemSameComponents(carried, result) 
+                            ItemStack.isSameItemSameComponents(carried, result)
                             && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
                     )
             ) {
+                // Quick-craft
                 lastClickedRecipe = recipeButton.getRecipe();
                 lastClickedRecipeCollection = recipeButton.getCollection();
             }

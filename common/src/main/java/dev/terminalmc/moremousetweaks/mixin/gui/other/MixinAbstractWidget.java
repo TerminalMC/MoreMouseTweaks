@@ -25,15 +25,15 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
+/**
+ * Captures clicks for use by {@link ISpecialClickableButtonWidget}
+ * implementations.
+ */
 @Mixin(AbstractWidget.class)
 public abstract class MixinAbstractWidget {
 	@Shadow
 	protected abstract boolean clicked(double mouseX, double mouseY);
-
-    /**
-     * Captures clicks for use by {@link ISpecialClickableButtonWidget}
-     * implementations.
-     */
+    
 	@Inject(
             method = "mouseClicked", 
             at = @At(

@@ -53,12 +53,26 @@ public class Config {
         public static final boolean quickCraftingDefault = true;
         public boolean quickCrafting = quickCraftingDefault;
         
-        public static final boolean quickCraftingPastFullDefault = false;
-        public boolean quickCraftingPastFull = quickCraftingPastFullDefault;
+        public static final QcOverflowMode qcOverflowModeDefault = QcOverflowMode.INVENTORY;
+        public QcOverflowMode qcOverflowMode = qcOverflowModeDefault;
         
         // TODO allow configuring modifiers?
         public Modifier allOfKindModifier = Modifier.CTRL;
         public Modifier wholeStackModifier = Modifier.SHIFT;
+    }
+    
+    public enum QcOverflowMode {
+        NONE,
+        RESULT_SLOT,
+        INVENTORY;
+
+        public String lowerName() {
+            return switch(this) {
+                case NONE -> "none";
+                case RESULT_SLOT -> "result";
+                case INVENTORY -> "inventory";
+            };
+        }
     }
 
     public enum Modifier {
