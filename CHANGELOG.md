@@ -1,5 +1,5 @@
 # Changelog
 
-## 1.0.0
+## 1.0.0-beta.2
 
-- Initial full release
+- Added support for ItemLocks

@@ -29,6 +29,7 @@ subprojects {
             }
             // Alternate license
             matching(includes: [
+                    "**/compat/**",
                     "**/config/**",
                     "**/moremousetweaks/gui/**",
                     "**/mixin/mousetweaks/**",

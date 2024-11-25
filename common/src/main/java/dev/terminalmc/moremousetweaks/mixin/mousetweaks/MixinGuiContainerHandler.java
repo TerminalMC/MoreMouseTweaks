@@ -18,6 +18,7 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksWrapper;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.inventory.ClickType;
@@ -56,7 +57,11 @@ public class MixinGuiContainerHandler {
     private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index, 
                                  int button, ClickType clickType, Operation<Void> original) {
         // Only operate if LMB and not SHIFT+LMB
-        if (button == MouseButton.LEFT.getValue() && !Screen.hasShiftDown()) {
+        if (
+                button == MouseButton.LEFT.getValue() 
+                && !Screen.hasShiftDown() 
+                && !ItemLocksWrapper.isLocked(slot)
+        ) {
             if (Screen.hasControlDown()) {
                 boolean alt = Screen.hasAltDown();
                 // Quick-move all matching items
@@ -64,6 +69,7 @@ public class MixinGuiContainerHandler {
                 for (Slot slot2 : getSlots()) {
                     // Replicate check used by vanilla shift-double-click
                     if (slot2 == null) continue;
+                    if (ItemLocksWrapper.isLocked(slot2)) continue;
                     ItemStack stack2 = slot2.getItem();
                     if (
                             slot2.mayPickup(Minecraft.getInstance().player)

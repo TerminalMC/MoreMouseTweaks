@@ -19,6 +19,7 @@
     "gui.screen.MixinCreativeModeInventoryScreen",
     "gui.screen.MixinInventoryScreen",
     "gui.screen.MixinMerchantScreen",
+    "gui.other.MixinSlot",
     "mousetweaks.MixinGuiContainerHandler",
     "mousetweaks.MixinIMTModGuiContainer3ExHandler",
     "mousetweaks.MixinMain"
