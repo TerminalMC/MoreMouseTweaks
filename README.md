@@ -55,12 +55,10 @@ If you encounter issues, please report on Discord or GitHub.
 
 MoreMouseTweaks uses code from Siphalor's [Mouse Wheelie](https://github.com/Siphalor/mouse-wheelie) mod, under license.
 
-### License
-
-[Apache-2.0](https://www.apache.org/licenses/LICENSE-2.0)
-
 ### Contact
 
 [![Discord Server](https://img.shields.io/discord/1103153365216669797?logo=discord&label=Discord%20Server&color=%235865F2)](https://discord.terminalmc.dev)
 
 [![GitHub Issues](https://img.shields.io/github/issues/TerminalMC/MoreMouseTweaks?logo=github&label=GitHub%20Issues)](https://github.com/TerminalMC/MoreMouseTweaks/issues)
+
+[![License](https://img.shields.io/github/license/TerminalMC/MoreMouseTweaks?label=License&logo=github&logoColor=white)](https://github.com/TerminalMC/MoreMouseTweaks/blob/HEAD/LICENSE.txt)
