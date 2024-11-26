@@ -22,5 +22,5 @@
   "option.moremousetweaks.matchByType": "Подбор по типу", 
   "option.moremousetweaks.matchByType.tooltip": "При нажатии CTRL всегда будут соответствовать все предметы одного типа",
   "option.moremousetweaks.typeMatchTags": "Теги соответствия типа", 
-  "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любыми из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов"
+  "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любым из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов"
 }
