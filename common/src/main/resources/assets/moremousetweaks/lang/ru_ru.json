@@ -1,0 +1,26 @@
+{
+  "moremousetweaks.name": "MoreMouseTweaks",
+
+  "message.moremousetweaks.viewModrinth": "Посмотреть на Modrinth",
+  "message.moremousetweaks.installCloth": "Установите Cloth Config API для доступа к параметрам мода",
+
+  "option.moremousetweaks.general": "Общие",
+  "option.moremousetweaks.interactionRateServer": "Частота взаимодействий в многопользовательском режиме",
+  "option.moremousetweaks.interactionRateClient": "Частота взаимодействий в однопользовательском режиме",
+  "option.moremousetweaks.interactionRate.tooltip": "Уменьшите для более быстрой работы, увеличьте, если возникают проблемы со скоростью передачи пакетов",
+  "option.moremousetweaks.scrollCreativeTabs": "Прокрутка вкладок в творческом режиме",
+  "option.moremousetweaks.scrollCreativeTabs.tooltip": "Разрешить прокрутку вкладок инвентаря в творческом режиме",
+  "option.moremousetweaks.quickCrafting": "Быстрый крафт",
+  "option.moremousetweaks.quickCrafting.tooltip": "Разрешить быстрый крафт и быструю торговлю через правую кнопку мыши",
+  "option.moremousetweaks.qcOverflowMode": "Режим переполнения быстрого крафта",
+  "option.moremousetweaks.qcOverflowMode.none": "Нет",
+  "option.moremousetweaks.qcOverflowMode.none.tooltip": "Быстрый крафт не будет разрешён за пределами полного стака в инвентаре",
+  "option.moremousetweaks.qcOverflowMode.result": "Слот результата",
+  "option.moremousetweaks.qcOverflowMode.result.tooltip": "Излишки для быстрого крафта будут помещены в слот вывода крафта",
+  "option.moremousetweaks.qcOverflowMode.inventory": "Инвентарь",
+  "option.moremousetweaks.qcOverflowMode.inventory.tooltip": "Излишки быстрого крафта будут помещены в инвентарь, если это возможно",
+  "option.moremousetweaks.matchByType": "Подбор по типу", 
+  "option.moremousetweaks.matchByType.tooltip": "При нажатии CTRL всегда будут соответствовать все предметы одного типа",
+  "option.moremousetweaks.typeMatchTags": "Теги соответствия типа", 
+  "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любым из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов"
+}
