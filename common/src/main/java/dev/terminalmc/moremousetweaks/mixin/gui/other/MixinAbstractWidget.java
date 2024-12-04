@@ -32,7 +32,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 @Mixin(AbstractWidget.class)
 public abstract class MixinAbstractWidget {
 	@Shadow
-	protected abstract boolean clicked(double mouseX, double mouseY);
+    public abstract boolean isMouseOver(double mouseX, double mouseY);
     
 	@Inject(
             method = "mouseClicked", 
@@ -43,7 +43,7 @@ public abstract class MixinAbstractWidget {
             cancellable = true
     )
 	public void mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> cir) {
-		if (this.clicked(x, y)) {
+		if (this.isMouseOver(x, y)) {
             if (this instanceof ISpecialClickableButtonWidget widget) {
                 if (widget.mmt$mouseClicked(button)) {
                     cir.setReturnValue(true);
