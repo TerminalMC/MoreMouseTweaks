@@ -44,45 +44,45 @@ public abstract class MixinCreativeModeInventoryScreen
         extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> 
         implements ISpecialScrollableScreen {
 
-	@Shadow
-	private static CreativeModeTab selectedTab;
+    @Shadow
+    private static CreativeModeTab selectedTab;
 
-	@Shadow
-	protected abstract void selectTab(CreativeModeTab itemGroup_1);
+    @Shadow
+    protected abstract void selectTab(CreativeModeTab itemGroup_1);
 
-	@Shadow
-	protected abstract void slotClicked(@NotNull Slot slot, int invSlot, int button, 
+    @Shadow
+    protected abstract void slotClicked(@NotNull Slot slot, int invSlot, int button, 
                                         @NotNull ClickType slotActionType);
 
-	public MixinCreativeModeInventoryScreen(CreativeModeInventoryScreen.ItemPickerMenu menu, 
+    public MixinCreativeModeInventoryScreen(CreativeModeInventoryScreen.ItemPickerMenu menu, 
                                             Inventory playerInventory, Component title) {
-		super(menu, playerInventory, title);
-	}
+        super(menu, playerInventory, title);
+    }
 
-	@Override
-	public ScrollAction mmt$onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount) {
-		if (options().scrollCreativeTabs) {
-			double relMouseY = mouseY - this.topPos;
-			double relMouseX = mouseX - this.leftPos;
-			boolean yOverTopTabs = (-32 <= relMouseY) && (relMouseY <= 0);
-			boolean yOverBottomTabs = (this.imageHeight <= relMouseY) 
+    @Override
+    public ScrollAction mmt$onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount) {
+        if (options().scrollCreativeTabs) {
+            double relMouseY = mouseY - this.topPos;
+            double relMouseX = mouseX - this.leftPos;
+            boolean yOverTopTabs = (-32 <= relMouseY) && (relMouseY <= 0);
+            boolean yOverBottomTabs = (this.imageHeight <= relMouseY) 
                     && (relMouseY <= this.imageHeight + 32);
-			boolean overTabs = (0 <= relMouseX) && (relMouseX <= this.imageWidth) 
+            boolean overTabs = (0 <= relMouseX) && (relMouseX <= this.imageWidth) 
                     && (yOverTopTabs || yOverBottomTabs);
 
-			if (overTabs) {
-				List<CreativeModeTab> groupsToDisplay = CreativeModeTabs.tabs();
-				int selectedTabIndex = groupsToDisplay.indexOf(selectedTab);
-				if (selectedTabIndex < 0) {
-					return ScrollAction.FAILURE;
-				}
+            if (overTabs) {
+                List<CreativeModeTab> groupsToDisplay = CreativeModeTabs.tabs();
+                int selectedTabIndex = groupsToDisplay.indexOf(selectedTab);
+                if (selectedTabIndex < 0) {
+                    return ScrollAction.FAILURE;
+                }
                 selectTab(groupsToDisplay.get(
                         Mth.clamp((int)(selectedTabIndex + Math.round(scrollAmount)), 0, 
                                 groupsToDisplay.size() - 1)));
-				return ScrollAction.SUCCESS;
-			}
-		}
+                return ScrollAction.SUCCESS;
+            }
+        }
 
-		return ScrollAction.PASS;
-	}
+        return ScrollAction.PASS;
+    }
 }

@@ -27,27 +27,27 @@ import org.spongepowered.asm.mixin.Shadow;
  */
 @Mixin(MerchantScreen.class)
 public abstract class MixinMerchantScreen implements IMerchantScreen {
-	@Shadow 
+    @Shadow 
     private int shopItem;
 
     @Shadow
     protected abstract void postButtonClick();
 
-	@Shadow
+    @Shadow
     int scrollOff;
 
-	@Override
-	public void mmt$setRecipeId(int id) {
-		shopItem = id;
-	}
+    @Override
+    public void mmt$setRecipeId(int id) {
+        shopItem = id;
+    }
 
-	@Override
-	public void mmt$syncRecipeId() {
-		postButtonClick();
-	}
+    @Override
+    public void mmt$syncRecipeId() {
+        postButtonClick();
+    }
 
-	@Override
-	public int mmt$getRecipeIdOffset() {
-		return scrollOff;
-	}
+    @Override
+    public int mmt$getRecipeIdOffset() {
+        return scrollOff;
+    }
 }

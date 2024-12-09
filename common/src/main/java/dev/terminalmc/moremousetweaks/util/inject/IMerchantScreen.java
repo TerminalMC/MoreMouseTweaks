@@ -21,9 +21,9 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface IMerchantScreen {
-	void mmt$setRecipeId(int id);
+    void mmt$setRecipeId(int id);
 
-	void mmt$syncRecipeId();
+    void mmt$syncRecipeId();
 
-	int mmt$getRecipeIdOffset();
+    int mmt$getRecipeIdOffset();
 }

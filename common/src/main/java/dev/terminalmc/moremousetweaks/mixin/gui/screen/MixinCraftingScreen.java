@@ -36,15 +36,15 @@ import org.spongepowered.asm.mixin.Shadow;
 @Mixin(CraftingScreen.class)
 public abstract class MixinCraftingScreen 
         extends AbstractContainerScreen<CraftingMenu> implements IScrollableRecipeBook {
-	@Shadow
-	@Final private RecipeBookComponent recipeBookComponent;
+    @Shadow
+    @Final private RecipeBookComponent recipeBookComponent;
 
-	public MixinCraftingScreen(CraftingMenu menu, Inventory playerInventory, Component title) {
-		super(menu, playerInventory, title);
-	}
+    public MixinCraftingScreen(CraftingMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
+    }
 
-	@Override
-	public ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
-		return ((IRecipeBookWidget)recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
-	}
+    @Override
+    public ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
+        return ((IRecipeBookWidget)recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
+    }
 }

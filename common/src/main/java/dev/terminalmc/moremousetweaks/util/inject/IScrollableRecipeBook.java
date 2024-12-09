@@ -22,5 +22,5 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface IScrollableRecipeBook {
-	ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount);
+    ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount);
 }

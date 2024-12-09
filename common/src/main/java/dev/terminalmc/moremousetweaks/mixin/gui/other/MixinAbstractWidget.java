@@ -31,10 +31,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
  */
 @Mixin(AbstractWidget.class)
 public abstract class MixinAbstractWidget {
-	@Shadow
-	protected abstract boolean clicked(double mouseX, double mouseY);
+    @Shadow
+    protected abstract boolean clicked(double mouseX, double mouseY);
     
-	@Inject(
+    @Inject(
             method = "mouseClicked", 
             at = @At(
                     value = "INVOKE", 
@@ -42,13 +42,13 @@ public abstract class MixinAbstractWidget {
             ), 
             cancellable = true
     )
-	public void mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> cir) {
-		if (this.clicked(x, y)) {
+    public void mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> cir) {
+        if (this.clicked(x, y)) {
             if (this instanceof ISpecialClickableButtonWidget widget) {
                 if (widget.mmt$mouseClicked(button)) {
                     cir.setReturnValue(true);
-				}
-			}
-		}
-	}
+                }
+            }
+        }
+    }
 }

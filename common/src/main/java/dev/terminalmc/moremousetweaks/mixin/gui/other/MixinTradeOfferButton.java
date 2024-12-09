@@ -36,25 +36,25 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  */
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/MerchantScreen$TradeOfferButton")
 public class MixinTradeOfferButton implements ISpecialClickableButtonWidget {
-	@Shadow
-	@Final int index;
+    @Shadow
+    @Final int index;
     
-	@Override
-	public boolean mmt$mouseClicked(int mouseButton) {
+    @Override
+    public boolean mmt$mouseClicked(int mouseButton) {
         if (!options().quickCrafting || mouseButton != MouseButton.RIGHT.getValue()) return false;
         Minecraft mc = Minecraft.getInstance();
         Screen screen = mc.screen;
-		if (screen instanceof IMerchantScreen) {
+        if (screen instanceof IMerchantScreen) {
             ((IMerchantScreen)screen).mmt$setRecipeId(
                     this.index + ((IMerchantScreen)screen).mmt$getRecipeIdOffset());
-			((IMerchantScreen)screen).mmt$syncRecipeId();
-			if (screen instanceof AbstractContainerScreen) {
+            ((IMerchantScreen)screen).mmt$syncRecipeId();
+            if (screen instanceof AbstractContainerScreen) {
                 InteractionManager.pushClickEvent(
                         ((AbstractContainerScreen<?>)screen).getMenu().containerId, 2, 
                         MouseButton.LEFT.getValue(), options().wholeStackModifier.isDown() 
                                 ? ClickType.QUICK_MOVE : ClickType.PICKUP);
-			}
-		}
-		return true;
-	}
+            }
+        }
+        return true;
+    }
 }

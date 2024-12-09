@@ -22,5 +22,5 @@ import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal
 public interface ISpecialScrollableScreen {
-	ScrollAction mmt$onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount);
+    ScrollAction mmt$onMouseScrolledSpecial(double mouseX, double mouseY, double scrollAmount);
 }

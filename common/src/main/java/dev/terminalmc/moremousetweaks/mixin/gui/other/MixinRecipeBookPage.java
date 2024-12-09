@@ -45,40 +45,40 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  */
 @Mixin(RecipeBookPage.class)
 public abstract class MixinRecipeBookPage implements IRecipeBookResults {
-	@Shadow
-	private int currentPage;
-	@Shadow
-	private int totalPages;
-	@Shadow
-	protected abstract void updateButtonsForPage();
-	@Shadow
-	private RecipeHolder<?> lastClickedRecipe;
-	@Shadow
-	private RecipeCollection lastClickedRecipeCollection;
+    @Shadow
+    private int currentPage;
+    @Shadow
+    private int totalPages;
+    @Shadow
+    protected abstract void updateButtonsForPage();
+    @Shadow
+    private RecipeHolder<?> lastClickedRecipe;
+    @Shadow
+    private RecipeCollection lastClickedRecipeCollection;
     @Shadow
     private Minecraft minecraft;
 
     @Override
-	public void mmt$setCurrentPage(int page) {
-		currentPage = page;
-	}
+    public void mmt$setCurrentPage(int page) {
+        currentPage = page;
+    }
     
-	@Override
-	public int mmt$getCurrentPage() {
-		return currentPage;
-	}
+    @Override
+    public int mmt$getCurrentPage() {
+        return currentPage;
+    }
 
-	@Override
-	public int mmt$getPageCount() {
-		return totalPages;
-	}
+    @Override
+    public int mmt$getPageCount() {
+        return totalPages;
+    }
 
-	@Override
-	public void mmt$refreshResultButtons() {
-		updateButtonsForPage();
-	}
+    @Override
+    public void mmt$refreshResultButtons() {
+        updateButtonsForPage();
+    }
     
-	@Inject(
+    @Inject(
             method = "mouseClicked", 
             at = @At(
                     value = "JUMP", 
@@ -86,10 +86,10 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
             ), 
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-	public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, 
+    public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, 
                              int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir, 
                              Iterator<?> iterator, @Local RecipeButton recipeButton) {
-		if (
+        if (
                 options().quickCrafting 
                 && button == MouseButton.RIGHT.getValue() 
                 && recipeButton.isOnlyOption()
@@ -110,6 +110,6 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
                 lastClickedRecipe = recipeButton.getRecipe();
                 lastClickedRecipeCollection = recipeButton.getCollection();
             }
-		}
-	}
+        }
+    }
 }

@@ -53,72 +53,72 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  */
 @Mixin(RecipeBookComponent.class)
 public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
-	@Shadow 
+    @Shadow 
     @Final private RecipeBookPage recipeBookPage;
-	@Shadow 
+    @Shadow 
     private int width;
-	@Shadow 
+    @Shadow 
     private int xOffset;
-	@Shadow 
+    @Shadow 
     @Final private List<RecipeBookTabButton> tabButtons;
-	@Shadow 
+    @Shadow 
     private RecipeBookTabButton selectedTab;
-	@Shadow 
+    @Shadow 
     protected abstract void updateCollections(boolean resetPageNumber);
-	@Shadow
-	private int height;
-	@Shadow
-	public abstract boolean isVisible();
-	@Shadow
-	private boolean ignoreTextInput;
-	@Shadow 
+    @Shadow
+    private int height;
+    @Shadow
+    public abstract boolean isVisible();
+    @Shadow
+    private boolean ignoreTextInput;
+    @Shadow 
     protected Minecraft minecraft;
-	@Shadow 
+    @Shadow 
     @Final private StackedContents stackedContents;
-	@Shadow 
+    @Shadow 
     protected RecipeBookMenu<?, ?> menu;
 
     /**
      * Recipe book page and tab scrolling.
      */
-	@Override
-	public ScrollAction mmt$scrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
-		if (!this.isVisible())
-			return ScrollAction.PASS;
-		int top = (this.height - 166) / 2;
-		if (mouseY < top || mouseY >= top + 166)
-			return ScrollAction.PASS;
-		int left = (this.width - 147) / 2 - this.xOffset;
+    @Override
+    public ScrollAction mmt$scrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
+        if (!this.isVisible())
+            return ScrollAction.PASS;
+        int top = (this.height - 166) / 2;
+        if (mouseY < top || mouseY >= top + 166)
+            return ScrollAction.PASS;
+        int left = (this.width - 147) / 2 - this.xOffset;
         // Page scrolling
-		if (mouseX >= left && mouseX < left + 147) {
-			// Ugly approach since assigning the casted value causes a runtime mixin error
-			int maxPage = ((IRecipeBookResults)recipeBookPage).mmt$getPageCount() - 1;
-			((IRecipeBookResults)recipeBookPage).mmt$setCurrentPage(Mth.clamp(
+        if (mouseX >= left && mouseX < left + 147) {
+            // Ugly approach since assigning the casted value causes a runtime mixin error
+            int maxPage = ((IRecipeBookResults)recipeBookPage).mmt$getPageCount() - 1;
+            ((IRecipeBookResults)recipeBookPage).mmt$setCurrentPage(Mth.clamp(
                     (int)(((IRecipeBookResults)recipeBookPage).mmt$getCurrentPage() 
                             + Math.round(scrollAmount)), 0, Math.max(maxPage, 0)));
-			((IRecipeBookResults)recipeBookPage).mmt$refreshResultButtons();
-			return ScrollAction.SUCCESS;
-		} 
+            ((IRecipeBookResults)recipeBookPage).mmt$refreshResultButtons();
+            return ScrollAction.SUCCESS;
+        } 
         // Tab scrolling
         else if (mouseX >= left - 30 && mouseX < left) {
-			int index = tabButtons.indexOf(selectedTab);
-			int newIndex = Mth.clamp(
+            int index = tabButtons.indexOf(selectedTab);
+            int newIndex = Mth.clamp(
                     index + (int)(Math.round(scrollAmount)), 0, tabButtons.size() - 1);
-			if (newIndex != index) {
-				selectedTab.setStateTriggered(false);
-				selectedTab = tabButtons.get(newIndex);
-				selectedTab.setStateTriggered(true);
-				updateCollections(true);
-			}
-			return ScrollAction.SUCCESS;
-		}
-		return ScrollAction.PASS;
-	}
+            if (newIndex != index) {
+                selectedTab.setStateTriggered(false);
+                selectedTab = tabButtons.get(newIndex);
+                selectedTab.setStateTriggered(true);
+                updateCollections(true);
+            }
+            return ScrollAction.SUCCESS;
+        }
+        return ScrollAction.PASS;
+    }
 
     /**
      * Quick-crafting via RMB click.
      */
-	@Inject(
+    @Inject(
             method = "mouseClicked", 
             at = @At(
                     value = "INVOKE", 
@@ -126,16 +126,16 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
                     shift = At.Shift.AFTER
             )
     )
-	public void mouseClicked(double mouseX, double mouseY, int mouseButton, 
+    public void mouseClicked(double mouseX, double mouseY, int mouseButton, 
                              CallbackInfoReturnable<Boolean> cir) {
-		if (options().quickCrafting & mouseButton == MouseButton.RIGHT.getValue()) {
-			int resSlot = menu.getResultSlotIndex();
-			RecipeHolder<?> recipe = recipeBookPage.getLastClickedRecipe();
-			if (mmt$canCraftMore(recipe)) {
-				InteractionManager.clear();
-				InteractionManager.setWaiter((triggerType) -> 
+        if (options().quickCrafting & mouseButton == MouseButton.RIGHT.getValue()) {
+            int resSlot = menu.getResultSlotIndex();
+            RecipeHolder<?> recipe = recipeBookPage.getLastClickedRecipe();
+            if (mmt$canCraftMore(recipe)) {
+                InteractionManager.clear();
+                InteractionManager.setWaiter((triggerType) -> 
                         MoreMouseTweaks.lastUpdatedSlot >= menu.getSize());
-			}
+            }
 
             // Quick-move if bulk crafting or overflowing to inventory, otherwise pickup
             ClickType clickType = ClickType.PICKUP;
@@ -154,21 +154,21 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
             ) {
                 clickType = ClickType.QUICK_MOVE;
             }
-			InteractionManager.pushClickEvent(
+            InteractionManager.pushClickEvent(
                     menu.containerId, resSlot, MouseButton.LEFT.getValue(), clickType);
-		}
-	}
+        }
+    }
 
     /**
      * Quick-crafting via drop key press.
      */
-	@Inject(
+    @Inject(
             method = "keyPressed", 
             at = @At("HEAD"),
             cancellable = true
     )
-	public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
-		if (!options().quickCrafting || !isVisible() || minecraft.player.isSpectator()) return;
+    public void keyPressed(int keyCode, int scanCode, int modifiers, CallbackInfoReturnable<Boolean> cir) {
+        if (!options().quickCrafting || !isVisible() || minecraft.player.isSpectator()) return;
         if (!Minecraft.getInstance().options.keyDrop.matches(keyCode, scanCode)) return;
         
         ignoreTextInput = false;
@@ -214,23 +214,23 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
             }, true));
             cir.setReturnValue(true);
         }
-	}
+    }
 
-	@Unique
-	private boolean mmt$canCraftMore(RecipeHolder<?> recipeEntry) {
-		return mmt$getBiggestCraftingStackSize() < stackedContents.getBiggestCraftableStack(
+    @Unique
+    private boolean mmt$canCraftMore(RecipeHolder<?> recipeEntry) {
+        return mmt$getBiggestCraftingStackSize() < stackedContents.getBiggestCraftableStack(
                 recipeEntry, recipeEntry.value().getResultItem(minecraft.level.registryAccess())
                         .getMaxStackSize(), null);
-	}
+    }
 
-	@Unique
-	private int mmt$getBiggestCraftingStackSize() {
-		int resSlot = menu.getResultSlotIndex();
-		int cnt = 0;
-		for (int i = 0; i < menu.getSize(); i++) {
-			if (i == resSlot) continue;
-			cnt = Math.max(cnt, menu.slots.get(i).getItem().getCount());
-		}
-		return cnt;
-	}
+    @Unique
+    private int mmt$getBiggestCraftingStackSize() {
+        int resSlot = menu.getResultSlotIndex();
+        int cnt = 0;
+        for (int i = 0; i < menu.getSize(); i++) {
+            if (i == resSlot) continue;
+            cnt = Math.max(cnt, menu.slots.get(i).getItem().getCount());
+        }
+        return cnt;
+    }
 }

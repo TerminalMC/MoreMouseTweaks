@@ -32,12 +32,12 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
  */
 @Mixin(LocalPlayer.class)
 public abstract class MixinLocalPlayer extends AbstractClientPlayer {
-	public MixinLocalPlayer(ClientLevel world, GameProfile profile) {
-		super(world, profile);
-	}
+    public MixinLocalPlayer(ClientLevel world, GameProfile profile) {
+        super(world, profile);
+    }
 
-	@Inject(method = "clientSideCloseContainer", at = @At("HEAD"))
-	public void onScreenClosed(CallbackInfo callbackInfo) {
-		InteractionManager.clear();
-	}
+    @Inject(method = "clientSideCloseContainer", at = @At("HEAD"))
+    public void onScreenClosed(CallbackInfo callbackInfo) {
+        InteractionManager.clear();
+    }
 }
