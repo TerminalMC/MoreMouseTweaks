@@ -53,7 +53,7 @@ If you encounter issues, please report on Discord or GitHub.
 
 ### Credits
 
-MoreMouseTweaks uses code from Siphalor's [Mouse Wheelie](https://github.com/Siphalor/mouse-wheelie) mod, under license.
+MoreMouseTweaks uses code from [Mouse Wheelie](https://github.com/Siphalor/mouse-wheelie), under license.
 
 ### Contact
 
