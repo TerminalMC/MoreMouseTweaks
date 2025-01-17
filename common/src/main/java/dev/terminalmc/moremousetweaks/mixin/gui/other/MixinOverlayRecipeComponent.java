@@ -16,19 +16,27 @@
 
 package dev.terminalmc.moremousetweaks.mixin.gui.other;
 
+import com.llamalad7.mixinextras.sugar.Local;
+import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import dev.terminalmc.moremousetweaks.config.Config;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
+import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+import net.minecraft.util.context.ContextMap;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayEntry;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
+import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
+import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yalter.mousetweaks.MouseButton;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -44,9 +52,26 @@ public class MixinOverlayRecipeComponent {
     @Shadow
     @Final private List<OverlayRecipeComponent.OverlayRecipeButton> recipeButtons;
     @Shadow
-    private RecipeHolder<?> lastRecipeClicked;
-    @Shadow
-    private Minecraft minecraft;
+    private RecipeDisplayId lastRecipeClicked;
+    
+    @Unique
+    private ContextMap mmt$contextMap;
+    @Unique
+    private final List<RecipeDisplayEntry> mmt$recipes = new ArrayList<>();
+    
+    @Inject(
+            method = "init",
+            at = @At(
+                    value = "INVOKE",
+                    target = "Ljava/util/List;add(Ljava/lang/Object;)Z",
+                    shift = At.Shift.AFTER
+            )
+    )
+    private void wrapAdd(RecipeCollection $$0, ContextMap contextMap, boolean $$2, int $$3, int $$4,
+                         int $$5, int $$6, float $$7, CallbackInfo ci, @Local RecipeDisplayEntry entry) {
+        mmt$contextMap = contextMap;
+        mmt$recipes.add(entry);
+    }
 
     @Inject(
             method = "mouseClicked", 
@@ -59,20 +84,23 @@ public class MixinOverlayRecipeComponent {
                 options().quickCrafting 
                 && button == MouseButton.RIGHT.getValue()
         ) {
-            Iterator<OverlayRecipeComponent.OverlayRecipeButton> iter = this.recipeButtons.iterator();
+            Iterator<OverlayRecipeComponent.OverlayRecipeButton> buttonIter = this.recipeButtons.iterator();
             OverlayRecipeComponent.OverlayRecipeButton overlayButton;
+            Iterator<RecipeDisplayEntry> recipeIter = mmt$recipes.iterator();
+            RecipeDisplayEntry recipe;
             do {
-                if (!iter.hasNext()) {
+                if (!buttonIter.hasNext() || !recipeIter.hasNext()) {
                     cir.setReturnValue(false);
                     return; // Crash prevention
                 }
-                overlayButton = iter.next();
+                overlayButton = buttonIter.next();
+                recipe = recipeIter.next();
             } while(!overlayButton.mouseClicked(mouseX, mouseY, MouseButton.LEFT.getValue()));
 
             // Optionally prevent clicking past a full carried stack
-            ItemStack carried = minecraft.player.containerMenu.getCarried();
-            ItemStack result = overlayButton.recipe.value().getResultItem(
-                    minecraft.level.registryAccess());
+            Minecraft mc = Minecraft.getInstance();
+            ItemStack carried = mc.player.containerMenu.getCarried();
+            ItemStack result = recipe.display().result().resolveForFirstStack(mmt$contextMap);
             if (
                     !options().qcOverflowMode.equals(Config.QcOverflowMode.NONE)
                     || carried.isEmpty()
@@ -83,6 +111,8 @@ public class MixinOverlayRecipeComponent {
             ) {
                 // Quick-craft
                 this.lastRecipeClicked = overlayButton.recipe;
+                // Notify of result stack
+                MoreMouseTweaks.resultStack = result;
                 cir.setReturnValue(true);
             }
         }

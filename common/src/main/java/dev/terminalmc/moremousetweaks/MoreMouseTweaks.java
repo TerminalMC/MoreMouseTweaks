@@ -22,6 +22,8 @@ import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.world.item.ItemStack;
+import org.jetbrains.annotations.Nullable;
 
 public class MoreMouseTweaks {
     public static final String MOD_ID = "moremousetweaks";
@@ -29,6 +31,7 @@ public class MoreMouseTweaks {
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
 
     public static int lastUpdatedSlot = -1;
+    public static @Nullable ItemStack resultStack = null;
 
     public static void init() {
         Config.getAndSave();
@@ -44,14 +47,13 @@ public class MoreMouseTweaks {
         } else {
             InteractionManager.setTickRate(config.options.interactionRateClient);
         }
-        updateItemTags(config);
     }
     
     public static void updateItemTags(Config config) {
         config.options.typeMatchItems.clear();
-        BuiltInRegistries.ITEM.getTags().forEach((pair) -> {
-            if (config.options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
-                pair.getSecond().forEach((itemHolder) ->
+        BuiltInRegistries.ITEM.getTags().forEach((named) -> {
+            if (config.options.typeMatchTags.contains(named.key().location().getPath())) {
+                named.forEach((itemHolder) -> 
                         config.options.typeMatchItems.add(itemHolder.value()));
             }
         });

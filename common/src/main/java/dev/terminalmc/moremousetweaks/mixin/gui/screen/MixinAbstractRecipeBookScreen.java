@@ -20,12 +20,12 @@ package dev.terminalmc.moremousetweaks.mixin.gui.screen;
 import dev.terminalmc.moremousetweaks.util.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookWidget;
 import dev.terminalmc.moremousetweaks.util.inject.IScrollableRecipeBook;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.RecipeBookMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -33,14 +33,14 @@ import org.spongepowered.asm.mixin.Shadow;
 /**
  * Recipe book scrolling helper for inventory screens.
  */
-@Mixin(InventoryScreen.class)
-public abstract class MixinInventoryScreen 
-        extends EffectRenderingInventoryScreen<InventoryMenu> implements IScrollableRecipeBook {
+@Mixin(AbstractRecipeBookScreen.class)
+public abstract class MixinAbstractRecipeBookScreen
+        extends AbstractContainerScreen<RecipeBookMenu> implements IScrollableRecipeBook {
     @Shadow
-    @Final private RecipeBookComponent recipeBookComponent;
+    @Final private RecipeBookComponent<?> recipeBookComponent;
 
-    public MixinInventoryScreen(InventoryMenu container, Inventory playerInventory, Component text) {
-        super(container, playerInventory, text);
+    public MixinAbstractRecipeBookScreen(RecipeBookMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
     }
 
     @Override

@@ -22,7 +22,6 @@ import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.util.inject.ISlot;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -70,7 +69,7 @@ public class InventoryUtil {
         if (!slot.mayPlace(ItemStack.EMPTY)) {
             return INVALID_SCOPE;
         }
-        if (screen instanceof EffectRenderingInventoryScreen) {
+        if (screen instanceof AbstractContainerScreen<?>) {
             if (slot.container instanceof Inventory) {
                 if (isHotbarSlot(slot)) {
                     if (options().hotbarMode == Config.HotbarMode.SPLIT

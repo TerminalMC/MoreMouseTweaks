@@ -19,8 +19,8 @@ package dev.terminalmc.moremousetweaks.mixin.gui.screen;
 
 import dev.terminalmc.moremousetweaks.util.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialScrollableScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
@@ -41,7 +41,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  */
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class MixinCreativeModeInventoryScreen 
-        extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> 
+        extends AbstractContainerScreen<CreativeModeInventoryScreen.ItemPickerMenu> 
         implements ISpecialScrollableScreen {
 
     @Shadow
