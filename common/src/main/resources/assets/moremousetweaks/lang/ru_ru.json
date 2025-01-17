@@ -4,7 +4,7 @@
   "message.moremousetweaks.viewModrinth": "Посмотреть на Modrinth",
   "message.moremousetweaks.installCloth": "Установите Cloth Config API для доступа к параметрам мода",
 
-  "option.moremousetweaks.general": "Общие",
+  "option.moremousetweaks.general": "Общий",
   "option.moremousetweaks.interactionRateServer": "Частота взаимодействий в многопользовательском режиме",
   "option.moremousetweaks.interactionRateClient": "Частота взаимодействий в однопользовательском режиме",
   "option.moremousetweaks.interactionRate.tooltip": "Уменьшите для более быстрой работы, увеличьте, если возникают проблемы со скоростью передачи пакетов",
@@ -19,7 +19,7 @@
   "option.moremousetweaks.qcOverflowMode.result.tooltip": "Излишки для быстрого крафта будут помещены в слот вывода крафта",
   "option.moremousetweaks.qcOverflowMode.inventory": "Инвентарь",
   "option.moremousetweaks.qcOverflowMode.inventory.tooltip": "Излишки быстрого крафта будут помещены в инвентарь, если это возможно",
-  "option.moremousetweaks.hotbarMode": "Режим горячей панели",
+  "option.moremousetweaks.hotbarMode": "Режим панели быстрого доступа",
   "option.moremousetweaks.extraSlotMode": "Режим дополнительных слоёв",
   "option.moremousetweaks.matchByType": "Подбор по типу", 
   "option.moremousetweaks.matchByType.tooltip": "При нажатии CTRL всегда будут соответствовать все предметы одного типа",
@@ -27,16 +27,16 @@
   "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любым из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов",
 
   "hotbarMode.moremousetweaks.none": "Выключено",
-  "hotbarMode.moremousetweaks.none.tooltip": "Hotbar will be ignored",
+  "hotbarMode.moremousetweaks.none.tooltip": "Панель быстрого доступа будет проигнорирована",
   "hotbarMode.moremousetweaks.split": "Разделение",
-  "hotbarMode.moremousetweaks.split.tooltip": "Hotbar will be treated as a separate inventory",
+  "hotbarMode.moremousetweaks.split.tooltip": "Панель быстрого доступа будет рассматриваться как отдельный инвентарь",
   "hotbarMode.moremousetweaks.merge": "Слияние",
-  "hotbarMode.moremousetweaks.merge.tooltip": "Hotbar will be treated as part of the main inventory",
+  "hotbarMode.moremousetweaks.merge.tooltip": "Панель быстрого доступа будет рассматриваться как часть основного инвентаря",
 
   "extraSlotMode.moremousetweaks.none": "Нет",
-  "extraSlotMode.moremousetweaks.none.tooltip": "Extra slots will be ignored",
+  "extraSlotMode.moremousetweaks.none.tooltip": "Дополнительные слоты будут проигнорированы",
   "extraSlotMode.moremousetweaks.hotbar": "Панель быстрого доступа",
-  "extraSlotMode.moremousetweaks.hotbar.tooltip": "Extra slots will be treated as part of the hotbar",
+  "extraSlotMode.moremousetweaks.hotbar.tooltip": "Дополнительные слоты будут рассматриваться как часть панели быстрого доступа",
   "extraSlotMode.moremousetweaks.merge": "Инвентарь",
-  "extraSlotMode.moremousetweaks.merge.tooltip": "Extra slots will treated as part of the main inventory"
+  "extraSlotMode.moremousetweaks.merge.tooltip": "Дополнительные слоты будут учитываться как часть основного инвентаря"
 }
