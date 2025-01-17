@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-beta.4
+
+- Added grouping options for hotbar and extra slots
+
 ## 1.0.0-beta.3
 
 - Added Russian translation (rfin0)

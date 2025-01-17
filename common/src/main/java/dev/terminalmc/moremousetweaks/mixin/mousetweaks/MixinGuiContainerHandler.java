@@ -19,6 +19,7 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksWrapper;
+import dev.terminalmc.moremousetweaks.util.InventoryUtil;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.inventory.ClickType;
@@ -66,10 +67,9 @@ public class MixinGuiContainerHandler {
                 boolean alt = Screen.hasAltDown();
                 // Quick-move all matching items
                 ItemStack stack = slot.getItem().copy();
-                for (Slot slot2 : getSlots()) {
+                for (Slot slot2 : InventoryUtil.collectSlots(slot, getSlots())) {
                     // Replicate check used by vanilla shift-double-click
                     if (slot2 == null) continue;
-                    if (ItemLocksWrapper.isLocked(slot2)) continue;
                     ItemStack stack2 = slot2.getItem();
                     if (
                             slot2.mayPickup(Minecraft.getInstance().player)

@@ -19,8 +19,24 @@
   "option.moremousetweaks.qcOverflowMode.result.tooltip": "Quick-crafting excess will be placed in the crafting output slot",
   "option.moremousetweaks.qcOverflowMode.inventory": "Inventory",
   "option.moremousetweaks.qcOverflowMode.inventory.tooltip": "Quick-crafting excess will be placed in the inventory, if possible",
+  "option.moremousetweaks.hotbarMode": "Hotbar Mode",
+  "option.moremousetweaks.extraSlotMode": "Extra Slot Mode",
   "option.moremousetweaks.matchByType": "Match by Type",
   "option.moremousetweaks.matchByType.tooltip": "CTRL-clicking will always match all items of the same type",
   "option.moremousetweaks.typeMatchTags": "Type Match Tags",
-  "option.moremousetweaks.typeMatchTags.tooltip": "Items with any of the tags in this list will be matched by type when CTRL-clicking.\nSee %s for a list of tags"
+  "option.moremousetweaks.typeMatchTags.tooltip": "Items with any of the tags in this list will be matched by type when CTRL-clicking.\nSee %s for a list of tags",
+  
+  "hotbarMode.moremousetweaks.none": "None",
+  "hotbarMode.moremousetweaks.none.tooltip": "Hotbar will be ignored",
+  "hotbarMode.moremousetweaks.split": "Split",
+  "hotbarMode.moremousetweaks.split.tooltip": "Hotbar will be treated as a separate inventory",
+  "hotbarMode.moremousetweaks.merge": "Merge",
+  "hotbarMode.moremousetweaks.merge.tooltip": "Hotbar will be treated as part of the main inventory",
+
+  "extraSlotMode.moremousetweaks.none": "None",
+  "extraSlotMode.moremousetweaks.none.tooltip": "Extra slots will be ignored",
+  "extraSlotMode.moremousetweaks.hotbar": "Hotbar",
+  "extraSlotMode.moremousetweaks.hotbar.tooltip": "Extra slots will be treated as part of the hotbar",
+  "extraSlotMode.moremousetweaks.merge": "Merge",
+  "extraSlotMode.moremousetweaks.merge.tooltip": "Extra slots will treated as part of the main inventory"
 }

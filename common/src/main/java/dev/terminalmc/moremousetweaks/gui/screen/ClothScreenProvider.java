@@ -101,6 +101,28 @@ public class ClothScreenProvider {
                 .setSaveConsumer(val -> options.qcOverflowMode = val)
                 .build());
 
+        general.addEntry(eb.startEnumSelector(localized("option", "hotbarMode"),
+                        Config.HotbarMode.class, options.hotbarMode)
+                .setEnumNameProvider(val -> localized("hotbarMode",
+                        ((Config.HotbarMode)val).lowerName()))
+                .setTooltipSupplier(val -> Optional.of(new Component[]{
+                        localized("hotbarMode", val.lowerName() + ".tooltip")
+                }))
+                .setDefaultValue(Config.Options.defaultHotbarMode)
+                .setSaveConsumer(val -> options.hotbarMode = val)
+                .build());
+
+        general.addEntry(eb.startEnumSelector(localized("option", "extraSlotMode"),
+                        Config.ExtraSlotMode.class, options.extraSlotMode)
+                .setEnumNameProvider(val -> localized("extraSlotMode",
+                        ((Config.ExtraSlotMode)val).lowerName()))
+                .setTooltipSupplier(val -> Optional.of(new Component[]{
+                        localized("extraSlotMode", val.lowerName() + ".tooltip")
+                }))
+                .setDefaultValue(Config.Options.defaultExtraSlotMode)
+                .setSaveConsumer(val -> options.extraSlotMode = val)
+                .build());
+
         general.addEntry(eb.startBooleanToggle(localized("option", "matchByType"),
                         options.matchByType)
                 .setTooltip(localized("option", "matchByType.tooltip"))

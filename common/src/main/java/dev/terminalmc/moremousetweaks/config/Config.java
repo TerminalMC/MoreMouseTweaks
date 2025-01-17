@@ -63,6 +63,12 @@ public class Config {
         public static final QcOverflowMode qcOverflowModeDefault = QcOverflowMode.INVENTORY;
         public QcOverflowMode qcOverflowMode = qcOverflowModeDefault;
 
+        public static final HotbarMode defaultHotbarMode = HotbarMode.MERGE;
+        public HotbarMode hotbarMode = defaultHotbarMode;
+
+        public static final ExtraSlotMode defaultExtraSlotMode = ExtraSlotMode.MERGE;
+        public ExtraSlotMode extraSlotMode = defaultExtraSlotMode;
+
         public static final boolean matchByTypeDefault = false;
         public boolean matchByType = matchByTypeDefault;
 
@@ -75,6 +81,7 @@ public class Config {
         public transient final HashSet<Item> typeMatchItems = new HashSet<>();
         
         // TODO allow configuring modifiers?
+        // note that this is hardcoded in several places
         public Modifier allOfKindModifier = Modifier.CTRL;
         public Modifier wholeStackModifier = Modifier.SHIFT;
     }
@@ -89,6 +96,34 @@ public class Config {
                 case NONE -> "none";
                 case RESULT_SLOT -> "result";
                 case INVENTORY -> "inventory";
+            };
+        }
+    }
+
+    public enum HotbarMode {
+        NONE,
+        SPLIT,
+        MERGE;
+
+        public String lowerName() {
+            return switch(this) {
+                case NONE -> "none";
+                case SPLIT -> "split";
+                case MERGE -> "merge";
+            };
+        }
+    }
+
+    public enum ExtraSlotMode {
+        NONE,
+        HOTBAR,
+        MERGE;
+
+        public String lowerName() {
+            return switch(this) {
+                case NONE -> "none";
+                case HOTBAR -> "hotbar";
+                case MERGE -> "merge";
             };
         }
     }

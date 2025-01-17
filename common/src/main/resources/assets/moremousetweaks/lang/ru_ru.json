@@ -19,8 +19,24 @@
   "option.moremousetweaks.qcOverflowMode.result.tooltip": "Излишки для быстрого крафта будут помещены в слот вывода крафта",
   "option.moremousetweaks.qcOverflowMode.inventory": "Инвентарь",
   "option.moremousetweaks.qcOverflowMode.inventory.tooltip": "Излишки быстрого крафта будут помещены в инвентарь, если это возможно",
+  "option.moremousetweaks.hotbarMode": "Режим горячей панели",
+  "option.moremousetweaks.extraSlotMode": "Режим дополнительных слоёв",
   "option.moremousetweaks.matchByType": "Подбор по типу", 
   "option.moremousetweaks.matchByType.tooltip": "При нажатии CTRL всегда будут соответствовать все предметы одного типа",
   "option.moremousetweaks.typeMatchTags": "Теги соответствия типа", 
-  "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любым из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов"
+  "option.moremousetweaks.typeMatchTags.tooltip": "Предметы с любым из тегов в этом списке будут сопоставлены по типу при нажатии CTRL.\nСм. %s для списка тегов",
+
+  "hotbarMode.moremousetweaks.none": "Выключено",
+  "hotbarMode.moremousetweaks.none.tooltip": "Hotbar will be ignored",
+  "hotbarMode.moremousetweaks.split": "Разделение",
+  "hotbarMode.moremousetweaks.split.tooltip": "Hotbar will be treated as a separate inventory",
+  "hotbarMode.moremousetweaks.merge": "Слияние",
+  "hotbarMode.moremousetweaks.merge.tooltip": "Hotbar will be treated as part of the main inventory",
+
+  "extraSlotMode.moremousetweaks.none": "Нет",
+  "extraSlotMode.moremousetweaks.none.tooltip": "Extra slots will be ignored",
+  "extraSlotMode.moremousetweaks.hotbar": "Панель быстрого доступа",
+  "extraSlotMode.moremousetweaks.hotbar.tooltip": "Extra slots will be treated as part of the hotbar",
+  "extraSlotMode.moremousetweaks.merge": "Инвентарь",
+  "extraSlotMode.moremousetweaks.merge.tooltip": "Extra slots will treated as part of the main inventory"
 }
