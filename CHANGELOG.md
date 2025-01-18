@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.0-beta.5
+
+- Fixed version metadata
+
 ## 1.0.0-beta.4
 
 - Added grouping options for hotbar and extra slots
