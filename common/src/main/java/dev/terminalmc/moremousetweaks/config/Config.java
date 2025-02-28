@@ -19,6 +19,7 @@ package dev.terminalmc.moremousetweaks.config;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
+import dev.terminalmc.moremousetweaks.platform.Services;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
@@ -34,7 +35,7 @@ import java.util.List;
 import java.util.function.Supplier;
 
 public class Config {
-    private static final Path DIR_PATH = Path.of("config");
+    private static final Path CONFIG_DIR = Services.PLATFORM.getConfigDir();
     private static final String FILE_NAME = MoreMouseTweaks.MOD_ID + ".json";
     private static final String BACKUP_FILE_NAME = MoreMouseTweaks.MOD_ID + ".unreadable.json";
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
@@ -176,7 +177,7 @@ public class Config {
     // Load and save
 
     public static @NotNull Config load() {
-        Path file = DIR_PATH.resolve(FILE_NAME);
+        Path file = CONFIG_DIR.resolve(FILE_NAME);
         Config config = null;
         if (Files.exists(file)) {
             config = load(file, GSON);
@@ -203,8 +204,8 @@ public class Config {
     private static void backup() {
         try {
             MoreMouseTweaks.LOG.warn("Copying {} to {}", FILE_NAME, BACKUP_FILE_NAME);
-            if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
-            Path file = DIR_PATH.resolve(FILE_NAME);
+            if (!Files.isDirectory(CONFIG_DIR)) Files.createDirectories(CONFIG_DIR);
+            Path file = CONFIG_DIR.resolve(FILE_NAME);
             Path backupFile = file.resolveSibling(BACKUP_FILE_NAME);
             Files.move(file, backupFile, StandardCopyOption.ATOMIC_MOVE,
                     StandardCopyOption.REPLACE_EXISTING);
@@ -217,8 +218,8 @@ public class Config {
         if (instance == null) return;
         instance.cleanup();
         try {
-            if (!Files.isDirectory(DIR_PATH)) Files.createDirectories(DIR_PATH);
-            Path file = DIR_PATH.resolve(FILE_NAME);
+            if (!Files.isDirectory(CONFIG_DIR)) Files.createDirectories(CONFIG_DIR);
+            Path file = CONFIG_DIR.resolve(FILE_NAME);
             Path tempFile = file.resolveSibling(file.getFileName() + ".tmp");
             try (OutputStreamWriter writer = new OutputStreamWriter(
                     new FileOutputStream(tempFile.toFile()), StandardCharsets.UTF_8)) {
