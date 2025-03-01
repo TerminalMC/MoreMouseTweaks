@@ -1,6 +1,6 @@
 # Changelog
 
-## 1.0.0-beta.5
+## 1.0.0
 
 - Fixed version metadata
 - Fixed usage of ratelimited interaction manager
