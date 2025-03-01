@@ -18,23 +18,16 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
-import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksWrapper;
-import dev.terminalmc.moremousetweaks.util.InventoryUtil;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
+import dev.terminalmc.moremousetweaks.inventory.InventoryHelper;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
-import yalter.mousetweaks.MouseButton;
 import yalter.mousetweaks.handlers.GuiContainerHandler;
 import yalter.mousetweaks.mixin.AbstractContainerScreenAccessor;
 
 import java.util.List;
-
-import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 @Mixin(GuiContainerHandler.class)
 public class MixinGuiContainerHandler {
@@ -45,59 +38,22 @@ public class MixinGuiContainerHandler {
      * Wraps an implementation of {@link yalter.mousetweaks.IGuiScreenHandler}
      * to allow CTRL+LMB clicking to quick-move all matching slots and ALT+LMB
      * clicking to drop the slot, in addition to the existing SHIFT+LMB to
-     * quick-move the slot and raw LMB to pick up the slot.
-     * See also {@link MixinIMTModGuiContainer3ExHandler}.
+     * quick-move the slot and plain LMB to pick up the slot.
+     *
+     * @see MixinIMTModGuiContainer3ExHandler
      */
     @WrapOperation(
-            method = "clickSlot", 
+            method = "clickSlot",
             at = @At(
-                    value = "INVOKE", 
+                    value = "INVOKE",
                     target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
             )
     )
-    private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index, 
+    private void wrapSlotClicked(AbstractContainerScreenAccessor instance, Slot slot, int index,
                                  int button, ClickType clickType, Operation<Void> original) {
-        // Only operate if LMB and not SHIFT+LMB
-        if (
-                button == MouseButton.LEFT.getValue() 
-                && !Screen.hasShiftDown() 
-                && !ItemLocksWrapper.isLocked(slot)
-        ) {
-            if (Screen.hasControlDown()) {
-                boolean alt = Screen.hasAltDown();
-                // Quick-move all matching items
-                ItemStack stack = slot.getItem().copy();
-                for (Slot slot2 : InventoryUtil.collectSlots(slot, getSlots())) {
-                    // Replicate check used by vanilla shift-double-click
-                    if (slot2 == null) continue;
-                    ItemStack stack2 = slot2.getItem();
-                    if (
-                            slot2.mayPickup(Minecraft.getInstance().player)
-                            && slot2.hasItem()
-                            && slot2.container == slot.container
-//                            && AbstractContainerMenu.canItemQuickReplace(slot2, stack, true)
-                            && (
-                                    ItemStack.isSameItemSameComponents(stack2, stack) 
-                                    || (
-                                            ItemStack.isSameItem(stack2, stack)
-                                            && (
-                                                    options().matchByType
-                                                    || options().typeMatchItems.contains(stack2.getItem())
-                                            )
-                                    )
-                            )
-                    ) {                        
-                        original.call(instance, slot2, slot2.index, 
-                                alt ? MouseButton.RIGHT.getValue() : button, 
-                                alt ? ClickType.THROW : ClickType.QUICK_MOVE);
-                    }
-                }
-                return;
-            } else if (Screen.hasAltDown()) {
-                button = MouseButton.RIGHT.getValue();
-                clickType = ClickType.THROW;
-            }
+        if (!InventoryHelper.handleSlotClick(slot, button, clickType,
+                (s, b, c) -> original.call(instance, s, s.index, b, c), this::getSlots)) {
+            original.call(instance, slot, slot.index, button, clickType);
         }
-        original.call(instance, slot, index, button, clickType);
     }
 }

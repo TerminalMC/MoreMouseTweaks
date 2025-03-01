@@ -18,7 +18,6 @@
 package dev.terminalmc.moremousetweaks.mixin;
 
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
-import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientCommonPacketListenerImpl;
@@ -33,19 +32,22 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 
+import static dev.terminalmc.moremousetweaks.config.Config.options;
+
 /**
- * Inventory update listeners for {@link InteractionManager}.
+ * Network-related events.
  */
 @Mixin(ClientPacketListener.class)
 public abstract class MixinClientPacketListener extends ClientCommonPacketListenerImpl {
-    protected MixinClientPacketListener(Minecraft client, Connection connection, 
+    protected MixinClientPacketListener(Minecraft client, Connection connection,
                                         CommonListenerCookie connectionState) {
         super(client, connection, connectionState);
     }
 
     @Inject(method = "handleLogin", at = @At("RETURN"))
     private void onLogin(ClientboundLoginPacket packet, CallbackInfo ci) {
-        MoreMouseTweaks.updateItemTags(Config.get());
+        MoreMouseTweaks.updateItemTags(options());
+        MoreMouseTweaks.setInteractionManagerTickRate(options());
     }
 
     @Inject(method = "handleSetCarriedItem", at = @At("HEAD"))

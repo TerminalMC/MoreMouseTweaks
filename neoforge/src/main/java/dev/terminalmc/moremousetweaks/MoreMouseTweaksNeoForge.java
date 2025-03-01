@@ -36,13 +36,4 @@ public class MoreMouseTweaksNeoForge {
         // Main initialization
         MoreMouseTweaks.init();
     }
-
-    @EventBusSubscriber(modid = MoreMouseTweaks.MOD_ID, value = Dist.CLIENT)
-    static class ClientEventHandler {
-        // Tick events
-        @SubscribeEvent
-        public static void clientTickEvent(ClientTickEvent.Post event) {
-            MoreMouseTweaks.onEndTick(Minecraft.getInstance());
-        }
-    }
 }

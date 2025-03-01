@@ -17,14 +17,10 @@
 package dev.terminalmc.moremousetweaks;
 
 import net.fabricmc.api.ClientModInitializer;
-import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 
 public class MoreMouseTweaksFabric implements ClientModInitializer {
     @Override
     public void onInitializeClient() {
-        // Tick events
-        ClientTickEvents.END_CLIENT_TICK.register(MoreMouseTweaks::onEndTick);
-
         // Main initialization
         MoreMouseTweaks.init();
     }

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.other;
+package dev.terminalmc.moremousetweaks.mixin.quick.craft;
 
 import com.llamalad7.mixinextras.sugar.Local;
 import dev.terminalmc.moremousetweaks.config.Config;
@@ -40,8 +40,6 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 /**
  * Quick-crafting helper for single recipes.
- * See {@link MixinOverlayRecipeComponent} for alternative-slot quick-crafting.
- * See {@link MixinRecipeBookComponent} for the rest of the quick-crafting code.
  */
 @Mixin(RecipeBookPage.class)
 public abstract class MixinRecipeBookPage implements IRecipeBookResults {
@@ -62,7 +60,7 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
     public void mmt$setCurrentPage(int page) {
         currentPage = page;
     }
-    
+
     @Override
     public int mmt$getCurrentPage() {
         return currentPage;
@@ -77,33 +75,33 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
     public void mmt$refreshResultButtons() {
         updateButtonsForPage();
     }
-    
+
     @Inject(
-            method = "mouseClicked", 
+            method = "mouseClicked",
             at = @At(
-                    value = "JUMP", 
+                    value = "JUMP",
                     opcode = 154
-            ), 
+            ),
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
-    public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop, 
-                             int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir, 
+    public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop,
+                             int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir,
                              Iterator<?> iterator, @Local RecipeButton recipeButton) {
         if (
-                options().quickCrafting 
-                && button == MouseButton.RIGHT.getValue() 
-                && recipeButton.isOnlyOption()
+                options().quickCrafting
+                        && button == MouseButton.RIGHT.getValue()
+                        && recipeButton.isOnlyOption()
         ) {
             // Optionally prevent clicking past a full carried stack
             ItemStack carried = minecraft.player.containerMenu.getCarried();
             ItemStack result = recipeButton.getRecipe().value().getResultItem(
                     minecraft.level.registryAccess());
             if (
-                    !options().qcOverflowMode.equals(Config.QcOverflowMode.NONE)
-                    || carried.isEmpty()
-                    || (
+                    !options().qcOverflowMode.equals(Config.Options.QcOverflowMode.NONE)
+                            || carried.isEmpty()
+                            || (
                             ItemStack.isSameItemSameComponents(carried, result)
-                            && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
+                                    && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
                     )
             ) {
                 // Quick-craft

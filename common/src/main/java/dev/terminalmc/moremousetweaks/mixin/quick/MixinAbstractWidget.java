@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.other;
+package dev.terminalmc.moremousetweaks.mixin.quick;
 
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialClickableButtonWidget;
 import net.minecraft.client.gui.components.AbstractWidget;
@@ -33,13 +33,13 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MixinAbstractWidget {
     @Shadow
     protected abstract boolean clicked(double mouseX, double mouseY);
-    
+
     @Inject(
-            method = "mouseClicked", 
+            method = "mouseClicked",
             at = @At(
-                    value = "INVOKE", 
+                    value = "INVOKE",
                     target = "Lnet/minecraft/client/gui/components/AbstractWidget;isValidClickButton(I)Z"
-            ), 
+            ),
             cancellable = true
     )
     public void mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> cir) {

@@ -61,7 +61,7 @@ public class ConfigScreenProvider {
             messageWidget.setMaxWidth(240);
             messageWidget.setCentered(true);
             addRenderableWidget(messageWidget);
-            
+
             Button openLinkButton = Button.builder(localized("message", "viewModrinth"),
                             (button) -> minecraft.setScreen(new ConfirmLinkScreen(
                                     (open) -> {

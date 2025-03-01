@@ -1,5 +1,4 @@
 /*
- * Copyright 2022 Siphalor
  * Copyright 2025 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -34,27 +33,32 @@ public class MoreMouseTweaks {
         Config.getAndSave();
     }
 
-    public static void onEndTick(Minecraft mc) {
-        
-    }
-
     public static void onConfigSaved(Config config) {
         if (Minecraft.getInstance().getSingleplayerServer() == null) {
             InteractionManager.setTickRate(config.options.interactionRateServer);
         } else {
             InteractionManager.setTickRate(config.options.interactionRateClient);
         }
-        updateItemTags(config);
+        updateItemTags(config.options);
+        setInteractionManagerTickRate(config.options);
     }
-    
-    public static void updateItemTags(Config config) {
-        config.options.typeMatchItems.clear();
+
+    public static void updateItemTags(Config.Options options) {
+        options.typeMatchItems.clear();
         BuiltInRegistries.ITEM.getTags().forEach((pair) -> {
-            if (config.options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
+            if (options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
                 pair.getSecond().forEach((itemHolder) ->
-                        config.options.typeMatchItems.add(itemHolder.value()));
+                        options.typeMatchItems.add(itemHolder.value()));
             }
         });
+    }
+
+    public static void setInteractionManagerTickRate(Config.Options options) {
+        if (Minecraft.getInstance().getSingleplayerServer() == null) {
+            InteractionManager.setTickRate(options.interactionRateServer);
+        } else {
+            InteractionManager.setTickRate(options.interactionRateClient);
+        }
     }
 
     public static double getMouseX() {

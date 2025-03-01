@@ -15,12 +15,29 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.util.inject;
+package dev.terminalmc.moremousetweaks.mixin.slot;
 
-import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
-import org.jetbrains.annotations.ApiStatus;
+import dev.terminalmc.moremousetweaks.util.inject.ISlot;
+import net.minecraft.world.inventory.Slot;
+import org.spongepowered.asm.mixin.Final;
+import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 
-@ApiStatus.Internal
-public interface IRecipeBookWidget {
-    ScrollAction mmt$scrollRecipeBook(double mouseX, double mouseY, double scrollAmount);
+@Mixin(Slot.class)
+public class MixinSlot implements ISlot {
+    @Shadow
+    @Final
+    private int slot;
+
+    @Shadow public int index;
+
+    @Override
+    public int mmt$getIndexInInv() {
+        return slot;
+    }
+
+    @Override
+    public int mmt$getIdInContainer() {
+        return index;
+    }
 }

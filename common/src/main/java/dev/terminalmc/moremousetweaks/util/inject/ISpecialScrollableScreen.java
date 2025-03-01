@@ -17,7 +17,7 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import dev.terminalmc.moremousetweaks.util.ScrollAction;
+import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
 import org.jetbrains.annotations.ApiStatus;
 
 @ApiStatus.Internal

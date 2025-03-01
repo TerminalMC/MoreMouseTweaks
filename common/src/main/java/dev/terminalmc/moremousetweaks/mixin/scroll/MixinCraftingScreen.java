@@ -15,33 +15,32 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.screen;
+package dev.terminalmc.moremousetweaks.mixin.scroll;
 
-import dev.terminalmc.moremousetweaks.util.ScrollAction;
+import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookWidget;
 import dev.terminalmc.moremousetweaks.util.inject.IScrollableRecipeBook;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
+import net.minecraft.client.gui.screens.inventory.CraftingScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractFurnaceMenu;
+import net.minecraft.world.inventory.CraftingMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Recipe book scrolling helper for furnace screens.
+ * Recipe book scrolling helper for crafting screens.
  */
-@Mixin(AbstractFurnaceScreen.class)
-public abstract class MixinAbstractFurnaceScreen 
-        extends AbstractContainerScreen<AbstractFurnaceMenu> implements IScrollableRecipeBook {
+@Mixin(CraftingScreen.class)
+public abstract class MixinCraftingScreen
+        extends AbstractContainerScreen<CraftingMenu> implements IScrollableRecipeBook {
     @Shadow
-    @Final public AbstractFurnaceRecipeBookComponent recipeBookComponent;
+    @Final private RecipeBookComponent recipeBookComponent;
 
-    public MixinAbstractFurnaceScreen(
-            AbstractFurnaceMenu container, Inventory playerInventory, Component name) {
-        super(container, playerInventory, name);
+    public MixinCraftingScreen(CraftingMenu menu, Inventory playerInventory, Component title) {
+        super(menu, playerInventory, title);
     }
 
     @Override

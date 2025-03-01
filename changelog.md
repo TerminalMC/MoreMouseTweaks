@@ -3,6 +3,8 @@
 ## 1.0.0-beta.5
 
 - Fixed version metadata
+- Fixed usage of ratelimited interaction manager
+- Fixed creative tab scrolling on NeoForge
 
 ## 1.0.0-beta.4
 

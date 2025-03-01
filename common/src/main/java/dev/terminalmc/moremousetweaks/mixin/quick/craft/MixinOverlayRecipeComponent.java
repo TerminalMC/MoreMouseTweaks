@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.other;
+package dev.terminalmc.moremousetweaks.mixin.quick.craft;
 
 import dev.terminalmc.moremousetweaks.config.Config;
 import net.minecraft.client.Minecraft;
@@ -36,8 +36,6 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 /**
  * Quick-crafting helper for alternative recipes.
- * See {@link MixinRecipeBookPage} for regular-slot quick-crafting.
- * See {@link MixinRecipeBookComponent} for the rest of the quick-crafting code.
  */
 @Mixin(OverlayRecipeComponent.class)
 public class MixinOverlayRecipeComponent {
@@ -49,15 +47,15 @@ public class MixinOverlayRecipeComponent {
     private Minecraft minecraft;
 
     @Inject(
-            method = "mouseClicked", 
+            method = "mouseClicked",
             at = @At("HEAD"),
             cancellable = true
     )
-    private void onMouseClicked(double mouseX, double mouseY, int button, 
+    private void onMouseClicked(double mouseX, double mouseY, int button,
                                 CallbackInfoReturnable<Boolean> cir) {
         if (
-                options().quickCrafting 
-                && button == MouseButton.RIGHT.getValue()
+                options().quickCrafting
+                        && button == MouseButton.RIGHT.getValue()
         ) {
             Iterator<OverlayRecipeComponent.OverlayRecipeButton> iter = this.recipeButtons.iterator();
             OverlayRecipeComponent.OverlayRecipeButton overlayButton;
@@ -74,11 +72,11 @@ public class MixinOverlayRecipeComponent {
             ItemStack result = overlayButton.recipe.value().getResultItem(
                     minecraft.level.registryAccess());
             if (
-                    !options().qcOverflowMode.equals(Config.QcOverflowMode.NONE)
-                    || carried.isEmpty()
-                    || (
-                            ItemStack.isSameItemSameComponents(carried, result) 
-                            && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
+                    !options().qcOverflowMode.equals(Config.Options.QcOverflowMode.NONE)
+                            || carried.isEmpty()
+                            || (
+                            ItemStack.isSameItemSameComponents(carried, result)
+                                    && carried.getCount() + result.getCount() <= carried.getMaxStackSize()
                     )
             ) {
                 // Quick-craft

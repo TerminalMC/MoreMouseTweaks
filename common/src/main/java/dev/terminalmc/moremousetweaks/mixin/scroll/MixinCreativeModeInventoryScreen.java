@@ -15,9 +15,10 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.screen;
+package dev.terminalmc.moremousetweaks.mixin.scroll;
 
-import dev.terminalmc.moremousetweaks.util.ScrollAction;
+import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
+import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialScrollableScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
 import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
@@ -40,8 +41,8 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  * Creative inventory tab scrolling.
  */
 @Mixin(CreativeModeInventoryScreen.class)
-public abstract class MixinCreativeModeInventoryScreen 
-        extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu> 
+public abstract class MixinCreativeModeInventoryScreen
+        extends EffectRenderingInventoryScreen<CreativeModeInventoryScreen.ItemPickerMenu>
         implements ISpecialScrollableScreen {
 
     @Shadow
@@ -51,10 +52,10 @@ public abstract class MixinCreativeModeInventoryScreen
     protected abstract void selectTab(CreativeModeTab itemGroup_1);
 
     @Shadow
-    protected abstract void slotClicked(@NotNull Slot slot, int invSlot, int button, 
+    protected abstract void slotClicked(@NotNull Slot slot, int invSlot, int button,
                                         @NotNull ClickType slotActionType);
 
-    public MixinCreativeModeInventoryScreen(CreativeModeInventoryScreen.ItemPickerMenu menu, 
+    public MixinCreativeModeInventoryScreen(CreativeModeInventoryScreen.ItemPickerMenu menu,
                                             Inventory playerInventory, Component title) {
         super(menu, playerInventory, title);
     }
@@ -65,9 +66,9 @@ public abstract class MixinCreativeModeInventoryScreen
             double relMouseY = mouseY - this.topPos;
             double relMouseX = mouseX - this.leftPos;
             boolean yOverTopTabs = (-32 <= relMouseY) && (relMouseY <= 0);
-            boolean yOverBottomTabs = (this.imageHeight <= relMouseY) 
+            boolean yOverBottomTabs = (this.imageHeight <= relMouseY)
                     && (relMouseY <= this.imageHeight + 32);
-            boolean overTabs = (0 <= relMouseX) && (relMouseX <= this.imageWidth) 
+            boolean overTabs = (0 <= relMouseX) && (relMouseX <= this.imageWidth)
                     && (yOverTopTabs || yOverBottomTabs);
 
             if (overTabs) {
@@ -77,7 +78,7 @@ public abstract class MixinCreativeModeInventoryScreen
                     return ScrollAction.FAILURE;
                 }
                 selectTab(groupsToDisplay.get(
-                        Mth.clamp((int)(selectedTabIndex + Math.round(scrollAmount)), 0, 
+                        Mth.clamp((int)(selectedTabIndex + Math.round(scrollAmount)), 0,
                                 groupsToDisplay.size() - 1)));
                 return ScrollAction.SUCCESS;
             }

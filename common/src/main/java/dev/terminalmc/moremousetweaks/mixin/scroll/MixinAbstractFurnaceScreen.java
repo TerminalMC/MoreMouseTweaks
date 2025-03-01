@@ -15,36 +15,37 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.screen;
+package dev.terminalmc.moremousetweaks.mixin.scroll;
 
-import dev.terminalmc.moremousetweaks.util.ScrollAction;
+import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookWidget;
 import dev.terminalmc.moremousetweaks.util.inject.IScrollableRecipeBook;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.InventoryScreen;
-import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
+import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
+import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Recipe book scrolling helper for inventory screens.
+ * Recipe book scrolling helper for furnace screens.
  */
-@Mixin(InventoryScreen.class)
-public abstract class MixinInventoryScreen 
-        extends EffectRenderingInventoryScreen<InventoryMenu> implements IScrollableRecipeBook {
+@Mixin(AbstractFurnaceScreen.class)
+public abstract class MixinAbstractFurnaceScreen
+        extends AbstractContainerScreen<AbstractFurnaceMenu> implements IScrollableRecipeBook {
     @Shadow
-    @Final private RecipeBookComponent recipeBookComponent;
+    @Final public AbstractFurnaceRecipeBookComponent recipeBookComponent;
 
-    public MixinInventoryScreen(InventoryMenu container, Inventory playerInventory, Component text) {
-        super(container, playerInventory, text);
+    public MixinAbstractFurnaceScreen(
+            AbstractFurnaceMenu container, Inventory playerInventory, Component name) {
+        super(container, playerInventory, name);
     }
 
     @Override
     public ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
-        return ((IRecipeBookWidget) recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
+        return ((IRecipeBookWidget)recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
     }
 }

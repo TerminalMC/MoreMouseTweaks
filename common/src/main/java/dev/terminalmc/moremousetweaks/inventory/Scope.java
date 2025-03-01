@@ -15,12 +15,13 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.util.inject;
+package dev.terminalmc.moremousetweaks.inventory;
 
-import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
-public interface IRecipeBookWidget {
-    ScrollAction mmt$scrollRecipeBook(double mouseX, double mouseY, double scrollAmount);
+public enum Scope {
+    PLAYER_INV,
+    PLAYER_INV_HOTBAR,
+    PLAYER_INV_EXTRA,
+    PLAYER_OTHER,
+    CONTAINER_INV,
+    INVALID
 }

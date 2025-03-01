@@ -22,18 +22,16 @@ subprojects {
             owner_name = mod_owner
             year = java.time.LocalDate.now().getYear().toString()
         }
-        // Alternate license
+        // Using MouseTweaks license except for files specified here
         matching(includes: [
                 "**/compat/**",
                 "**/config/**",
-                "**/platform/**",
-                "**/moremousetweaks/gui/**",
+                "**/gui/screen/**",
                 "**/mixin/mousetweaks/**",
+                "**/platform/**",
                 "**/MixinOverlayRecipeComponent.java",
-                "**/Localization.java",
-                "**/ModLogger.java",
-                "**/MoreMouseTweaksFabric.java",
-                "**/MoreMouseTweaksNeoForge.java",
+                "**/util/*.java",
+                "**/MoreMouseTweaks*.java",
         ]) {
             header = rootProject.project("common").file(licenseDir + "HEADER.txt")
         }

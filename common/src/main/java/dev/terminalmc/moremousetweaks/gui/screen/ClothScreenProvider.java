@@ -47,13 +47,13 @@ public class ClothScreenProvider {
         ConfigCategory general = builder.getOrCreateCategory(localized("option", "general"));
 
         general.addEntry(eb.startIntField(
-                localized("option", "interactionRateServer"), 
+                        localized("option", "interactionRateServer"),
                         options.interactionRateServer)
                 .setTooltip(localized("option", "interactionRate.tooltip"))
                 .setErrorSupplier(val -> {
-                    if (val < 1) return Optional.of(
+                    if (val < Config.Options.interactionRateMin) return Optional.of(
                             localized("option", "error.low"));
-                    else if (val > 100) return Optional.of(
+                    else if (val > Config.Options.interactionRateMax) return Optional.of(
                             localized("option", "error.high"));
                     else return Optional.empty();
                 })
@@ -62,13 +62,13 @@ public class ClothScreenProvider {
                 .build());
 
         general.addEntry(eb.startIntField(
-                localized("option", "interactionRateClient"), 
+                        localized("option", "interactionRateClient"),
                         options.interactionRateClient)
                 .setTooltip(localized("option", "interactionRate.tooltip"))
                 .setErrorSupplier(val -> {
-                    if (val < 1) return Optional.of(
+                    if (val < Config.Options.interactionRateMin) return Optional.of(
                             localized("option", "error.low"));
-                    else if (val > 100) return Optional.of(
+                    else if (val > Config.Options.interactionRateMax) return Optional.of(
                             localized("option", "error.high"));
                     else return Optional.empty();
                 })
@@ -91,48 +91,45 @@ public class ClothScreenProvider {
                 .build());
 
         general.addEntry(eb.startEnumSelector(localized("option", "qcOverflowMode"),
-                        Config.QcOverflowMode.class, options.qcOverflowMode)
-                .setEnumNameProvider(val -> localized("option", "qcOverflowMode." 
-                        + ((Config.QcOverflowMode)val).lowerName()))
+                        Config.Options.QcOverflowMode.class, options.qcOverflowMode)
+                .setEnumNameProvider(val -> localized("qcOverflowMode", val.name()))
                 .setTooltipSupplier(val -> Optional.of(new Component[]{
-                        localized("option", "qcOverflowMode." + val.lowerName() + ".tooltip")
+                        localized("qcOverflowMode", val + ".tooltip")
                 }))
                 .setDefaultValue(Config.Options.qcOverflowModeDefault)
                 .setSaveConsumer(val -> options.qcOverflowMode = val)
                 .build());
 
-        general.addEntry(eb.startEnumSelector(localized("option", "hotbarMode"),
-                        Config.HotbarMode.class, options.hotbarMode)
-                .setEnumNameProvider(val -> localized("hotbarMode",
-                        ((Config.HotbarMode)val).lowerName()))
+        general.addEntry(eb.startEnumSelector(localized("option", "hotbarScope"),
+                        Config.Options.HotbarScope.class, options.hotbarScope)
+                .setEnumNameProvider(val -> localized("hotbarScope", val.name()))
                 .setTooltipSupplier(val -> Optional.of(new Component[]{
-                        localized("hotbarMode", val.lowerName() + ".tooltip")
+                        localized("hotbarScope", val + ".tooltip")
                 }))
-                .setDefaultValue(Config.Options.defaultHotbarMode)
-                .setSaveConsumer(val -> options.hotbarMode = val)
+                .setDefaultValue(Config.Options.hotbarScopeDefault)
+                .setSaveConsumer(val -> options.hotbarScope = val)
                 .build());
 
-        general.addEntry(eb.startEnumSelector(localized("option", "extraSlotMode"),
-                        Config.ExtraSlotMode.class, options.extraSlotMode)
-                .setEnumNameProvider(val -> localized("extraSlotMode",
-                        ((Config.ExtraSlotMode)val).lowerName()))
+        general.addEntry(eb.startEnumSelector(localized("option", "extraSlotScope"),
+                        Config.Options.ExtraSlotScope.class, options.extraSlotScope)
+                .setEnumNameProvider(val -> localized("extraSlotScope", val.name()))
                 .setTooltipSupplier(val -> Optional.of(new Component[]{
-                        localized("extraSlotMode", val.lowerName() + ".tooltip")
+                        localized("extraSlotScope", val + ".tooltip")
                 }))
-                .setDefaultValue(Config.Options.defaultExtraSlotMode)
-                .setSaveConsumer(val -> options.extraSlotMode = val)
+                .setDefaultValue(Config.Options.extraSlotScopeDefault)
+                .setSaveConsumer(val -> options.extraSlotScope = val)
                 .build());
 
-        general.addEntry(eb.startBooleanToggle(localized("option", "matchByType"),
-                        options.matchByType)
-                .setTooltip(localized("option", "matchByType.tooltip"))
-                .setDefaultValue(Config.Options.matchByTypeDefault)
-                .setSaveConsumer(val -> options.matchByType = val)
+        general.addEntry(eb.startBooleanToggle(localized("option", "alwaysMatchByType"),
+                        options.alwaysMatchByType)
+                .setTooltip(localized("option", "alwaysMatchByType.tooltip"))
+                .setDefaultValue(Config.Options.alwaysMatchByTypeDefault)
+                .setSaveConsumer(val -> options.alwaysMatchByType = val)
                 .build());
 
         general.addEntry(eb.startStrList(
                         localized("option", "typeMatchTags"), options.typeMatchTags)
-                .setTooltip(localized("option", "typeMatchTags.tooltip", 
+                .setTooltip(localized("option", "typeMatchTags.tooltip",
                         Component.literal("https://minecraft.wiki/w/Tag#Item_tags")
                                 .withStyle(ChatFormatting.GOLD)))
                 .setDefaultValue(Config.Options.typeMatchTagsDefault)

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.screen;
+package dev.terminalmc.moremousetweaks.mixin.quick.trade;
 
 import dev.terminalmc.moremousetweaks.util.inject.IMerchantScreen;
 import net.minecraft.client.gui.screens.inventory.MerchantScreen;
@@ -27,7 +27,7 @@ import org.spongepowered.asm.mixin.Shadow;
  */
 @Mixin(MerchantScreen.class)
 public abstract class MixinMerchantScreen implements IMerchantScreen {
-    @Shadow 
+    @Shadow
     private int shopItem;
 
     @Shadow

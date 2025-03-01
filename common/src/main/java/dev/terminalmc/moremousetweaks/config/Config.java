@@ -20,7 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import dev.terminalmc.moremousetweaks.platform.Services;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.item.Item;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,7 +31,6 @@ import java.nio.file.Path;
 import java.nio.file.StandardCopyOption;
 import java.util.HashSet;
 import java.util.List;
-import java.util.function.Supplier;
 
 public class Config {
     private static final Path CONFIG_DIR = Services.PLATFORM.getConfigDir();
@@ -49,7 +47,9 @@ public class Config {
     }
 
     public static class Options {
-        public static final int interactionRateServerDefault = 10;
+        public static final int interactionRateMin = 1;
+        public static final int interactionRateMax = 100;
+        public static final int interactionRateServerDefault = 5;
         public int interactionRateServer = interactionRateServerDefault;
 
         public static final int interactionRateClientDefault = 1;
@@ -57,21 +57,37 @@ public class Config {
 
         public static final boolean scrollCreativeTabsDefault = true;
         public boolean scrollCreativeTabs = scrollCreativeTabsDefault;
-        
+
         public static final boolean quickCraftingDefault = true;
         public boolean quickCrafting = quickCraftingDefault;
-        
+
         public static final QcOverflowMode qcOverflowModeDefault = QcOverflowMode.INVENTORY;
         public QcOverflowMode qcOverflowMode = qcOverflowModeDefault;
+        public enum QcOverflowMode {
+            NONE,
+            RESULT_SLOT,
+            INVENTORY
+        }
 
-        public static final HotbarMode defaultHotbarMode = HotbarMode.MERGE;
-        public HotbarMode hotbarMode = defaultHotbarMode;
+        public static final HotbarScope hotbarScopeDefault = HotbarScope.HOTBAR;
+        public HotbarScope hotbarScope = hotbarScopeDefault;
+        public enum HotbarScope {
+            HOTBAR,
+            INVENTORY,
+            NONE
+        }
 
-        public static final ExtraSlotMode defaultExtraSlotMode = ExtraSlotMode.MERGE;
-        public ExtraSlotMode extraSlotMode = defaultExtraSlotMode;
+        public static final ExtraSlotScope extraSlotScopeDefault = ExtraSlotScope.EXTRA;
+        public ExtraSlotScope extraSlotScope = extraSlotScopeDefault;
+        public enum ExtraSlotScope {
+            EXTRA,
+            HOTBAR,
+            INVENTORY,
+            NONE
+        }
 
-        public static final boolean matchByTypeDefault = false;
-        public boolean matchByType = matchByTypeDefault;
+        public static final boolean alwaysMatchByTypeDefault = false;
+        public boolean alwaysMatchByType = alwaysMatchByTypeDefault;
 
         public static final List<String> typeMatchTagsDefault = List.of(
                 "enchantable/weapon",
@@ -80,69 +96,46 @@ public class Config {
         );
         public List<String> typeMatchTags = typeMatchTagsDefault;
         public transient final HashSet<Item> typeMatchItems = new HashSet<>();
+
+        // Legacy from pre v1.0.0-beta.5
         
-        // TODO allow configuring modifiers?
-        // note that this is hardcoded in several places
-        public Modifier allOfKindModifier = Modifier.CTRL;
-        public Modifier wholeStackModifier = Modifier.SHIFT;
-    }
-    
-    public enum QcOverflowMode {
-        NONE,
-        RESULT_SLOT,
-        INVENTORY;
+        // Note: names `allOfKindModifier` and `wholeStackModifier` were used
+        // previously and thus should not be used again.
 
-        public String lowerName() {
-            return switch(this) {
-                case NONE -> "none";
-                case RESULT_SLOT -> "result";
-                case INVENTORY -> "inventory";
-            };
-        }
-    }
+        public static final HotbarMode hotbarModeDefault = HotbarMode.MERGE;
+        public HotbarMode hotbarMode = hotbarModeDefault;
+        public enum HotbarMode {
+            NONE,
+            SPLIT,
+            MERGE;
 
-    public enum HotbarMode {
-        NONE,
-        SPLIT,
-        MERGE;
-
-        public String lowerName() {
-            return switch(this) {
-                case NONE -> "none";
-                case SPLIT -> "split";
-                case MERGE -> "merge";
-            };
-        }
-    }
-
-    public enum ExtraSlotMode {
-        NONE,
-        HOTBAR,
-        MERGE;
-
-        public String lowerName() {
-            return switch(this) {
-                case NONE -> "none";
-                case HOTBAR -> "hotbar";
-                case MERGE -> "merge";
-            };
-        }
-    }
-
-    public enum Modifier {
-        CTRL(Screen::hasControlDown),
-        SHIFT(Screen::hasShiftDown),
-        ALT(Screen::hasAltDown);
-        
-        private final Supplier<Boolean> downSupplier;
-
-        Modifier(Supplier<Boolean> downSupplier) {
-            this.downSupplier = downSupplier;
+            public HotbarScope update() {
+                return switch(this) {
+                    case MERGE -> HotbarScope.INVENTORY;
+                    case SPLIT -> HotbarScope.HOTBAR;
+                    case NONE -> HotbarScope.NONE;
+                };
+            }
         }
 
-        public boolean isDown() {
-            return downSupplier.get();
+        public static final ExtraSlotMode extraSlotModeDefault = ExtraSlotMode.MERGE;
+        public ExtraSlotMode extraSlotMode = extraSlotModeDefault;
+        public enum ExtraSlotMode {
+            NONE,
+            HOTBAR,
+            MERGE;
+
+            public ExtraSlotScope update() {
+                return switch(this) {
+                    case NONE -> ExtraSlotScope.NONE;
+                    case HOTBAR -> ExtraSlotScope.HOTBAR;
+                    case MERGE -> ExtraSlotScope.INVENTORY;
+                };
+            }
         }
+
+        public static final boolean matchByTypeDefault = false;
+        public boolean matchByType = matchByTypeDefault;
     }
 
     // Instance management
@@ -156,22 +149,55 @@ public class Config {
         return instance;
     }
 
+    @SuppressWarnings("UnusedReturnValue")
     public static Config getAndSave() {
         get();
         save();
         return instance;
     }
 
+    @SuppressWarnings("unused")
     public static Config resetAndSave() {
         instance = new Config();
         save();
         return instance;
     }
 
-    // Cleanup
+    // Validation
 
-    private void cleanup() {
-        // Called before config is saved
+    /**
+     * Ensures that all config values are valid.
+     */
+    private void validate() {
+        update();
+        // interactionRateServer
+        if (options.interactionRateServer < Options.interactionRateMin)
+            options.interactionRateServer = Options.interactionRateMin;
+        if (options.interactionRateServer > Options.interactionRateMax)
+            options.interactionRateServer = Options.interactionRateMax;
+        // interactionRateClient
+        if (options.interactionRateClient < Options.interactionRateMin)
+            options.interactionRateClient = Options.interactionRateMin;
+        if (options.interactionRateClient > Options.interactionRateMax)
+            options.interactionRateClient = Options.interactionRateMax;
+    }
+
+    /**
+     * Updates legacy (pre v1.0.0-beta.5) config values.
+     */
+    private void update() {
+        if (options.hotbarMode != Options.hotbarModeDefault) {
+            options.hotbarScope = options.hotbarMode.update();
+            options.hotbarMode = Options.hotbarModeDefault;
+        }
+        if (options.extraSlotMode != Options.extraSlotModeDefault) {
+            options.extraSlotScope = options.extraSlotMode.update();
+            options.extraSlotMode = Options.extraSlotModeDefault;
+        }
+        if (options.matchByType != Options.matchByTypeDefault) {
+            options.alwaysMatchByType = options.matchByType;
+            options.matchByType = Options.matchByTypeDefault;
+        }
     }
 
     // Load and save
@@ -189,6 +215,7 @@ public class Config {
         return config != null ? config : new Config();
     }
 
+    @SuppressWarnings("SameParameterValue")
     private static @Nullable Config load(Path file, Gson gson) {
         try (InputStreamReader reader = new InputStreamReader(
                 new FileInputStream(file.toFile()), StandardCharsets.UTF_8)) {
@@ -216,7 +243,7 @@ public class Config {
 
     public static void save() {
         if (instance == null) return;
-        instance.cleanup();
+        instance.validate();
         try {
             if (!Files.isDirectory(CONFIG_DIR)) Files.createDirectories(CONFIG_DIR);
             Path file = CONFIG_DIR.resolve(FILE_NAME);

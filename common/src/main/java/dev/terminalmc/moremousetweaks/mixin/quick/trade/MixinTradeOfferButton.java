@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.mixin.gui.other;
+package dev.terminalmc.moremousetweaks.mixin.quick.trade;
 
 import dev.terminalmc.moremousetweaks.util.inject.IMerchantScreen;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialClickableButtonWidget;
@@ -38,20 +38,17 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
 public class MixinTradeOfferButton implements ISpecialClickableButtonWidget {
     @Shadow
     @Final int index;
-    
+
     @Override
     public boolean mmt$mouseClicked(int mouseButton) {
         if (!options().quickCrafting || mouseButton != MouseButton.RIGHT.getValue()) return false;
-        Minecraft mc = Minecraft.getInstance();
-        Screen screen = mc.screen;
-        if (screen instanceof IMerchantScreen) {
-            ((IMerchantScreen)screen).mmt$setRecipeId(
-                    this.index + ((IMerchantScreen)screen).mmt$getRecipeIdOffset());
-            ((IMerchantScreen)screen).mmt$syncRecipeId();
-            if (screen instanceof AbstractContainerScreen) {
-                InteractionManager.pushClickEvent(
-                        ((AbstractContainerScreen<?>)screen).getMenu().containerId, 2, 
-                        MouseButton.LEFT.getValue(), options().wholeStackModifier.isDown() 
+        Screen screen = Minecraft.getInstance().screen;
+        if (screen instanceof IMerchantScreen merchantScreen) {
+            merchantScreen.mmt$setRecipeId(this.index + merchantScreen.mmt$getRecipeIdOffset());
+            merchantScreen.mmt$syncRecipeId();
+            if (screen instanceof AbstractContainerScreen<?> containerScreen) {
+                InteractionManager.pushClickEvent(containerScreen.getMenu().containerId, 2,
+                        MouseButton.LEFT.getValue(), Screen.hasShiftDown()
                                 ? ClickType.QUICK_MOVE : ClickType.PICKUP);
             }
         }

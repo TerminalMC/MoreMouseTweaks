@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package dev.terminalmc.moremousetweaks.util;
+package dev.terminalmc.moremousetweaks.inventory;
 
 public enum ScrollAction {
     PASS(false, false),
