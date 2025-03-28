@@ -19,10 +19,8 @@
     "quick.craft.MixinRecipeBookPage",
     "quick.trade.MixinMerchantScreen",
     "quick.trade.MixinTradeOfferButton",
-    "scroll.MixinAbstractFurnaceScreen",
-    "scroll.MixinCraftingScreen",
     "scroll.MixinCreativeModeInventoryScreen",
-    "scroll.MixinInventoryScreen",
+    "scroll.MixinAbstractRecipeBookScreen",
     "scroll.MixinRecipeBookComponent",
     "slot.MixinCreativeSlot",
     "slot.MixinSlot"

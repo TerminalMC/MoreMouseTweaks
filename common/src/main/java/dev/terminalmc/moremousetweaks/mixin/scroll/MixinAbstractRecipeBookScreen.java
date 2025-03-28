@@ -21,31 +21,31 @@ import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookWidget;
 import dev.terminalmc.moremousetweaks.util.inject.IScrollableRecipeBook;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
-import net.minecraft.client.gui.screens.inventory.AbstractFurnaceScreen;
-import net.minecraft.client.gui.screens.recipebook.AbstractFurnaceRecipeBookComponent;
+import net.minecraft.client.gui.screens.inventory.AbstractRecipeBookScreen;
+import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.AbstractFurnaceMenu;
+import net.minecraft.world.inventory.InventoryMenu;
+import net.minecraft.world.inventory.RecipeBookMenu;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 
 /**
- * Recipe book scrolling helper for furnace screens.
+ * Recipe book scrolling helper for inventory screens.
  */
-@Mixin(AbstractFurnaceScreen.class)
-public abstract class MixinAbstractFurnaceScreen
-        extends AbstractContainerScreen<AbstractFurnaceMenu> implements IScrollableRecipeBook {
+@Mixin(AbstractRecipeBookScreen.class)
+public abstract class MixinAbstractRecipeBookScreen
+        extends AbstractContainerScreen<RecipeBookMenu> implements IScrollableRecipeBook {
     @Shadow
-    @Final public AbstractFurnaceRecipeBookComponent recipeBookComponent;
+    @Final private RecipeBookComponent<?> recipeBookComponent;
 
-    public MixinAbstractFurnaceScreen(
-            AbstractFurnaceMenu container, Inventory playerInventory, Component name) {
-        super(container, playerInventory, name);
+    public MixinAbstractRecipeBookScreen(InventoryMenu container, Inventory playerInventory, Component text) {
+        super(container, playerInventory, text);
     }
 
     @Override
     public ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount) {
-        return ((IRecipeBookWidget)recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
+        return ((IRecipeBookWidget) recipeBookComponent).mmt$scrollRecipeBook(mouseX, mouseY, scrollAmount);
     }
 }
