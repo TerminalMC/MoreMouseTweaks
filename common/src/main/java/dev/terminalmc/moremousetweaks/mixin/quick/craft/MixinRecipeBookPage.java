@@ -18,6 +18,7 @@
 package dev.terminalmc.moremousetweaks.mixin.quick.craft;
 
 import com.llamalad7.mixinextras.sugar.Local;
+import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
 import net.minecraft.client.Minecraft;
@@ -25,7 +26,7 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,7 +51,7 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
     @Shadow
     protected abstract void updateButtonsForPage();
     @Shadow
-    private RecipeHolder<?> lastClickedRecipe;
+    private RecipeDisplayId lastClickedRecipe;
     @Shadow
     private RecipeCollection lastClickedRecipeCollection;
     @Shadow
@@ -86,7 +87,7 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
     )
     public void mouseClicked(double mouseX, double mouseY, int button, int areaLeft, int areaTop,
                              int areaWidth, int areaHeight, CallbackInfoReturnable<Boolean> cir,
-                             Iterator<?> iterator, @Local RecipeButton recipeButton) {
+                             @Local Iterator<?> iterator, @Local RecipeButton recipeButton) {
         if (
                 options().quickCrafting
                         && button == MouseButton.RIGHT.getValue()
@@ -94,8 +95,7 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
         ) {
             // Optionally prevent clicking past a full carried stack
             ItemStack carried = minecraft.player.containerMenu.getCarried();
-            ItemStack result = recipeButton.getRecipe().value().getResultItem(
-                    minecraft.level.registryAccess());
+            ItemStack result = recipeButton.getDisplayStack();
             if (
                     !options().qcOverflowMode.equals(Config.Options.QcOverflowMode.NONE)
                             || carried.isEmpty()
@@ -105,8 +105,10 @@ public abstract class MixinRecipeBookPage implements IRecipeBookResults {
                     )
             ) {
                 // Quick-craft
-                lastClickedRecipe = recipeButton.getRecipe();
+                lastClickedRecipe = recipeButton.getCurrentRecipe();
                 lastClickedRecipeCollection = recipeButton.getCollection();
+                // Notify of result stack
+                MoreMouseTweaks.resultStack = result;
             }
         }
     }

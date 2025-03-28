@@ -47,13 +47,16 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
     @Shadow
     private RecipeBookTabButton selectedTab;
     @Shadow
-    protected abstract void updateCollections(boolean resetPageNumber);
+    protected abstract void updateCollections(boolean resetPageNumber, boolean isFiltering);
     @Shadow
     private int height;
     @Shadow
     public abstract boolean isVisible();
     @Shadow
     protected Minecraft minecraft;
+
+    @Shadow
+    protected abstract boolean isFiltering();
 
     /**
      * Recipe book page and tab scrolling.
@@ -85,7 +88,7 @@ public abstract class MixinRecipeBookComponent implements IRecipeBookWidget {
                 selectedTab.setStateTriggered(false);
                 selectedTab = tabButtons.get(newIndex);
                 selectedTab.setStateTriggered(true);
-                updateCollections(true);
+                updateCollections(true, isFiltering());
             }
             return ScrollAction.SUCCESS;
         }
