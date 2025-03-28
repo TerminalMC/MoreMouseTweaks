@@ -37,7 +37,8 @@ public class MoreMouseTweaks {
     }
 
     public static void onConfigSaved(Config config) {
-        if (Minecraft.getInstance().getSingleplayerServer() == null) {
+        //noinspection ConstantValue
+        if (Minecraft.getInstance() == null || Minecraft.getInstance().getSingleplayerServer() == null) {
             InteractionManager.setTickRate(config.options.interactionRateServer);
         } else {
             InteractionManager.setTickRate(config.options.interactionRateClient);
@@ -56,7 +57,8 @@ public class MoreMouseTweaks {
     }
 
     public static void setInteractionManagerTickRate(Config.Options options) {
-        if (Minecraft.getInstance().getSingleplayerServer() == null) {
+        //noinspection ConstantValue
+        if (Minecraft.getInstance() == null || Minecraft.getInstance().getSingleplayerServer() == null) {
             InteractionManager.setTickRate(options.interactionRateServer);
         } else {
             InteractionManager.setTickRate(options.interactionRateClient);
