@@ -61,7 +61,6 @@ public class MixinMouseHandler {
                 return result.cancelsAllActions();
         }
 
-        original.call(screen, mouseX, mouseY, deltaX, deltaY);
-        return false;
+        return original.call(screen, mouseX, mouseY, deltaX, deltaY);
     }
 }

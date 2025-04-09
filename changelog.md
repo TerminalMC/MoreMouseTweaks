@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.1
+
+- Fixed scroll interaction breaking MouseTweaks scroll behavior in certain inventories
+
 ## 1.0.0
 
 - Fixed version metadata
