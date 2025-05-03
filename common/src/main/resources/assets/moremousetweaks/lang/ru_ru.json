@@ -15,6 +15,10 @@
   "option.moremousetweaks.qcOverflowMode": "Режим переполнения быстрого крафта",
   "option.moremousetweaks.hotbarScope": "Режим панели быстрого доступа",
   "option.moremousetweaks.extraSlotScope": "Режим дополнительных слотов",
+  "option.moremousetweaks.matchingSlotsKey": "Matching Slots Key",
+  "option.moremousetweaks.matchingSlotsKey.tooltip": "The key to hold to apply an action to all slots with matching items",
+  "option.moremousetweaks.dropKey": "Drop Key",
+  "option.moremousetweaks.dropKey.tooltip": "The key to hold to allow dropping items via LMB",
   "option.moremousetweaks.alwaysMatchByType": "Подбор по типу",
   "option.moremousetweaks.alwaysMatchByType.tooltip": "При нажатии CTRL всегда будут соответствовать все предметы одного типа",
   "option.moremousetweaks.typeMatchTags": "Теги соответствия типа",
@@ -41,5 +45,5 @@
   "extraSlotScope.moremousetweaks.INVENTORY": "Инвентарь",
   "extraSlotScope.moremousetweaks.INVENTORY.tooltip": "Дополнительные слоты будут учитываться как часть основного инвентаря",
   "extraSlotScope.moremousetweaks.NONE": "Нет",
-  "extraSlotScope.moremousetweaks.NONE.tooltip": "Дополнительные слоты будут проигнорированы"
+  "extraSlotScope.moremousetweaks.NONE.tooltip": "Дополнительные слоты будут проигнорированы",
 }

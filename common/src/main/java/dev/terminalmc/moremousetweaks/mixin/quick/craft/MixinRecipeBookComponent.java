@@ -135,7 +135,7 @@ public abstract class MixinRecipeBookComponent {
                 return;
             }
             int resSlot = menu.getResultSlotIndex();
-            if (Screen.hasControlDown()) {
+            if (MoreMouseTweaks.isMatchingSlotsKeyDown()) {
                 if (
                         oldRecipeEntry != recipeEntry
                                 || menu.slots.get(resSlot).getItem().isEmpty()

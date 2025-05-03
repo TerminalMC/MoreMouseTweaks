@@ -108,12 +108,12 @@ public class InventoryHelper {
         // Only operate on unlocked slots
         if (ItemLocksWrapper.isLocked(slot)) return false;
 
-        if (Screen.hasControlDown()) {
+        if (MoreMouseTweaks.isMatchingSlotsKeyDown()) {
             // Quick-move or drop all matching slots
             handleControlClick(slot, clickConsumer, slotSupplier);
             return true;
         }
-        else if (Screen.hasAltDown()) {
+        else if (MoreMouseTweaks.isDropKeyDown()) {
             // Drop single slot
             clickConsumer.call(slot, MouseButton.RIGHT.getValue(), ClickType.THROW);
             return true;
@@ -124,8 +124,8 @@ public class InventoryHelper {
     private static void handleControlClick(Slot slot, ClickConsumer original,
                                            Supplier<List<Slot>> slotSupplier) {
         // Quick-move or throw all matching items
-        int button = Screen.hasAltDown() ? MouseButton.RIGHT.getValue() : MouseButton.LEFT.getValue();
-        ClickType clickType = Screen.hasAltDown() ? ClickType.THROW : ClickType.QUICK_MOVE;
+        int button = MoreMouseTweaks.isDropKeyDown() ? MouseButton.RIGHT.getValue() : MouseButton.LEFT.getValue();
+        ClickType clickType = MoreMouseTweaks.isDropKeyDown() ? ClickType.THROW : ClickType.QUICK_MOVE;
         ItemStack stack = slot.getItem().copy();
 
         // Operate on the original slot immediately to avoid delayed conflict

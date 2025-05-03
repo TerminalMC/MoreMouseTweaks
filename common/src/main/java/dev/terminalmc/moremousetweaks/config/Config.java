@@ -18,6 +18,7 @@ package dev.terminalmc.moremousetweaks.config;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import dev.terminalmc.moremousetweaks.platform.Services;
 import net.minecraft.world.item.Item;
@@ -85,6 +86,12 @@ public class Config {
             INVENTORY,
             NONE
         }
+        
+        public static final int matchingSlotsKeyDefault = InputConstants.KEY_LCONTROL;
+        public int matchingSlotsKey = matchingSlotsKeyDefault;
+
+        public static final int dropKeyDefault = InputConstants.KEY_LALT;
+        public int dropKey = dropKeyDefault;
 
         public static final boolean alwaysMatchByTypeDefault = false;
         public boolean alwaysMatchByType = alwaysMatchByTypeDefault;

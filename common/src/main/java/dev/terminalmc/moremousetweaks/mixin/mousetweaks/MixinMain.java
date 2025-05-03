@@ -18,6 +18,7 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -39,7 +40,7 @@ public class MixinMain {
      * Wraps the first 
      * {@link com.mojang.blaze3d.platform.InputConstants#isKeyDown}
      * invocation in {@link Main#onMouseDrag} to allow MouseTweaks' LMB drag
-     * functionality to work when CTRL or ALT is pressed, not only SHIFT.
+     * functionality to work when MoreMouseTweaks' keybinds are pressed.
      */
     @WrapOperation(
             method = "onMouseDrag",
@@ -50,7 +51,9 @@ public class MixinMain {
             )
     )
     private static boolean wrapIsKeyDown(long window, int key, Operation<Boolean> original) {
-        return Screen.hasShiftDown() || Screen.hasControlDown() || Screen.hasAltDown();
+        return Screen.hasShiftDown()
+                || MoreMouseTweaks.isMatchingSlotsKeyDown(window)
+                || MoreMouseTweaks.isDropKeyDown(window);
     }
 
     /**
@@ -68,7 +71,9 @@ public class MixinMain {
     )
     private static boolean wrapIsEmpty(ItemStack instance, Operation<Boolean> original) {
         if (original.call(instance)) {
-            if (oldSelectedSlot != null && (Screen.hasControlDown() || Screen.hasAltDown())) {
+            if (oldSelectedSlot != null && (
+                    MoreMouseTweaks.isMatchingSlotsKeyDown() 
+                            || MoreMouseTweaks.isDropKeyDown())) {
                 handler.clickSlot(oldSelectedSlot, MouseButton.LEFT, Screen.hasShiftDown());
             }
             return true;

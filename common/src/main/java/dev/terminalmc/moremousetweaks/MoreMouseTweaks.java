@@ -16,11 +16,14 @@
 
 package dev.terminalmc.moremousetweaks;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+
+import static dev.terminalmc.moremousetweaks.config.Config.options;
 
 public class MoreMouseTweaks {
     public static final String MOD_ID = "moremousetweaks";
@@ -69,5 +72,21 @@ public class MoreMouseTweaks {
     public static double getMouseY() {
         Minecraft mc = Minecraft.getInstance();
         return mc.mouseHandler.ypos() * (double) mc.getWindow().getGuiScaledHeight() / (double) mc.getWindow().getScreenHeight();
+    }
+    
+    public static boolean isMatchingSlotsKeyDown() {
+        return isMatchingSlotsKeyDown(Minecraft.getInstance().getWindow().getWindow());
+    }
+
+    public static boolean isMatchingSlotsKeyDown(long window) {
+        return options().matchingSlotsKey != -1 && InputConstants.isKeyDown(window, options().matchingSlotsKey);
+    }
+
+    public static boolean isDropKeyDown() {
+        return isDropKeyDown(Minecraft.getInstance().getWindow().getWindow());
+    }
+
+    public static boolean isDropKeyDown(long window) {
+        return options().dropKey != -1 && InputConstants.isKeyDown(window, options().dropKey);
     }
 }

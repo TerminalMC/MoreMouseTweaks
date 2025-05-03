@@ -1,5 +1,9 @@
 # Changelog
 
+## 1.0.2
+
+- Made CTRL (all matching slots) and ALT (drop) function keys configurable keybinds
+
 ## 1.0.1
 
 - Fixed scroll interaction breaking MouseTweaks scroll behavior in certain inventories

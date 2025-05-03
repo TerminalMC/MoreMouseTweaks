@@ -16,6 +16,7 @@
 
 package dev.terminalmc.moremousetweaks.gui.screen;
 
+import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.moremousetweaks.config.Config;
 import me.shedaniel.clothconfig2.api.*;
 import net.minecraft.ChatFormatting;
@@ -118,6 +119,24 @@ public class ClothScreenProvider {
                 }))
                 .setDefaultValue(Config.Options.extraSlotScopeDefault)
                 .setSaveConsumer(val -> options.extraSlotScope = val)
+                .build());
+
+        general.addEntry(eb.startKeyCodeField(localized("option", "matchingSlotsKey"),
+                        InputConstants.getKey(options.matchingSlotsKey, options.matchingSlotsKey))
+                .setTooltip(localized("option", "matchingSlotsKey.tooltip"))
+                .setDefaultValue(InputConstants.getKey(Config.Options.matchingSlotsKeyDefault,
+                        Config.Options.matchingSlotsKeyDefault))
+                .setKeySaveConsumer(val -> options.matchingSlotsKey = val.getValue())
+                .setAllowMouse(false) // op, default true
+                .build());
+
+        general.addEntry(eb.startKeyCodeField(localized("option", "dropKey"),
+                        InputConstants.getKey(options.dropKey, options.dropKey))
+                .setTooltip(localized("option", "dropKey.tooltip"))
+                .setDefaultValue(InputConstants.getKey(Config.Options.dropKeyDefault,
+                        Config.Options.dropKeyDefault))
+                .setKeySaveConsumer(val -> options.dropKey = val.getValue())
+                .setAllowMouse(false) // op, default true
                 .build());
 
         general.addEntry(eb.startBooleanToggle(localized("option", "alwaysMatchByType"),
