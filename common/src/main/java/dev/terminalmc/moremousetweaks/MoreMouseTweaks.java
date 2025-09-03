@@ -49,7 +49,9 @@ public class MoreMouseTweaks {
     }
 
     public static void setInteractionManagerTickRate(Config.Options options) {
-        if (Minecraft.getInstance().getSingleplayerServer() == null) {
+        @Nullable Minecraft mc = Minecraft.getInstance();
+        //noinspection ConstantValue
+        if (mc != null && mc.getSingleplayerServer() == null) {
             InteractionManager.setTickRate(options.interactionIntervalMp);
         } else {
             InteractionManager.setTickRate(options.interactionIntervalSp);
