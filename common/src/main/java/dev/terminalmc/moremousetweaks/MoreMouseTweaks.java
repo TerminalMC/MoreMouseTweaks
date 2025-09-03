@@ -39,19 +39,18 @@ public class MoreMouseTweaks {
         @Nullable Minecraft mc = Minecraft.getInstance();
         Config.Options options = config.options;
 
-        setInteractionManagerTickRate(options);
-
         //noinspection ConstantValue
-        if (mc != null && mc.getConnection() != null && mc.getConnection().isAcceptingMessages()) {
-            // Update item tags
-            updateItemTags(options);
+        if (mc != null) {
+            setInteractionManagerTickRate(options);
+            if (mc.getConnection() != null && mc.getConnection().isAcceptingMessages()) {
+                // Update item tags
+                updateItemTags(options);
+            }
         }
     }
 
     public static void setInteractionManagerTickRate(Config.Options options) {
-        @Nullable Minecraft mc = Minecraft.getInstance();
-        //noinspection ConstantValue
-        if (mc != null && mc.getSingleplayerServer() == null) {
+        if (Minecraft.getInstance().getSingleplayerServer() == null) {
             InteractionManager.setTickRate(options.interactionIntervalMp);
         } else {
             InteractionManager.setTickRate(options.interactionIntervalSp);
