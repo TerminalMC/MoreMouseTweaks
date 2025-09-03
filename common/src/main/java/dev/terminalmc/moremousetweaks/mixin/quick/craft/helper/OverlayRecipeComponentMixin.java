@@ -18,7 +18,7 @@
 package dev.terminalmc.moremousetweaks.mixin.quick.craft.helper;
 
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -43,7 +43,7 @@ public class OverlayRecipeComponentMixin {
     private List<OverlayRecipeComponent.OverlayRecipeButton> recipeButtons;
 
     @Shadow
-    private RecipeHolder<?> lastRecipeClicked;
+    private RecipeDisplayId lastRecipeClicked;
 
     @Inject(
             method = "mouseClicked",

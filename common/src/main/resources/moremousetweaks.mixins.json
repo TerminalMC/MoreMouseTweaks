@@ -22,10 +22,8 @@
     "quick.trade.inject.MerchantMenuMixin",
     "quick.trade.inject.MerchantScreenMixin",
     "scroll.MouseHandlerMixin",
-    "scroll.inject.AbstractFurnaceScreenMixin",
-    "scroll.inject.CraftingScreenMixin",
+    "scroll.inject.AbstractRecipeBookScreenMixin",
     "scroll.inject.CreativeModeInventoryScreenMixin",
-    "scroll.inject.InventoryScreenMixin",
     "scroll.inject.RecipeBookComponentMixin"
   ],
   "server": [
