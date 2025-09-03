@@ -128,7 +128,7 @@ public class Config {
         }
 
         public static final QcSingleCraftMode qcSingleCraftModeDefault =
-                QcSingleCraftMode.INVENTORY;
+                QcSingleCraftMode.CURSOR_INVENTORY;
         public QcSingleCraftMode qcSingleCraftMode = qcSingleCraftModeDefault;
         public static Validator<QcSingleCraftMode> qcSingleCraftModeValidator = (val) ->
                 val != null && Arrays.stream(QcSingleCraftMode.values()).toList().contains(val)
@@ -139,8 +139,7 @@ public class Config {
 
         // Keybind options
 
-        public static Validator<Integer> keyValidator = (val) ->
-                Math.max(unbox(val), -1);
+        public static Validator<Integer> keyValidator = (val) -> Math.max(unbox(val), -1);
 
         public static final int dropKeyDefault = InputConstants.KEY_LALT;
         public int dropKey = dropKeyDefault;
