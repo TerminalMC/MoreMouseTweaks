@@ -17,7 +17,6 @@
 
 package dev.terminalmc.moremousetweaks.mixin.quick.craft;
 
-import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import dev.terminalmc.moremousetweaks.inventory.helper.InteractionHelper;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
@@ -27,10 +26,11 @@ import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
 import net.minecraft.network.protocol.game.ServerboundPlaceRecipePacket;
-import net.minecraft.world.entity.player.StackedContents;
+import net.minecraft.world.inventory.AbstractCraftingMenu;
+import net.minecraft.world.inventory.AbstractFurnaceMenu;
 import net.minecraft.world.inventory.RecipeBookMenu;
 import net.minecraft.world.inventory.Slot;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -41,6 +41,8 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import yalter.mousetweaks.MouseButton;
 
+import java.util.Collection;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import static dev.terminalmc.moremousetweaks.config.Config.options;
@@ -81,10 +83,7 @@ public abstract class RecipeBookComponentMixin {
 
     @Shadow
     @Final
-    private StackedContents stackedContents;
-
-    @Shadow
-    protected RecipeBookMenu<?, ?> menu;
+    protected RecipeBookMenu menu;
 
     /**
      * Quick-crafting via RMB click.
@@ -93,7 +92,7 @@ public abstract class RecipeBookComponentMixin {
             method = "mouseClicked",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/multiplayer/MultiPlayerGameMode;handlePlaceRecipe(ILnet/minecraft/world/item/crafting/RecipeHolder;Z)V",
+                    target = "Lnet/minecraft/client/gui/screens/recipebook/RecipeBookComponent;isOffsetNextToMainGUI()Z",
                     shift = Shift.AFTER
             )
     )
@@ -106,7 +105,7 @@ public abstract class RecipeBookComponentMixin {
         if (!options().useQuickCrafting || mouseButton != MouseButton.RIGHT.getValue())
             return;
 
-        int resultSlotId = menu.getResultSlotIndex();
+        int resultSlotId = mmt$getResultSlotIndex(menu);
         if (Screen.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
             mmt$bulkQuickCraft(resultSlotId, false);
         } else {
@@ -150,12 +149,12 @@ public abstract class RecipeBookComponentMixin {
         if (!clickSuccess)
             return;
 
-        RecipeHolder<?> recipe = recipeBookPage.getLastClickedRecipe();
+        RecipeDisplayId recipe = recipeBookPage.getLastClickedRecipe();
         RecipeCollection collection = recipeBookPage.getLastClickedRecipeCollection();
         if (recipe == null || collection == null)
             return;
 
-        int resultSlotId = menu.getResultSlotIndex();
+        int resultSlotId = mmt$getResultSlotIndex(menu);
 
         // Select the recipe
         InteractionManager.pushPacketEvent(
@@ -171,7 +170,7 @@ public abstract class RecipeBookComponentMixin {
             mmt$bulkQuickCraft(resultSlotId, true);
         } else {
             if (Screen.hasShiftDown()) {
-                mmt$dropAll(recipe, resultSlotId);
+                mmt$dropAll(resultSlotId);
             } else {
                 InteractionHelper.drop(menu.containerId, resultSlotId);
             }
@@ -189,7 +188,7 @@ public abstract class RecipeBookComponentMixin {
      */
     @Unique
     private void mmt$bulkQuickCraft(int resultSlotId, boolean drop) {
-        RecipeHolder<?> recipe = recipeBookPage.getLastClickedRecipe();
+        RecipeDisplayId recipe = recipeBookPage.getLastClickedRecipe();
         RecipeCollection collection = recipeBookPage.getLastClickedRecipeCollection();
         if (recipe == null || collection == null)
             return;
@@ -223,12 +222,12 @@ public abstract class RecipeBookComponentMixin {
                             InteractionManager.clear();
                             return false;
                         }
-                        return MoreMouseTweaks.lastUpdatedSlot >= menu.getSize();
+                        return true;
                     }
             );
             // Shift-click or drop the result slot
             if (drop) {
-                mmt$dropAll(recipe, resultSlotId);
+                mmt$dropAll(resultSlotId);
             } else {
                 InteractionHelper.quickMove(menu.containerId, resultSlotId);
             }
@@ -265,14 +264,37 @@ public abstract class RecipeBookComponentMixin {
     }
 
     @Unique
-    private void mmt$dropAll(RecipeHolder<?> recipe, int resSlot) {
-        int maxOps = stackedContents.getBiggestCraftableStack(
-                recipe,
-                recipe.value().getResultItem(minecraft.level.registryAccess()).getMaxStackSize(),
-                null
-        );
+    private void mmt$dropAll(int resSlot) {
+        int maxOps = mmt$getBiggestCraftingStackSize();
         for (int i = 0; i < maxOps; i++) {
             InteractionHelper.drop(menu.containerId, resSlot);
         }
+    }
+
+    @Unique
+    private int mmt$getResultSlotIndex(RecipeBookMenu menu) {
+        return switch (menu) {
+            case AbstractCraftingMenu m -> m.getResultSlot().index;
+            case AbstractFurnaceMenu m -> m.getResultSlot().index;
+            default -> 0;
+        };
+    }
+
+    @Unique
+    public Collection<Slot> mmt$getInputSlots() {
+        if (menu instanceof AbstractCraftingMenu m) {
+            return m.getInputGridSlots();
+        } else {
+            return List.of();
+        }
+    }
+
+    @Unique
+    private int mmt$getBiggestCraftingStackSize() {
+        int max = 0;
+        for (Slot slot : mmt$getInputSlots()) {
+            max = Math.max(max, slot.getItem().getCount());
+        }
+        return max;
     }
 }

@@ -21,7 +21,6 @@ import dev.terminalmc.moremousetweaks.inventory.util.Scope;
 import dev.terminalmc.moremousetweaks.util.inject.ISlot;
 import net.minecraft.client.gui.screens.inventory.AbstractContainerScreen;
 import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen;
-import net.minecraft.client.gui.screens.inventory.EffectRenderingInventoryScreen;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
 
@@ -79,7 +78,7 @@ public class ContainerScreenHelper<T extends AbstractContainerScreen<?>> {
      */
     public Scope getScope(Slot slot) {
         // Screen with only player inventory
-        if (screen instanceof EffectRenderingInventoryScreen) {
+        if (screen instanceof AbstractContainerScreen<?>) {
             // Player inventory
             if (slot.container instanceof Inventory) {
                 boolean mergeWithHotbar = false;

@@ -22,7 +22,7 @@ import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
-import net.minecraft.world.item.crafting.RecipeHolder;
+import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -50,7 +50,7 @@ public abstract class RecipeBookPageMixin implements IRecipeBookResults {
     protected abstract void updateButtonsForPage();
 
     @Shadow
-    private RecipeHolder<?> lastClickedRecipe;
+    private RecipeDisplayId lastClickedRecipe;
 
     @Shadow
     private RecipeCollection lastClickedRecipeCollection;
@@ -92,7 +92,7 @@ public abstract class RecipeBookPageMixin implements IRecipeBookResults {
             int areaWidth,
             int areaHeight,
             CallbackInfoReturnable<Boolean> cir,
-            Iterator<?> iterator,
+            @Local Iterator<?> iterator,
             @Local RecipeButton recipeButton
     ) {
         if (!options().useQuickCrafting || button != MouseButton.RIGHT.getValue())
@@ -101,7 +101,7 @@ public abstract class RecipeBookPageMixin implements IRecipeBookResults {
             return;
 
         // Quick-craft
-        lastClickedRecipe = recipeButton.getRecipe();
+        lastClickedRecipe = recipeButton.getCurrentRecipe();
         lastClickedRecipeCollection = recipeButton.getCollection();
     }
 }
