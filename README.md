@@ -39,11 +39,15 @@ Enhances [Mouse Tweaks](https://modrinth.com/project/aC3cM3Vq) by adding extra m
   - Creative inventory tabs
 
 
-- Quick-crafting and trading
-  - `RMB` (or `Q`) on the recipe book entry or trade
-  - `SHIFT+RMB` to craft or trade a full source stack
-  - `CTRL+SHIFT+RMB` to craft or trade all matching slots
+- Quick-crafting
+  - `RMB` (or `Q`) on the recipe book entry
+  - `SHIFT+RMB` to craft up to a full stack
+  - `CTRL+SHIFT+RMB` to craft as much as possible
   - Configurable pickup and overflow behavior
+
+
+- Quick-trading
+  - `RMB` on the trade offer
 
 
 - Configurable keybinds
