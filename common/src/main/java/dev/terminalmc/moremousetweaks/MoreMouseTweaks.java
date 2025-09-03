@@ -16,77 +16,53 @@
 
 package dev.terminalmc.moremousetweaks;
 
-import com.mojang.blaze3d.platform.InputConstants;
 import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.ModLogger;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
-
-import static dev.terminalmc.moremousetweaks.config.Config.options;
+import org.jetbrains.annotations.Nullable;
 
 public class MoreMouseTweaks {
+
     public static final String MOD_ID = "moremousetweaks";
     public static final String MOD_NAME = "MoreMouseTweaks";
     public static final ModLogger LOG = new ModLogger(MOD_NAME);
 
-    public static int lastUpdatedSlot = -1;
+    public static volatile int lastUpdatedSlot = -1;
 
     public static void init() {
         Config.getAndSave();
     }
 
-    public static void onConfigSaved(Config config) {
-        if (Minecraft.getInstance().getSingleplayerServer() == null) {
-            InteractionManager.setTickRate(config.options.interactionRateServer);
-        } else {
-            InteractionManager.setTickRate(config.options.interactionRateClient);
-        }
-        updateItemTags(config.options);
-        setInteractionManagerTickRate(config.options);
-    }
+    public static void afterConfigSaved(Config config) {
+        @Nullable Minecraft mc = Minecraft.getInstance();
+        Config.Options options = config.options;
 
-    public static void updateItemTags(Config.Options options) {
-        options.typeMatchItems.clear();
-        BuiltInRegistries.ITEM.getTags().forEach((pair) -> {
-            if (options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
-                pair.getSecond().forEach((itemHolder) ->
-                        options.typeMatchItems.add(itemHolder.value()));
-            }
-        });
+        setInteractionManagerTickRate(options);
+
+        //noinspection ConstantValue
+        if (mc != null && mc.getConnection() != null && mc.getConnection().isAcceptingMessages()) {
+            // Update item tags
+            updateItemTags(options);
+        }
     }
 
     public static void setInteractionManagerTickRate(Config.Options options) {
         if (Minecraft.getInstance().getSingleplayerServer() == null) {
-            InteractionManager.setTickRate(options.interactionRateServer);
+            InteractionManager.setTickRate(options.interactionIntervalMp);
         } else {
-            InteractionManager.setTickRate(options.interactionRateClient);
+            InteractionManager.setTickRate(options.interactionIntervalSp);
         }
     }
 
-    public static double getMouseX() {
-        Minecraft mc = Minecraft.getInstance();
-        return mc.mouseHandler.xpos() * (double) mc.getWindow().getGuiScaledWidth() / (double) mc.getWindow().getScreenWidth();
-    }
-
-    public static double getMouseY() {
-        Minecraft mc = Minecraft.getInstance();
-        return mc.mouseHandler.ypos() * (double) mc.getWindow().getGuiScaledHeight() / (double) mc.getWindow().getScreenHeight();
-    }
-    
-    public static boolean isMatchingSlotsKeyDown() {
-        return isMatchingSlotsKeyDown(Minecraft.getInstance().getWindow().getWindow());
-    }
-
-    public static boolean isMatchingSlotsKeyDown(long window) {
-        return options().matchingSlotsKey != -1 && InputConstants.isKeyDown(window, options().matchingSlotsKey);
-    }
-
-    public static boolean isDropKeyDown() {
-        return isDropKeyDown(Minecraft.getInstance().getWindow().getWindow());
-    }
-
-    public static boolean isDropKeyDown(long window) {
-        return options().dropKey != -1 && InputConstants.isKeyDown(window, options().dropKey);
+    public static void updateItemTags(Config.Options options) {
+        options.typeMatchItemCache.clear();
+        BuiltInRegistries.ITEM.getTags().forEach((pair) -> {
+            if (options.typeMatchTags.contains(pair.getFirst().location().getPath())) {
+                pair.getSecond().forEach((itemHolder) ->
+                        options.typeMatchItemCache.add(itemHolder.value()));
+            }
+        });
     }
 }

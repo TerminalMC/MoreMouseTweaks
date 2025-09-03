@@ -17,13 +17,9 @@
 package dev.terminalmc.moremousetweaks;
 
 import dev.terminalmc.moremousetweaks.gui.screen.ConfigScreenProvider;
-import net.minecraft.client.Minecraft;
 import net.neoforged.api.distmarker.Dist;
-import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
-import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
-import net.neoforged.neoforge.client.event.ClientTickEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
 @Mod(value = MoreMouseTweaks.MOD_ID, dist = Dist.CLIENT)

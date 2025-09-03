@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.0
+
+- Updated quick-crafting logic
+- Added support for quick-crafting all items in inventory
+- Updated configuration
+
 ## 1.0.2
 
 - Made CTRL (all matching slots) and ALT (drop) function keys configurable keybinds

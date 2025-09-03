@@ -17,9 +17,7 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 public interface ISpecialClickableButtonWidget {
+
     boolean mmt$mouseClicked(int mouseButton);
 }

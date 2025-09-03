@@ -17,10 +17,8 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 public interface IRecipeBookResults {
+
     void mmt$setCurrentPage(int page);
 
     int mmt$getCurrentPage();

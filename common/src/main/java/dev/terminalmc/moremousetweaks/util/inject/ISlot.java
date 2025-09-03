@@ -17,28 +17,32 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 public interface ISlot {
+
     /**
      * The index of the slot in its inventory.
+     * <p>
+     * As a container may have several inventories, this value may be the same for multiple slots.
+     * <p>
+     * This value does not necessarily follow the left-right, top-down order; for example, the
+     * hotbar may be indexed 0-8 while the top-left inventory slot is 9.
      *
-     * <p>As a container may have several inventories, multiple slots may use
-     * the same index within a container.</p>
-     *
-     * @return the index within the inventory
-     * @see net.minecraft.world.inventory.Slot#index
+     * @return the index within the inventory.
+     * @see net.minecraft.world.inventory.Slot#slot
      */
+    @SuppressWarnings("JavadocReference")
     int mmt$getIndexInInv();
 
     /**
-     * The unique id of the slot within its container.
+     * The unique ID of the slot within its container.
+     * <p>
+     * This is unique within a container, and therefore may differ from the value of
+     * {@link ISlot#mmt$getIndexInInv}.
+     * <p>
+     * This value can be safely assumed to be the same as the index of the slot in
+     * {@link net.minecraft.world.inventory.AbstractContainerMenu#slots}.
      *
-     * <p>This is unique within a container, but may differ from the index in
-     * the inventory.</p>
-     *
-     * @return the unique id within the container
+     * @return the unique ID within the container.
      * @see net.minecraft.world.inventory.Slot#index
      */
     int mmt$getIdInContainer();

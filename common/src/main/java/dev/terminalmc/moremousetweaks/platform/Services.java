@@ -17,12 +17,13 @@
 package dev.terminalmc.moremousetweaks.platform;
 
 import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
-import dev.terminalmc.moremousetweaks.platform.services.IPlatformInfo;
+import dev.terminalmc.moremousetweaks.platform.services.IPlatformServices;
 
 import java.util.ServiceLoader;
 
 public class Services {
-    public static final IPlatformInfo PLATFORM = load(IPlatformInfo.class);
+
+    public static final IPlatformServices PLATFORM = load(IPlatformServices.class);
 
     public static <T> T load(Class<T> clazz) {
         final T loadedService = ServiceLoader.load(clazz)

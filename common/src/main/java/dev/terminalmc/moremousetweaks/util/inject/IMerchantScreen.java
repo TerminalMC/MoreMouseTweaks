@@ -17,13 +17,11 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import org.jetbrains.annotations.ApiStatus;
-
-@ApiStatus.Internal
 public interface IMerchantScreen {
-    void mmt$setRecipeId(int id);
 
-    void mmt$syncRecipeId();
+    void mmt$setOfferId(int id);
 
-    int mmt$getRecipeIdOffset();
+    void mmt$syncOfferId();
+
+    int mmt$getOfferIdOffset();
 }

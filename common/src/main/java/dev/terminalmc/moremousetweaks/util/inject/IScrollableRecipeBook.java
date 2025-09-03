@@ -17,10 +17,9 @@
 
 package dev.terminalmc.moremousetweaks.util.inject;
 
-import dev.terminalmc.moremousetweaks.inventory.ScrollAction;
-import org.jetbrains.annotations.ApiStatus;
+import dev.terminalmc.moremousetweaks.inventory.util.ScrollAction;
 
-@ApiStatus.Internal
 public interface IScrollableRecipeBook {
+
     ScrollAction mmt$onMouseScrollRecipeBook(double mouseX, double mouseY, double scrollAmount);
 }
