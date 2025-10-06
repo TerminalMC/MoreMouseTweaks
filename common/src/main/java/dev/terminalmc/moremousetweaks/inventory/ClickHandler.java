@@ -24,8 +24,8 @@ import dev.terminalmc.moremousetweaks.mixin.mousetweaks.GuiContainerHandlerMixin
 import dev.terminalmc.moremousetweaks.mixin.mousetweaks.IMTModGuiContainer3ExHandlerMixin;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
+import dev.terminalmc.moremousetweaks.util.KeyUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.world.inventory.ClickType;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
@@ -66,7 +66,7 @@ public class ClickHandler {
             return false;
 
         // Only operate if there's not already a special vanilla operation
-        if (Screen.hasShiftDown())
+        if (KeyUtil.hasShiftDown())
             return false;
 
         // Only operate on unlocked slots

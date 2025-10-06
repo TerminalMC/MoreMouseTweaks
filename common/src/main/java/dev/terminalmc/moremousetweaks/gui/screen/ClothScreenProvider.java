@@ -25,6 +25,7 @@ import me.shedaniel.clothconfig2.api.ConfigCategory;
 import me.shedaniel.clothconfig2.api.ConfigEntryBuilder;
 import net.minecraft.ChatFormatting;
 import net.minecraft.client.gui.screens.Screen;
+import net.minecraft.client.input.KeyEvent;
 import net.minecraft.network.chat.Component;
 
 import java.util.Optional;
@@ -207,20 +208,21 @@ public class ClothScreenProvider {
 
         keybinds.addEntry(eb.startKeyCodeField(
                         localized("option", "dropKey"),
-                        InputConstants.getKey(options.dropKey, options.dropKey)
+                        InputConstants.getKey(new KeyEvent(options.dropKey, 0, 0))
                 )
                 .setTooltip(localized("option", "dropKey.tooltip"))
-                .setDefaultValue(InputConstants.getKey(Options.dropKeyDefault, 0))
+                .setDefaultValue(InputConstants.getKey(new KeyEvent(Options.dropKeyDefault, 0, 0)))
                 .setKeySaveConsumer(val -> options.dropKey = val.getValue())
                 .setAllowMouse(false)
                 .build());
 
         keybinds.addEntry(eb.startKeyCodeField(
                         localized("option", "matchingSlotsKey"),
-                        InputConstants.getKey(options.matchingSlotsKey, options.matchingSlotsKey)
+                        InputConstants.getKey(new KeyEvent(options.matchingSlotsKey, 0, 0))
                 )
                 .setTooltip(localized("option", "matchingSlotsKey.tooltip"))
-                .setDefaultValue(InputConstants.getKey(Config.Options.matchingSlotsKeyDefault, 0))
+                .setDefaultValue(InputConstants.getKey(
+                        new KeyEvent(Options.matchingSlotsKeyDefault, 0, 0)))
                 .setKeySaveConsumer(val -> options.matchingSlotsKey = val.getValue())
                 .setAllowMouse(false)
                 .build());

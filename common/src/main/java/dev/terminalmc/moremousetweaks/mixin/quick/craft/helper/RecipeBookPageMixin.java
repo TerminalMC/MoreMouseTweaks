@@ -22,6 +22,7 @@ import dev.terminalmc.moremousetweaks.util.inject.IRecipeBookResults;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeButton;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+import net.minecraft.client.input.MouseButtonEvent;
 import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -84,18 +85,17 @@ public abstract class RecipeBookPageMixin implements IRecipeBookResults {
             locals = LocalCapture.CAPTURE_FAILSOFT
     )
     public void mouseClicked(
-            double mouseX,
-            double mouseY,
-            int button,
-            int areaLeft,
-            int areaTop,
-            int areaWidth,
-            int areaHeight,
+            MouseButtonEvent event,
+            int x,
+            int y,
+            int width,
+            int height,
+            boolean isDoubleClick,
             CallbackInfoReturnable<Boolean> cir,
             @Local Iterator<?> iterator,
             @Local RecipeButton recipeButton
     ) {
-        if (!options().useQuickCrafting || button != MouseButton.RIGHT.getValue())
+        if (!options().useQuickCrafting || event.button() != MouseButton.RIGHT.getValue())
             return;
         if (!recipeButton.isOnlyOption())
             return;

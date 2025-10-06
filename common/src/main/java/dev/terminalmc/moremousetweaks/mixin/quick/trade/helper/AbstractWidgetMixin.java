@@ -19,6 +19,7 @@ package dev.terminalmc.moremousetweaks.mixin.quick.trade.helper;
 
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialClickableButtonWidget;
 import net.minecraft.client.gui.components.AbstractWidget;
+import net.minecraft.client.input.MouseButtonEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
@@ -38,14 +39,18 @@ public abstract class AbstractWidgetMixin {
             method = "mouseClicked",
             at = @At(
                     value = "INVOKE",
-                    target = "Lnet/minecraft/client/gui/components/AbstractWidget;isValidClickButton(I)Z"
+                    target = "Lnet/minecraft/client/gui/components/AbstractWidget;isValidClickButton(Lnet/minecraft/client/input/MouseButtonInfo;)Z"
             ),
             cancellable = true
     )
-    public void mouseClicked(double x, double y, int button, CallbackInfoReturnable<Boolean> cir) {
-        if (this.isMouseOver(x, y)) {
+    public void mouseClicked(
+            MouseButtonEvent event,
+            boolean isDoubleClick,
+            CallbackInfoReturnable<Boolean> cir
+    ) {
+        if (this.isMouseOver(event.x(), event.y())) {
             if (this instanceof ISpecialClickableButtonWidget widget) {
-                if (widget.mmt$mouseClicked(button)) {
+                if (widget.mmt$mouseClicked(event.button())) {
                     cir.setReturnValue(true);
                 }
             }

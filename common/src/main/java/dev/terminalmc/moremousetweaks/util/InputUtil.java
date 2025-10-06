@@ -17,6 +17,7 @@
 package dev.terminalmc.moremousetweaks.util;
 
 import com.mojang.blaze3d.platform.InputConstants;
+import com.mojang.blaze3d.platform.Window;
 import net.minecraft.client.Minecraft;
 
 import static dev.terminalmc.moremousetweaks.config.Config.options;
@@ -37,15 +38,15 @@ public class InputUtil {
                 / (double) mc.getWindow().getScreenHeight();
     }
 
-    private static long window() {
-        return Minecraft.getInstance().getWindow().getWindow();
+    private static Window window() {
+        return Minecraft.getInstance().getWindow();
     }
 
     public static boolean isAnyKeyDown() {
         return isAnyKeyDown(window());
     }
 
-    public static boolean isAnyKeyDown(long window) {
+    public static boolean isAnyKeyDown(Window window) {
         return isDropKeyDown(window)
                 || isMatchingSlotsKeyDown(window);
     }
@@ -54,7 +55,7 @@ public class InputUtil {
         return isDropKeyDown(window());
     }
 
-    public static boolean isDropKeyDown(long window) {
+    public static boolean isDropKeyDown(Window window) {
         return options().dropKey != -1 && InputConstants.isKeyDown(window, options().dropKey);
     }
 
@@ -62,7 +63,7 @@ public class InputUtil {
         return isMatchingSlotsKeyDown(window());
     }
 
-    public static boolean isMatchingSlotsKeyDown(long window) {
+    public static boolean isMatchingSlotsKeyDown(Window window) {
         return options().matchingSlotsKey != -1
                 && InputConstants.isKeyDown(window, options().matchingSlotsKey);
     }

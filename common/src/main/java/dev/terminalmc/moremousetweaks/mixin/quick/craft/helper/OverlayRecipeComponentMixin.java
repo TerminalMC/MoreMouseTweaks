@@ -18,6 +18,8 @@
 package dev.terminalmc.moremousetweaks.mixin.quick.craft.helper;
 
 import net.minecraft.client.gui.screens.recipebook.OverlayRecipeComponent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.world.item.crafting.display.RecipeDisplayId;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
@@ -51,12 +53,11 @@ public class OverlayRecipeComponentMixin {
             cancellable = true
     )
     private void onMouseClicked(
-            double mouseX,
-            double mouseY,
-            int button,
+            MouseButtonEvent event,
+            boolean isDoubleClick,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!options().useQuickCrafting || button != MouseButton.RIGHT.getValue())
+        if (!options().useQuickCrafting || event.button() != MouseButton.RIGHT.getValue())
             return;
 
         // Find the relevant button
@@ -68,7 +69,14 @@ public class OverlayRecipeComponentMixin {
                 return;
             }
             overlayButton = iter.next();
-        } while (!overlayButton.mouseClicked(mouseX, mouseY, MouseButton.LEFT.getValue()));
+        } while (!overlayButton.mouseClicked(
+                new MouseButtonEvent(
+                        event.x(),
+                        event.y(),
+                        new MouseButtonInfo(MouseButton.LEFT.getValue(), 0)
+                ),
+                false
+        ));
 
         // Quick-craft
         lastRecipeClicked = overlayButton.recipe;

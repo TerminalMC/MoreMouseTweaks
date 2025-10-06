@@ -21,6 +21,7 @@ import dev.terminalmc.moremousetweaks.inventory.helper.ComparisonHelper;
 import dev.terminalmc.moremousetweaks.inventory.helper.InteractionHelper;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
+import dev.terminalmc.moremousetweaks.util.KeyUtil;
 import dev.terminalmc.moremousetweaks.util.inject.IMerchantMenu;
 import dev.terminalmc.moremousetweaks.util.inject.IMerchantScreen;
 import dev.terminalmc.moremousetweaks.util.inject.ISpecialClickableButtonWidget;
@@ -102,7 +103,7 @@ public class TradeOfferButtonMixin implements ISpecialClickableButtonWidget {
         mmt$iMerchantScreen.mmt$setOfferId(offerId);
         mmt$iMerchantScreen.mmt$syncOfferId();
 
-        if (Screen.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
+        if (KeyUtil.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
             mmt$bulkQuickTrade(offerId);
         } else {
             InteractionHelper.pickup(

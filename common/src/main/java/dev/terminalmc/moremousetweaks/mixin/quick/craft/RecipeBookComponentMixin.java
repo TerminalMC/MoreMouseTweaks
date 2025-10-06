@@ -20,11 +20,14 @@ package dev.terminalmc.moremousetweaks.mixin.quick.craft;
 import dev.terminalmc.moremousetweaks.inventory.helper.InteractionHelper;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
+import dev.terminalmc.moremousetweaks.util.KeyUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.client.gui.screens.Screen;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookComponent;
 import net.minecraft.client.gui.screens.recipebook.RecipeBookPage;
 import net.minecraft.client.gui.screens.recipebook.RecipeCollection;
+import net.minecraft.client.input.KeyEvent;
+import net.minecraft.client.input.MouseButtonEvent;
+import net.minecraft.client.input.MouseButtonInfo;
 import net.minecraft.network.protocol.game.ServerboundPlaceRecipePacket;
 import net.minecraft.world.inventory.AbstractCraftingMenu;
 import net.minecraft.world.inventory.AbstractFurnaceMenu;
@@ -97,16 +100,15 @@ public abstract class RecipeBookComponentMixin {
             )
     )
     public void mouseClicked(
-            double mouseX,
-            double mouseY,
-            int mouseButton,
+            MouseButtonEvent event,
+            boolean isDoubleClick,
             CallbackInfoReturnable<Boolean> cir
     ) {
-        if (!options().useQuickCrafting || mouseButton != MouseButton.RIGHT.getValue())
+        if (!options().useQuickCrafting || event.button() != MouseButton.RIGHT.getValue())
             return;
 
         int resultSlotId = mmt$getResultSlotIndex(menu);
-        if (Screen.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
+        if (event.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
             mmt$bulkQuickCraft(resultSlotId, false);
         } else {
             mmt$quickCraft(resultSlotId);
@@ -121,15 +123,10 @@ public abstract class RecipeBookComponentMixin {
             at = @At("HEAD"),
             cancellable = true
     )
-    public void keyPressed(
-            int keyCode,
-            int scanCode,
-            int modifiers,
-            CallbackInfoReturnable<Boolean> cir
-    ) {
+    public void keyPressed(KeyEvent event, CallbackInfoReturnable<Boolean> cir) {
         if (!isVisible() || minecraft.player.isSpectator())
             return;
-        if (!options().useQuickCrafting || !minecraft.options.keyDrop.matches(keyCode, scanCode))
+        if (!options().useQuickCrafting || !minecraft.options.keyDrop.matches(event))
             return;
         // Drop interaction doesn't work if the cursor is carrying an item
         if (!minecraft.player.containerMenu.getCarried().isEmpty())
@@ -138,13 +135,16 @@ public abstract class RecipeBookComponentMixin {
         // Click at the cursor position to select the recipe
         ignoreTextInput = false;
         boolean clickSuccess = recipeBookPage.mouseClicked(
-                InputUtil.getMouseX(),
-                InputUtil.getMouseY(),
-                MouseButton.LEFT.getValue(),
+                new MouseButtonEvent(
+                        InputUtil.getMouseX(),
+                        InputUtil.getMouseY(),
+                        new MouseButtonInfo(MouseButton.LEFT.getValue(), 0)
+                ),
                 (width - IMAGE_WIDTH) / 2 - xOffset,
                 (height - IMAGE_HEIGHT) / 2,
                 IMAGE_WIDTH,
-                IMAGE_HEIGHT
+                IMAGE_HEIGHT,
+                false
         );
         if (!clickSuccess)
             return;
@@ -161,15 +161,15 @@ public abstract class RecipeBookComponentMixin {
                 new ServerboundPlaceRecipePacket(
                         menu.containerId,
                         recipe,
-                        Screen.hasShiftDown()
+                        event.hasShiftDown()
                 ),
                 InteractionManager.TICK_WAITER
         );
 
-        if (Screen.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
+        if (event.hasShiftDown() && InputUtil.isMatchingSlotsKeyDown()) {
             mmt$bulkQuickCraft(resultSlotId, true);
         } else {
-            if (Screen.hasShiftDown()) {
+            if (event.hasShiftDown()) {
                 mmt$dropAll(resultSlotId);
             } else {
                 InteractionHelper.drop(menu.containerId, resultSlotId);
@@ -242,7 +242,7 @@ public abstract class RecipeBookComponentMixin {
         boolean pickupClick = false;
         boolean quickMoveClick = false;
 
-        if (Screen.hasShiftDown()) {
+        if (KeyUtil.hasShiftDown()) {
             quickMoveClick = true;
         } else {
             switch (options().qcSingleCraftMode) {

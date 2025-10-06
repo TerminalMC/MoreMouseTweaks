@@ -19,8 +19,9 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
+import com.mojang.blaze3d.platform.Window;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
-import net.minecraft.client.gui.screens.Screen;
+import dev.terminalmc.moremousetweaks.util.KeyUtil;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import org.spongepowered.asm.mixin.Mixin;
@@ -48,11 +49,11 @@ public class MainMixin {
             method = "onMouseDrag",
             at = @At(
                     value = "INVOKE",
-                    target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(JI)Z",
+                    target = "Lcom/mojang/blaze3d/platform/InputConstants;isKeyDown(Lcom/mojang/blaze3d/platform/Window;I)Z",
                     ordinal = 0
             )
     )
-    private static boolean wrapIsKeyDown(long window, int key, Operation<Boolean> original) {
+    private static boolean wrapIsKeyDown(Window window, int key, Operation<Boolean> original) {
         return original.call(window, key) || InputUtil.isAnyKeyDown();
     }
 
@@ -71,7 +72,7 @@ public class MainMixin {
     private static boolean wrapIsEmpty(ItemStack instance, Operation<Boolean> original) {
         if (original.call(instance)) {
             if (oldSelectedSlot != null && InputUtil.isAnyKeyDown()) {
-                handler.clickSlot(oldSelectedSlot, MouseButton.LEFT, Screen.hasShiftDown());
+                handler.clickSlot(oldSelectedSlot, MouseButton.LEFT, KeyUtil.hasShiftDown());
             }
             return true;
         }
