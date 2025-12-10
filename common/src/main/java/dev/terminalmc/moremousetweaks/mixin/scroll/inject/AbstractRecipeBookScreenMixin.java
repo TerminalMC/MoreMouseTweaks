@@ -27,6 +27,7 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.InventoryMenu;
 import net.minecraft.world.inventory.RecipeBookMenu;
+import org.jetbrains.annotations.NotNull;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -35,7 +36,7 @@ import org.spongepowered.asm.mixin.Shadow;
  * Recipe book scrolling helper for inventory screens.
  */
 @Mixin(AbstractRecipeBookScreen.class)
-public abstract class AbstractRecipeBookScreenMixin extends AbstractContainerScreen<RecipeBookMenu>
+public abstract class AbstractRecipeBookScreenMixin extends AbstractContainerScreen<@NotNull RecipeBookMenu>
         implements IScrollableRecipeBook {
 
     @Shadow

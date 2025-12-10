@@ -102,9 +102,9 @@ public abstract class RecipeBookComponentMixin implements IRecipeBookWidget {
             int newIndex =
                     Mth.clamp(index + (int) (Math.round(scrollAmount)), 0, tabButtons.size() - 1);
             if (newIndex != index) {
-                selectedTab.setStateTriggered(false);
+                selectedTab.unselect();
                 selectedTab = tabButtons.get(newIndex);
-                selectedTab.setStateTriggered(true);
+                selectedTab.select();
                 updateCollections(true, isFiltering());
             }
             return ScrollAction.SUCCESS;

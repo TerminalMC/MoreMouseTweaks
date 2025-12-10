@@ -42,7 +42,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  */
 @Mixin(CreativeModeInventoryScreen.class)
 public abstract class CreativeModeInventoryScreenMixin
-        extends AbstractContainerScreen<ItemPickerMenu>
+        extends AbstractContainerScreen<@NotNull ItemPickerMenu>
         implements ISpecialScrollableScreen {
 
     @Shadow
