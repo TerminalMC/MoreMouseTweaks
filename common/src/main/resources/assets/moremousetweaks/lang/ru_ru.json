@@ -3,6 +3,7 @@
 
   "message.moremousetweaks.viewModrinth": "Посмотреть на Modrinth",
   "message.moremousetweaks.installCloth": "Установите Cloth Config API для доступа к параметрам мода",
+  "message.moremousetweaks.configScreenDisabled": "Config screen is not available on this version.",
 
   "option.moremousetweaks.general": "Общие",
   "option.moremousetweaks.interactionIntervalMp": "Интервал взаимодействия в многопользовательском режиме",

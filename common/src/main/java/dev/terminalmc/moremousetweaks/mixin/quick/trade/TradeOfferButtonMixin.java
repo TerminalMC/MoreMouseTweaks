@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -48,17 +48,11 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  * Quick-trading.
  */
 @Mixin(targets = "net/minecraft/client/gui/screens/inventory/MerchantScreen$TradeOfferButton")
-public class TradeOfferButtonMixin implements ISpecialClickableButtonWidget {
+public abstract class TradeOfferButtonMixin implements ISpecialClickableButtonWidget {
 
     @Shadow
     @Final
     int index;
-
-    @Unique
-    private AbstractContainerScreen<?> mmt$containerScreen;
-
-    @Unique
-    private MerchantScreen mmt$merchantScreen;
 
     @Unique
     private IMerchantScreen mmt$iMerchantScreen;
@@ -81,9 +75,7 @@ public class TradeOfferButtonMixin implements ISpecialClickableButtonWidget {
         boolean allCast = false;
 
         if (screen instanceof AbstractContainerScreen<?> cs) {
-            mmt$containerScreen = cs;
             if (cs instanceof MerchantScreen ms) {
-                mmt$merchantScreen = ms;
                 if (ms instanceof IMerchantScreen ims) {
                     mmt$iMerchantScreen = ims;
                     if (cs.getMenu() instanceof MerchantMenu mm) {

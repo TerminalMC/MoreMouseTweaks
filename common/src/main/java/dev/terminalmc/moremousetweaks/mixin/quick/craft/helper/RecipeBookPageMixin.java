@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -31,8 +31,6 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 import yalter.mousetweaks.MouseButton;
-
-import java.util.Iterator;
 
 import static dev.terminalmc.moremousetweaks.config.Config.options;
 
@@ -86,22 +84,21 @@ public abstract class RecipeBookPageMixin implements IRecipeBookResults {
     )
     public void mouseClicked(
             MouseButtonEvent event,
-            int x,
-            int y,
-            int width,
-            int height,
-            boolean isDoubleClick,
+            int xo,
+            int yo,
+            int imageWidth,
+            int imageHeight,
+            boolean doubleClick,
             CallbackInfoReturnable<Boolean> cir,
-            @Local Iterator<?> iterator,
-            @Local RecipeButton recipeButton
+            @Local(name = "button") RecipeButton button
     ) {
         if (!options().useQuickCrafting || event.button() != MouseButton.RIGHT.getValue())
             return;
-        if (!recipeButton.isOnlyOption())
+        if (!button.isOnlyOption())
             return;
 
         // Quick-craft
-        lastClickedRecipe = recipeButton.getCurrentRecipe();
-        lastClickedRecipeCollection = recipeButton.getCollection();
+        lastClickedRecipe = button.getCurrentRecipe();
+        lastClickedRecipeCollection = button.getCollection();
     }
 }

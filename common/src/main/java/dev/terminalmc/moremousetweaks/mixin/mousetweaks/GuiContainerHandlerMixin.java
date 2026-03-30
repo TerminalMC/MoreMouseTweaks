@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -20,7 +20,7 @@ package dev.terminalmc.moremousetweaks.mixin.mousetweaks;
 import com.llamalad7.mixinextras.injector.wrapoperation.Operation;
 import com.llamalad7.mixinextras.injector.wrapoperation.WrapOperation;
 import dev.terminalmc.moremousetweaks.inventory.ClickHandler;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -31,7 +31,7 @@ import yalter.mousetweaks.mixin.AbstractContainerScreenAccessor;
 import java.util.List;
 
 @Mixin(GuiContainerHandler.class)
-public class GuiContainerHandlerMixin {
+public abstract class GuiContainerHandlerMixin {
 
     @Shadow
     public List<Slot> getSlots() {
@@ -48,7 +48,7 @@ public class GuiContainerHandlerMixin {
             method = "clickSlot",
             at = @At(
                     value = "INVOKE",
-                    target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ClickType;)V"
+                    target = "Lyalter/mousetweaks/mixin/AbstractContainerScreenAccessor;mousetweaks$invokeSlotClicked(Lnet/minecraft/world/inventory/Slot;IILnet/minecraft/world/inventory/ContainerInput;)V"
             )
     )
     private void wrapSlotClicked(
@@ -56,7 +56,7 @@ public class GuiContainerHandlerMixin {
             Slot slot,
             int index,
             int button,
-            ClickType clickType,
+            ContainerInput clickType,
             Operation<Void> original
     ) {
         if (!ClickHandler.handleSlotClick(

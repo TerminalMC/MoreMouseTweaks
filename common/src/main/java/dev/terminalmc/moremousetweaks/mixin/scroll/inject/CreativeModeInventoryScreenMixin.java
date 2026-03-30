@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import net.minecraft.client.gui.screens.inventory.CreativeModeInventoryScreen.It
 import net.minecraft.network.chat.Component;
 import net.minecraft.util.Mth;
 import net.minecraft.world.entity.player.Inventory;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.CreativeModeTab;
 import net.minecraft.world.item.CreativeModeTabs;
@@ -49,14 +49,14 @@ public abstract class CreativeModeInventoryScreenMixin
     private static CreativeModeTab selectedTab;
 
     @Shadow
-    protected abstract void selectTab(CreativeModeTab itemGroup_1);
+    protected abstract void selectTab(CreativeModeTab tab);
 
     @Shadow
     protected abstract void slotClicked(
             @NotNull Slot slot,
-            int invSlot,
-            int button,
-            @NotNull ClickType slotActionType
+            int slotId,
+            int buttonNum,
+            @NotNull ContainerInput containerInput
     );
 
     public CreativeModeInventoryScreenMixin(

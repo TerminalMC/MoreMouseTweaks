@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,7 +21,7 @@ import dev.terminalmc.moremousetweaks.MoreMouseTweaks;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.multiplayer.ClientPacketListener;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 
 import java.util.ArrayDeque;
 import java.util.Queue;
@@ -50,7 +50,7 @@ public class InteractionManager {
             int containerId,
             int slotId,
             int mouseButton,
-            ClickType clickType
+            ContainerInput clickType
     ) {
         push(new ClickEvent(containerId, slotId, mouseButton, clickType, TICK_WAITER));
     }
@@ -179,13 +179,13 @@ public class InteractionManager {
         private final int containerId;
         private final int slotId;
         private final int mouseButton;
-        private final ClickType clickType;
+        private final ContainerInput clickType;
 
         public ClickEvent(
                 int containerId,
                 int slotId,
                 int mouseButton,
-                ClickType clickType,
+                ContainerInput clickType,
                 Waiter waiter
         ) {
             this.containerId = containerId;
@@ -203,7 +203,7 @@ public class InteractionManager {
             } else if (mc.player == null) {
                 MoreMouseTweaks.LOG.error("Unable to send click event: player is null");
             } else {
-                mc.gameMode.handleInventoryMouseClick(
+                mc.gameMode.handleContainerInput(
                         containerId,
                         slotId,
                         mouseButton,

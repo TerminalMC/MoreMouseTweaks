@@ -1,5 +1,5 @@
 /*
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,13 +16,7 @@
 
 package dev.terminalmc.moremousetweaks.compat.itemlocks;
 
-import com.kirdow.itemlocks.client.LockManager;
-import dev.terminalmc.moremousetweaks.util.inject.ISlot;
-import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.inventory.Slot;
-
-import static com.kirdow.itemlocks.client.input.KeyBindings.isBypass;
-import static com.kirdow.itemlocks.proxy.Components.getComponent;
 
 public class ItemLocksCompat {
 
@@ -31,10 +25,11 @@ public class ItemLocksCompat {
      * @return {@code true} if the slot is valid, locked, and the bypass is not active.
      */
     static boolean isLocked(Slot slot) {
-        if (!(slot.container instanceof Inventory))
-            return false;
-        int index = adjustForInventory(((ISlot) slot).mmt$getIndexInInv());
-        return getComponent(LockManager.class).isLockedSlotRaw(index) && !isBypass();
+        return false;
+//        if (!(slot.container instanceof Inventory))
+//            return false;
+//        int index = adjustForInventory(((ISlot) slot).mmt$getIndexInInv());
+//        return getComponent(LockManager.class).isLockedSlotRaw(index) && !isBypass();
     }
 
     /**

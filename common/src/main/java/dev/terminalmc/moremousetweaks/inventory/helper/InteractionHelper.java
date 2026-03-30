@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,7 +18,7 @@
 package dev.terminalmc.moremousetweaks.inventory.helper;
 
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import yalter.mousetweaks.MouseButton;
 
 public class InteractionHelper {
@@ -28,7 +28,7 @@ public class InteractionHelper {
                 containerId,
                 slotId,
                 MouseButton.LEFT.getValue(),
-                ClickType.PICKUP
+                ContainerInput.PICKUP
         );
     }
 
@@ -37,7 +37,7 @@ public class InteractionHelper {
                 containerId,
                 slotId,
                 MouseButton.LEFT.getValue(),
-                ClickType.QUICK_MOVE
+                ContainerInput.QUICK_MOVE
         );
     }
 
@@ -46,7 +46,7 @@ public class InteractionHelper {
                 containerId,
                 slotId,
                 MouseButton.RIGHT.getValue(),
-                ClickType.THROW
+                ContainerInput.THROW
         );
     }
 }

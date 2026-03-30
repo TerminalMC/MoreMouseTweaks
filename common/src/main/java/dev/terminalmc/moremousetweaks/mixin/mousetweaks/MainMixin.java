@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -32,7 +32,7 @@ import yalter.mousetweaks.Main;
 import yalter.mousetweaks.MouseButton;
 
 @Mixin(Main.class)
-public class MainMixin {
+public abstract class MainMixin {
 
     @Shadow
     private static IGuiScreenHandler handler;

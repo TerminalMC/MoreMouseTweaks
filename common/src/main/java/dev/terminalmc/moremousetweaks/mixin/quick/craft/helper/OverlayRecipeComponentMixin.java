@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -38,7 +38,7 @@ import static dev.terminalmc.moremousetweaks.config.Config.options;
  * Quick-crafting helper for alternative recipes.
  */
 @Mixin(OverlayRecipeComponent.class)
-public class OverlayRecipeComponentMixin {
+public abstract class OverlayRecipeComponentMixin {
 
     @Shadow
     @Final
@@ -54,7 +54,7 @@ public class OverlayRecipeComponentMixin {
     )
     private void onMouseClicked(
             MouseButtonEvent event,
-            boolean isDoubleClick,
+            boolean doubleClick,
             CallbackInfoReturnable<Boolean> cir
     ) {
         if (!options().useQuickCrafting || event.button() != MouseButton.RIGHT.getValue())

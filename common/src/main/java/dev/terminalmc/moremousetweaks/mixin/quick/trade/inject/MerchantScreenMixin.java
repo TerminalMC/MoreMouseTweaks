@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -35,7 +35,7 @@ public abstract class MerchantScreenMixin implements IMerchantScreen {
     protected abstract void postButtonClick();
 
     @Shadow
-    int scrollOff;
+    private int scrollOff;
 
     @Override
     public void mmt$setOfferId(int id) {

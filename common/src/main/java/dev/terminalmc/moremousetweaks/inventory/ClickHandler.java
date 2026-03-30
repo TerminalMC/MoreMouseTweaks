@@ -1,6 +1,6 @@
 /*
  * Copyright 2022 Siphalor
- * Copyright 2025 TerminalMC
+ * Copyright 2026 TerminalMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import dev.terminalmc.moremousetweaks.network.InteractionManager;
 import dev.terminalmc.moremousetweaks.util.InputUtil;
 import dev.terminalmc.moremousetweaks.util.KeyUtil;
 import net.minecraft.client.Minecraft;
-import net.minecraft.world.inventory.ClickType;
+import net.minecraft.world.inventory.ContainerInput;
 import net.minecraft.world.inventory.Slot;
 import net.minecraft.world.item.ItemStack;
 import yalter.mousetweaks.MouseButton;
@@ -48,7 +48,7 @@ public class ClickHandler {
     @FunctionalInterface
     public interface ClickConsumer {
 
-        void call(Slot slot, int button, ClickType clickType);
+        void call(Slot slot, int button, ContainerInput ContainerInput);
     }
 
     /**
@@ -79,7 +79,7 @@ public class ClickHandler {
             return true;
         } else if (InputUtil.isDropKeyDown()) {
             // Drop single slot
-            clickConsumer.call(slot, MouseButton.RIGHT.getValue(), ClickType.THROW);
+            clickConsumer.call(slot, MouseButton.RIGHT.getValue(), ContainerInput.THROW);
             return true;
         }
         return false;
@@ -94,8 +94,8 @@ public class ClickHandler {
         int button = InputUtil.isDropKeyDown()
                 ? MouseButton.RIGHT.getValue()
                 : MouseButton.LEFT.getValue();
-        ClickType clickType =
-                InputUtil.isDropKeyDown() ? ClickType.THROW : ClickType.QUICK_MOVE;
+        ContainerInput clickType =
+                InputUtil.isDropKeyDown() ? ContainerInput.THROW : ContainerInput.QUICK_MOVE;
         ItemStack stack = slot.getItem().copy();
 
         // Operate on the original slot immediately to avoid delayed conflict

@@ -3,6 +3,7 @@
 
   "message.moremousetweaks.viewModrinth": "View on Modrinth",
   "message.moremousetweaks.installCloth": "Install Cloth Config API to access mod options",
+  "message.moremousetweaks.configScreenDisabled": "Config screen is not available on this version.",
 
   "option.moremousetweaks.general": "General",
   "option.moremousetweaks.interactionIntervalMp": "Multiplayer Interaction Interval",
