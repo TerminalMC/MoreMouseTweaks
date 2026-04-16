@@ -1,5 +1,10 @@
 # Changelog
 
+## 2.2.1
+
+- Updated Russian translation (rfin0)
+- Re-enabled ItemLocks compat
+
 ## 2.0.0
 
 - Updated to mc26.1
