@@ -1,9 +1,13 @@
 {
   "moremousetweaks.name": "MoreMouseTweaks",
 
+  "modmenu.nameTranslation.moremousetweaks": "MoreMouseTweaks",
+  "modmenu.descriptionTranslation.moremousetweaks": "Расширяет Mouse Tweaks, добавляя дополнительные функции мыши.",
+  "fml.menu.mods.info.description.moremousetweaks": "Расширяет Mouse Tweaks, добавляя дополнительные функции мыши.",
+  
   "message.moremousetweaks.viewModrinth": "Посмотреть на Modrinth",
   "message.moremousetweaks.installCloth": "Установите Cloth Config API для доступа к параметрам мода",
-  "message.moremousetweaks.configScreenDisabled": "Config screen is not available on this version.",
+  "message.moremousetweaks.configScreenDisabled": "Экран конфигурации недоступен в этой версии.",
 
   "option.moremousetweaks.general": "Общие",
   "option.moremousetweaks.interactionIntervalMp": "Интервал взаимодействия в многопользовательском режиме",
