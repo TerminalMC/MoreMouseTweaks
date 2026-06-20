@@ -52,7 +52,7 @@ public abstract class TradeOfferButtonMixin implements ISpecialClickableButtonWi
 
     @Shadow
     @Final
-    int index;
+    private int index;
 
     @Unique
     private IMerchantScreen mmt$iMerchantScreen;
@@ -71,7 +71,7 @@ public abstract class TradeOfferButtonMixin implements ISpecialClickableButtonWi
         if (!options().useQuickTrading || mouseButton != MouseButton.RIGHT.getValue())
             return false;
 
-        Screen screen = Minecraft.getInstance().screen;
+        Screen screen = Minecraft.getInstance().gui.screen();
         boolean allCast = false;
 
         if (screen instanceof AbstractContainerScreen<?> cs) {

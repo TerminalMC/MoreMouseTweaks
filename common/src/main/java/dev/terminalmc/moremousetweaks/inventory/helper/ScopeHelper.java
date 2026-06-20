@@ -35,7 +35,7 @@ public class ScopeHelper {
      */
     public static List<Slot> collectSlots(Slot originSlot, List<Slot> slots) {
         ArrayList<Slot> slotsInScope = new ArrayList<>();
-        if (Minecraft.getInstance().screen instanceof AbstractContainerScreen<?> screen) {
+        if (Minecraft.getInstance().gui.screen() instanceof AbstractContainerScreen<?> screen) {
             ContainerScreenHelper<?> screenHelper = ContainerScreenHelper.of(screen);
             // Use screen to determine scope
             Scope originScope = screenHelper.getScope(originSlot);
