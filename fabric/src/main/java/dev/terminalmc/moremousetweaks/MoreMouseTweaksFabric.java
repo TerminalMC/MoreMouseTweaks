@@ -16,14 +16,19 @@
 
 package dev.terminalmc.moremousetweaks;
 
+import dev.terminalmc.moremousetweaks.command.Commands;
 import net.fabricmc.api.ClientModInitializer;
+import net.fabricmc.fabric.api.client.command.v2.ClientCommandRegistrationCallback;
 
 @SuppressWarnings("unused")
 public class MoreMouseTweaksFabric implements ClientModInitializer {
 
     @Override
     public void onInitializeClient() {
-        // Main initialization
+        // Register client commands
+        ClientCommandRegistrationCallback.EVENT.register(Commands::register);
+
+        // Initialize client
         MoreMouseTweaks.init();
     }
 }

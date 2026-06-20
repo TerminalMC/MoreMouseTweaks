@@ -18,18 +18,23 @@ package dev.terminalmc.moremousetweaks;
 
 import dev.terminalmc.moremousetweaks.config.Config;
 import dev.terminalmc.moremousetweaks.network.InteractionManager;
-import dev.terminalmc.moremousetweaks.util.ModLogger;
+import dev.terminalmc.moremousetweaks.util.Logging;
 import net.minecraft.client.Minecraft;
 import net.minecraft.core.registries.BuiltInRegistries;
+import org.apache.logging.log4j.Logger;
 import org.jetbrains.annotations.Nullable;
 
 public class MoreMouseTweaks {
 
     public static final String MOD_ID = "moremousetweaks";
     public static final String MOD_NAME = "MoreMouseTweaks";
-    public static final ModLogger LOG = new ModLogger(MOD_NAME);
+    public static final Logger LOG = Logging.getLogger(MOD_ID);
 
     public static volatile int lastUpdatedSlot = -1;
+
+    private MoreMouseTweaks() {
+        throw new UnsupportedOperationException("This class cannot be instantiated.");
+    }
 
     public static void init() {
         Config.getAndSave();

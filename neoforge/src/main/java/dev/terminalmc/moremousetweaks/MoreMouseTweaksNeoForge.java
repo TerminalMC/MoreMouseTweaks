@@ -16,20 +16,45 @@
 
 package dev.terminalmc.moremousetweaks;
 
+import dev.terminalmc.moremousetweaks.command.Commands;
 import dev.terminalmc.moremousetweaks.gui.screen.ConfigScreenProvider;
 import net.neoforged.api.distmarker.Dist;
+import net.neoforged.bus.api.SubscribeEvent;
 import net.neoforged.fml.ModLoadingContext;
+import net.neoforged.fml.common.EventBusSubscriber;
 import net.neoforged.fml.common.Mod;
+import net.neoforged.neoforge.client.event.RegisterClientCommandsEvent;
 import net.neoforged.neoforge.client.gui.IConfigScreenFactory;
 
-@Mod(value = MoreMouseTweaks.MOD_ID, dist = Dist.CLIENT)
+@Mod(
+        value = MoreMouseTweaks.MOD_ID,
+        dist = Dist.CLIENT
+)
 public class MoreMouseTweaksNeoForge {
-    public MoreMouseTweaksNeoForge() {
-        // Config screen
-        ModLoadingContext.get().registerExtensionPoint(IConfigScreenFactory.class,
-                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent));
 
-        // Main initialization
+    public MoreMouseTweaksNeoForge() {
+        // Register config screen
+        ModLoadingContext.get().registerExtensionPoint(
+                IConfigScreenFactory.class,
+                () -> (mc, parent) -> ConfigScreenProvider.getConfigScreen(parent)
+        );
+
+        // Initialize client
         MoreMouseTweaks.init();
+    }
+
+    @EventBusSubscriber(
+            modid = MoreMouseTweaks.MOD_ID,
+            value = Dist.CLIENT
+    )
+    static class ClientEventHandler {
+
+        /**
+         * Registers all client commands.
+         */
+        @SubscribeEvent
+        static void registerClientCommands(RegisterClientCommandsEvent event) {
+            Commands.register(event.getDispatcher(), event.getBuildContext());
+        }
     }
 }
