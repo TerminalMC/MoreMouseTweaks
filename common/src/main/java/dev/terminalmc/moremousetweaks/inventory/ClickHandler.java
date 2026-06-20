@@ -17,7 +17,7 @@
 
 package dev.terminalmc.moremousetweaks.inventory;
 
-import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksWrapper;
+import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksCompat;
 import dev.terminalmc.moremousetweaks.inventory.helper.ComparisonHelper;
 import dev.terminalmc.moremousetweaks.inventory.helper.ScopeHelper;
 import dev.terminalmc.moremousetweaks.mixin.mousetweaks.GuiContainerHandlerMixin;
@@ -70,7 +70,7 @@ public class ClickHandler {
             return false;
 
         // Only operate on unlocked slots
-        if (ItemLocksWrapper.isLocked(slot))
+        if (ItemLocksCompat.isLocked(slot))
             return false;
 
         if (InputUtil.isMatchingSlotsKeyDown()) {

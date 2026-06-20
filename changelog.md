@@ -4,6 +4,7 @@
 
 - Added a command to open the config screen
 - Removed duplicate logger names
+- Switched to reflection for ItemLocks compat
 
 ## 2.2.1
 

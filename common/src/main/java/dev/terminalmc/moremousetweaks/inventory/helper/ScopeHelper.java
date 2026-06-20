@@ -17,7 +17,7 @@
 
 package dev.terminalmc.moremousetweaks.inventory.helper;
 
-import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksWrapper;
+import dev.terminalmc.moremousetweaks.compat.itemlocks.ItemLocksCompat;
 import dev.terminalmc.moremousetweaks.inventory.screen.ContainerScreenHelper;
 import dev.terminalmc.moremousetweaks.inventory.util.Scope;
 import net.minecraft.client.Minecraft;
@@ -43,7 +43,7 @@ public class ScopeHelper {
                 // Collect all unlocked slots in the same scope
                 for (Slot slot : slots) {
                     if (originScope == screenHelper.getScope(slot)) {
-                        if (!ItemLocksWrapper.isLocked(slot)) {
+                        if (!ItemLocksCompat.isLocked(slot)) {
                             slotsInScope.add(slot);
                         }
                     }
@@ -52,7 +52,7 @@ public class ScopeHelper {
         } else {
             // Collect all unlocked slots
             for (Slot slot : slots) {
-                if (!ItemLocksWrapper.isLocked(slot)) {
+                if (!ItemLocksCompat.isLocked(slot)) {
                     slotsInScope.add(slot);
                 }
             }
